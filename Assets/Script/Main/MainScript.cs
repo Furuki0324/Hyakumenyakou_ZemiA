@@ -14,7 +14,8 @@ public class MainScript : MonoBehaviour
     }
 
     //------------------------Public-----------------------
-
+    [Header("DEBUG ONLY")]
+    public KeyCode spawnEnemy;
 
     //----------------------Private-----------------------
     private EnemySpawnOutsideMainCamera spawner;
@@ -30,6 +31,6 @@ public class MainScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) spawner.SpawnOutsideCamera();
+        if (Input.GetKeyDown(spawnEnemy)) spawner.SpawnOutsideCamera();
     }
 }

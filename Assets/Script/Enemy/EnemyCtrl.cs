@@ -7,7 +7,8 @@ using UnityEngine;
 public class EnemyCtrl : MonoBehaviour
 {
     //---------------------Public------------------
-
+    public Transform chaseTarget;
+    public float speed;
 
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
@@ -15,11 +16,18 @@ public class EnemyCtrl : MonoBehaviour
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
+        chaseTarget = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        
+        Chase();
+    }
+
+    private void Chase()
+    {
+        Vector2 force = (chaseTarget.position - transform.position) * speed;
+        rigid2D.velocity = force;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,8 +40,8 @@ public class EnemyCtrl : MonoBehaviour
 
             dropCtrl = GetComponent<EnemyDropItemCtrl>();
             if (!dropCtrl) return;
-            
 
+            dropCtrl.DroppingItem();
         }
     }
 }

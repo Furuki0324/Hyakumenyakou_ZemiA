@@ -7,16 +7,13 @@ public class EnemyDropItemCtrl : MonoBehaviour
     //---------------------Public------------------------
     public DropItem[] dropItems;
 
-    // Start is called before the first frame update
-    void Start()
+    
+    public void DroppingItem()
     {
-        
-    }
+        int index = Random.Range(0, dropItems.Length);
+        GameObject item = dropItems[index].item;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Instantiate(item, transform.position, Quaternion.identity);
     }
 }
 
@@ -24,5 +21,5 @@ public class EnemyDropItemCtrl : MonoBehaviour
 public class DropItem
 {
     public string name;
-    public Transform item;
+    public GameObject item;
 }

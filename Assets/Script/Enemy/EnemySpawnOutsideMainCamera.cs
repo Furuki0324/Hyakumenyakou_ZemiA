@@ -26,10 +26,8 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
             spawnPosition.x = Random.Range(-0.5f, 1.5f);
             spawnPosition.y = Random.Range(-0.5f, 1.5f);
 
-            Debug.Log("Result:" + spawnPosition);
         } while (InTheRange(spawnPosition.x, 0, 1) && InTheRange(spawnPosition.y, 0, 1));
 
-        Debug.Log("Finish");
         return mainCam.ViewportToWorldPoint(spawnPosition);
     }
 
