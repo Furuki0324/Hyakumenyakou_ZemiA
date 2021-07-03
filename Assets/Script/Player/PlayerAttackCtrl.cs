@@ -8,9 +8,12 @@ public class PlayerAttackCtrl : MonoBehaviour
     [Header("Set action key")]
     public KeyCode attackKey;
 
+    [Header("Attack Component")]
+    public GameObject attackParticle;
+
 
     //------------------------Private--------------------
-
+    
 
 
     void Update()
@@ -20,6 +23,13 @@ public class PlayerAttackCtrl : MonoBehaviour
 
     private void Attack()
     {
-        Debug.Log("Attack.");
+        attackParticle.SetActive(true);
+
+        Invoke("DeactivateAttack", 0.2f);
+    }
+
+    private void DeactivateAttack()
+    {
+        attackParticle.SetActive(false);
     }
 }

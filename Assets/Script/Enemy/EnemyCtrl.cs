@@ -10,6 +10,9 @@ public class EnemyCtrl : MonoBehaviour
     public Transform chaseTarget;
     public float speed;
 
+    [Header("Set Trigger Target")]
+    public string triggerTag;
+
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
 
@@ -34,7 +37,7 @@ public class EnemyCtrl : MonoBehaviour
     {
         EnemyDropItemCtrl dropCtrl;
 
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(triggerTag))
         {
             Destroy(this.gameObject);
 
