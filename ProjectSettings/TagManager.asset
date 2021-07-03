@@ -6,6 +6,9 @@ TagManager:
   tags:
   - DamageObject
   - Attack
+  - EyeElement
+  - EarElement
+  - MouseElement
   layers:
   - Default
   - TransparentFX
