@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoseScript : MonoBehaviour
+public class NoseScript : FacePartsBaseScript
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,10 @@ public class NoseScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public override void TakeDamage()
+    {
+        base.TakeDamage();
     }
 }

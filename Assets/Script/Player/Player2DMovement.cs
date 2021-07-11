@@ -11,14 +11,14 @@ public class Player2DMovement : MonoBehaviour
     //-----------------------Private------------------------
     private Rigidbody2D rigid2D;
     private Animator anim;
-    private Vector3 localScale;
+    private Quaternion localRotation;
 
 
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-        localScale = transform.localScale;
+        localRotation = transform.rotation;
     }
 
 
@@ -41,12 +41,14 @@ public class Player2DMovement : MonoBehaviour
 
         if(velocity2D.x < 0)
         {
-            localScale.x = -1;
+            localRotation.y = 180;
         }
         if(velocity2D.x > 0)
         {
-            localScale.x = 1;
+            localRotation.y = 0;
         }
+
+        transform.rotation = localRotation;
         rigid2D.velocity = velocity2D * walkSpeed;
     }
 
