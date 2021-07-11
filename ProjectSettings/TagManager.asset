@@ -9,6 +9,9 @@ TagManager:
   - EyeElement
   - EarElement
   - MouseElement
+  - Face_Eye
+  - Face_Ear
+  - Face_Mouse
   layers:
   - Default
   - TransparentFX

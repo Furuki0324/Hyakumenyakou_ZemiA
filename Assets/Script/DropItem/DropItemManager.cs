@@ -50,6 +50,26 @@ public class DropItemManager : MonoBehaviour
         Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouseElements: " + mouseElements);
     }
 
+    public static void CreateFaceParts(string type, int cost)
+    {
+        switch (type)
+        {
+            case "Face_Eye":
+                eyeElements -= cost;
+                break;
+
+            case "Face_Ear":
+                earElements -= cost;
+                break;
+
+            case "Face_Mouse":
+                mouseElements -= cost;
+                break;
+        }
+
+        thisInstance.RefleshTexts();
+    }
+
     private void RefleshTexts()
     {
         eyeText.text = eyeElements.ToString();

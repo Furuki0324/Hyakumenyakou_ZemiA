@@ -7,6 +7,10 @@ using UnityEngine;
 public class EnemyCtrl : MonoBehaviour
 {
     //---------------------Public------------------
+    [Header("Status")]
+    public int hp;
+
+    [Header("Property to chase target")]
     public Transform chaseTarget;
     public float speed;
 
@@ -39,12 +43,19 @@ public class EnemyCtrl : MonoBehaviour
 
         if (collision.CompareTag(triggerTag))
         {
-            Destroy(this.gameObject);
+            hp--;
 
-            dropCtrl = GetComponent<EnemyDropItemCtrl>();
-            if (!dropCtrl) return;
+            if(hp <= 0)
+            {
+                Destroy(this.gameObject);
 
-            dropCtrl.DroppingItem();
+                dropCtrl = GetComponent<EnemyDropItemCtrl>();
+                if (!dropCtrl) return;
+
+                dropCtrl.DroppingItem();
+            }
+
+            
         }
     }
 }

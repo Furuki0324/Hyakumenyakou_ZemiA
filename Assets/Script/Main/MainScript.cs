@@ -14,6 +14,8 @@ public class MainScript : MonoBehaviour
     }
 
     //------------------------Public-----------------------
+    public int phase;
+
     [Header("DEBUG ONLY")]
     public KeyCode spawnEnemy;
 
@@ -32,5 +34,10 @@ public class MainScript : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(spawnEnemy)) spawner.SpawnOutsideCamera();
+    }
+
+    private void PhaseShift()
+    {
+        phase++;
     }
 }
