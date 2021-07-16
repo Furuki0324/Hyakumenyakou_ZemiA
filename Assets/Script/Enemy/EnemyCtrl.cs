@@ -19,11 +19,28 @@ public class EnemyCtrl : MonoBehaviour
 
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
+    private EnemyRaycaster rayCaster;
+
+    Transform[] transforms;
+    List<Transform> transformer = new List<Transform>();
+
+    private void ResetTarget()
+    {
+        transformer.Clear();
+        transformer = rayCaster.GetTransformsInList();
+
+        Debug.Log(transformer.Count);
+    }
 
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
         chaseTarget = GameObject.FindGameObjectWithTag("Player").transform;
+
+        rayCaster = GetComponentInChildren<EnemyRaycaster>();
+
+        ResetTarget();
+        //transforms = rayCaster.GetRaycastHitInTransform();
     }
 
     void Update()
