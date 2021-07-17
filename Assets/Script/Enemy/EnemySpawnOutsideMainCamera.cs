@@ -34,6 +34,7 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
     public void SpawnOutsideCamera()
     {
         Vector3 spawnPosition = SetSpawnPosition();
+        spawnPosition.z = 0;
 
         Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 200586561153838899}
   - component: {fileID: -3756982140887803929}
   - component: {fileID: -3289751543151409963}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyPref
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918809155638858289}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: 1.7088479, z: -5.73}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 2012004126219917673}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 2012004126219917673}
   - component: {fileID: 581343880501541100}
   - component: {fileID: 3673171419611883335}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

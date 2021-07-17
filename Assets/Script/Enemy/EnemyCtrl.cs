@@ -21,26 +21,48 @@ public class EnemyCtrl : MonoBehaviour
     private Rigidbody2D rigid2D;
     private EnemyRaycaster rayCaster;
 
-    Transform[] transforms;
-    List<Transform> transformer = new List<Transform>();
+    List<Transform> transforms = new List<Transform>();
 
     private void ResetTarget()
     {
-        transformer.Clear();
-        transformer = rayCaster.GetTransformsInList();
+        transforms.Clear();
 
-        Debug.Log(transformer.Count);
+        chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
+        //transform.rotation = Quaternion.FromToRotation(Vector3.right, chaseTarget.position);
+        Vector3 diff = (chaseTarget.position - transform.position).normalized;
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
+
+        transforms = rayCaster.GetTransformsInList();
+
+        Debug.Log(transforms.Count);
+
+        FindClosestTarget(transforms);
+    }
+
+    private void FindClosestTarget(List<Transform> target)
+    {
+        
+
+        if(target.Count > 0)
+        {
+            for(int i = 0; i < target.Count; i++)
+            {
+                if((transform.position - target[i].position).magnitude < (transform.position - chaseTarget.position).magnitude)
+                {
+                    chaseTarget = target[i];
+                }
+            }
+        }
+        
     }
 
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
-        chaseTarget = GameObject.FindGameObjectWithTag("Player").transform;
 
         rayCaster = GetComponentInChildren<EnemyRaycaster>();
 
         ResetTarget();
-        //transforms = rayCaster.GetRaycastHitInTransform();
     }
 
     void Update()

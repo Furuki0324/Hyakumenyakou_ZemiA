@@ -12,6 +12,7 @@ TagManager:
   - Face_Eye
   - Face_Ear
   - Face_Mouse
+  - Face_Nose
   layers:
   - Default
   - TransparentFX
@@ -25,9 +26,9 @@ TagManager:
   - Player
   - UI_BG
   - Face
-  - 
-  - 
-  - 
+  - Attack
+  - Enemy
+  - Item
   - 
   - 
   - 

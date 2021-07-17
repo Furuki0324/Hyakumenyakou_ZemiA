@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2491290937116486142}
   - component: {fileID: 1318847021117410482}
   - component: {fileID: 8013615293456658872}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Item2
   m_TagString: EarElement
   m_Icon: {fileID: 0}

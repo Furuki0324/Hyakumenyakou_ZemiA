@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8324496479597277456}
   - component: {fileID: -8728533284164751512}
   - component: {fileID: 5621226463283379662}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Item1
   m_TagString: EyeElement
   m_Icon: {fileID: 0}
