@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 using UnityEngine;
 
 public class ear : FacePartsBaseScript
@@ -7,7 +8,6 @@ public class ear : FacePartsBaseScript
     // Start is called before the first frame update
     [SerializeField]
     private float hp = 20; //体力
-    [SerializeField] BaseAudioMixer[] snapshots;
     [SerializeField] AudioMixer mixer;
     private void OnTriggerEnter2D(Collider2D collision)
     {
