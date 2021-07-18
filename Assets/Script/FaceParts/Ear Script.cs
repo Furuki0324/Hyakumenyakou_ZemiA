@@ -17,11 +17,11 @@ public class ear : FacePartsBaseScript
         }
 
         //体力が減った時の処理
-        if(hp >= 16)
+        if (hp >= 16)
         {
 
         }
-        else if(hp >=11 && hp<=15)
+        else if (hp >= 11 && hp <= 15)
         {
 
         }
@@ -40,13 +40,13 @@ public class ear : FacePartsBaseScript
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public override void TakeDamage()

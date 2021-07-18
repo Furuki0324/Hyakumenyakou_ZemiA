@@ -23,12 +23,15 @@ public class EnemyCtrl : MonoBehaviour
 
     List<Transform> transforms = new List<Transform>();
 
-    private void ResetTarget()
+    /// <summary>
+    /// <para>TransformのListをクリアした後、新たなターゲットを定めます。</para>
+    /// </summary>
+    public void ResetTarget()
     {
         transforms.Clear();
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
-        //transform.rotation = Quaternion.FromToRotation(Vector3.right, chaseTarget.position);
+        
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
 
@@ -39,10 +42,12 @@ public class EnemyCtrl : MonoBehaviour
         FindClosestTarget(transforms);
     }
 
+    /// <summary>
+    /// <para>Listで渡されたTransformからpositionを検索し、現在の座標から最も近い顔パーツをターゲットに定めます。</para>
+    /// </summary>
+    /// <param name="target"></param>
     private void FindClosestTarget(List<Transform> target)
     {
-        
-
         if(target.Count > 0)
         {
             for(int i = 0; i < target.Count; i++)
@@ -53,7 +58,9 @@ public class EnemyCtrl : MonoBehaviour
                 }
             }
         }
-        
+
+        Vector3 diff = (chaseTarget.position - transform.position).normalized;
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
     }
 
     void Start()
@@ -72,7 +79,7 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Chase()
     {
-        Vector2 force = (chaseTarget.position - transform.position) * speed;
+        Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
     }
 
@@ -87,6 +94,7 @@ public class EnemyCtrl : MonoBehaviour
             if(hp <= 0)
             {
                 Destroy(this.gameObject);
+                MainScript.RemoveFromEnemyList(this);
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();
                 if (!dropCtrl) return;

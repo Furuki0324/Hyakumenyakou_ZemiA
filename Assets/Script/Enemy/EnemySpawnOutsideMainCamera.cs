@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawnOutsideMainCamera : MonoBehaviour
 {
     //-----------------------Public-------------------------
-    public Transform spawnPrefab;
+    public EnemyCtrl spawnPrefab;
     
     //-----------------------Private------------------------
     private Camera mainCam;
@@ -33,10 +33,14 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
 
     public void SpawnOutsideCamera()
     {
+        //MainScript.LetEnemiesResetTarget();
+
         Vector3 spawnPosition = SetSpawnPosition();
         spawnPosition.z = 0;
 
-        Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
+
+        EnemyCtrl enemyCtrl = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
+        MainScript.AddEnemyList(enemyCtrl);
     }
 
     /// <summary>

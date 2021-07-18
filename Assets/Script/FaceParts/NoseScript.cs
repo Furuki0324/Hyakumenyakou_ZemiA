@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class NoseScript : FacePartsBaseScript
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int hp = 15;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.tag == "Enemy")
+        {
+            TakeDamage();
+        }
     }
 
     public override void TakeDamage()
     {
-        base.TakeDamage();
+        hp--;
     }
 }

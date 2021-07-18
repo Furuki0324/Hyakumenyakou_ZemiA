@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class FacePartsBaseScript : MonoBehaviour
 {
+    [Header("Setting in base script")]
+    public int health;
+    public List<EnemyCtrl> enemiesNearby = new List<EnemyCtrl>();
+
+
     /// <summary>
     /// <para>各顔面パーツが攻撃されたときに使用されます。</para>
     /// <para>目・耳・口の各パーツのスクリプトでoverrideして使用してください。</para>
@@ -19,4 +24,17 @@ public class FacePartsBaseScript : MonoBehaviour
     /// </summary>
     /// <param name="damage">ダメージ量</param>
     public virtual void TakeDamage(int damage) { }
+
+
+    public virtual void Dead()
+    {
+        if(enemiesNearby.Count > 0)
+        {
+            for(int i = 0; i < enemiesNearby.Count; i++)
+            {
+                Destroy(this.gameObject);
+                enemiesNearby[i].ResetTarget();
+            }
+        }
+    }
 }
