@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
 
-public class ear : FacePartsBaseScript
+public class EarScript : FacePartsBaseScript
 {
     // Start is called before the first frame update
     [SerializeField]
     private float hp = 20; //体力
+    private float cacheHp;
     [SerializeField] AudioMixer mixer;
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,30 +18,31 @@ public class ear : FacePartsBaseScript
         }
 
         //体力が減った時の処理
-        if (hp >= 16)
+        if (hp >= cacheHp*0.8)
         {
-
+            mixer.SetFloat("BGM", 0);
         }
-        else if (hp >= 11 && hp <= 15)
+        else if (hp >= cacheHp * 0.6)
         {
-
+            mixer.SetFloat("BGM", -1);
         }
-        else if (hp >= 6 && hp <= 10)
+        else if (hp >= cacheHp * 0.4)
         {
-
+            mixer.SetFloat("BGM", -2);
         }
-        else if (hp >= 0 && hp <= 5)
+        else if (hp > cacheHp * 0.2)
         {
-
+            mixer.SetFloat("BGM", -3);
         }
-        else if (hp == 0)
+        else if (hp == cacheHp * 0)
         {
             Destroy(gameObject);
         }
     }
     void Start()
     {
-
+        mixer.SetFloat("BGM", -10);
+        cacheHp = hp;
     }
 
     // Update is called once per frame
