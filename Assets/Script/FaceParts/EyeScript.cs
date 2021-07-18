@@ -5,13 +5,28 @@ using UnityEngine;
 
 public class EyeScript : FacePartsBaseScript
 {
+    static Transform _EYE_ANCHOR;
+    static Transform EYE_ANCHOR
+    {
+        get
+        {
+            if(_EYE_ANCHOR == null)
+            {
+                GameObject go = new GameObject("EYE_ANCHOR");
+                _EYE_ANCHOR = go.transform;
+            }
+            return _EYE_ANCHOR;
+        }
+    }
+
+
     // Start is called before the first frame update
     private static float volume = 0;
     [SerializeField]
     private float hp = 20; //体力
     private float cacheHp;
     [SerializeField] private Image EYE;
-    private Color EYECOLOR = new Color();
+    private static Color EYECOLOR = Color.white;
     public float SPEED;
 
     private void Volume(float a)
@@ -33,20 +48,28 @@ public class EyeScript : FacePartsBaseScript
                 volume+= SPEED;
                 break;
         }
+
+        //volume = Mathf.Clamp(volume, 0, 1);
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
     }
 
     void Start()
     {
-        EYECOLOR = Color.white;
+        transform.SetParent(EYE_ANCHOR);
+
+        EYE = GameObject.Find("Image").GetComponent<Image>();
+
+
+        volume -= 0.2f;
+
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
         cacheHp = hp;
     }
 
     // Update is called once per frame
-
+    /*
     private float cacheTime = 0;
     void Update()
     {
@@ -59,5 +82,22 @@ public class EyeScript : FacePartsBaseScript
             else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
             else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
         }
+    }
+    */
+    public override void TakeDamage()
+    {
+
+        hp--;
+        health--;
+
+        /*
+        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+        Debug.Log("overriden");
+        */
+        volume += SPEED;
+        EYECOLOR.a = volume;
+        EYE.color = EYECOLOR;
     }
 }

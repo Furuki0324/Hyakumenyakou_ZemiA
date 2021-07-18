@@ -17,9 +17,23 @@ public class EnemyCtrl : MonoBehaviour
     [Header("Set Trigger Target")]
     public string triggerTag;
 
+    
+
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
     private EnemyRaycaster rayCaster;
+    private FacePartsBaseScript faceScript;
+
+    public void SetFaceScript(FacePartsBaseScript face)
+    {
+        faceScript = face;
+    }
+
+    public FacePartsBaseScript GetFacePart()
+    {
+        return faceScript;
+    }
+
 
     List<Transform> transforms = new List<Transform>();
 
@@ -79,6 +93,8 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Chase()
     {
+        if (faceScript) return;
+
         Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
     }
@@ -95,6 +111,11 @@ public class EnemyCtrl : MonoBehaviour
             {
                 Destroy(this.gameObject);
                 MainScript.RemoveFromEnemyList(this);
+
+                if(faceScript != null)
+                {
+                    faceScript.RemoveEnemyFromList(this);
+                }
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();
                 if (!dropCtrl) return;

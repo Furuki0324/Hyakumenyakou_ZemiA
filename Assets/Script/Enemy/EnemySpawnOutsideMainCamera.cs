@@ -6,6 +6,7 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
 {
     //-----------------------Public-------------------------
     public EnemyCtrl spawnPrefab;
+    public EnemyPrefabInfo[] spawnPrefabs;
     
     //-----------------------Private------------------------
     private Camera mainCam;
@@ -39,8 +40,14 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
         spawnPosition.z = 0;
 
 
-        EnemyCtrl enemyCtrl = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
+        EnemyCtrl enemyCtrl = Instantiate(GetSpawnPrefab(), spawnPosition, Quaternion.identity);
         MainScript.AddEnemyList(enemyCtrl);
+    }
+
+    private EnemyCtrl GetSpawnPrefab()
+    {
+        int index = Random.Range(0, spawnPrefabs.Length);
+        return spawnPrefabs[index].prefab;
     }
 
     /// <summary>
@@ -55,4 +62,11 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
         if (target > min && target < max) return true;
         else return false;
     }
+}
+
+[System.Serializable]
+public class EnemyPrefabInfo
+{
+    public string name;
+    public EnemyCtrl prefab;
 }

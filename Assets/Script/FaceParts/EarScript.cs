@@ -6,6 +6,20 @@ using UnityEngine;
 
 public class EarScript : FacePartsBaseScript
 {
+    static Transform _EAR_ANCHOR;
+    static Transform EAR_ANCHOR
+    {
+        get
+        {
+            if(_EAR_ANCHOR == null)
+            {
+                GameObject go = new GameObject("EAR_ANCHOR");
+                _EAR_ANCHOR = go.transform;
+            }
+            return _EAR_ANCHOR;
+        }
+    }
+
     private static int volume = -5;
     // Start is called before the first frame update
     [SerializeField]
@@ -93,10 +107,12 @@ public class EarScript : FacePartsBaseScript
     }
     void Start()
     {
+        transform.SetParent(EAR_ANCHOR);
+
         mixer.SetFloat("BGM", volume);
         cacheHp = hp;
     }
-    private float cacheTime = 0;
+    //private float cacheTime = 0;
     // Update is called once per frame
 
 #if DURING_DEBUG_ONLY
@@ -117,8 +133,10 @@ public class EarScript : FacePartsBaseScript
     public override void TakeDamage()
     {
         hp--;
-        if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
+        health--;
+
+        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
     }
 }

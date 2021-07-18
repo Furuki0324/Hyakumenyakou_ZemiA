@@ -1,4 +1,4 @@
-﻿#define DURING_DEBUG_ONLY
+﻿//#define DURING_DEBUG_ONLY
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
@@ -6,6 +6,20 @@ using UnityEngine;
 
 public class MouthScript : FacePartsBaseScript
 {
+    static Transform _MOUTH_ANCHOR;
+    static Transform MOUTH_ANCHOR
+    {
+        get
+        {
+            if(_MOUTH_ANCHOR == null)
+            {
+                GameObject go = new GameObject("MOUTH_ANCHOR");
+                _MOUTH_ANCHOR = go.transform;
+            }
+            return _MOUTH_ANCHOR;
+        }
+    }
+
     private static int volume = -5;
     // Start is called before the first frame update
     [SerializeField]
@@ -95,11 +109,13 @@ public class MouthScript : FacePartsBaseScript
     }
     void Start()
     {
+        transform.SetParent(MOUTH_ANCHOR);
+
         SE = GetComponent<AudioSource>();
         mixer.SetFloat("SE", volume);
         cacheHp = hp;
     }
-    private float cacheTime = 0;
+    //private float cacheTime = 0;
     // Update is called once per frame
 
 #if DURING_DEBUG_ONLY
@@ -121,8 +137,10 @@ public class MouthScript : FacePartsBaseScript
     public override void TakeDamage()
     {
         hp--;
-        if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
+        health--;
+        SE.PlayOneShot(SECLIP);
+        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
     }
 }

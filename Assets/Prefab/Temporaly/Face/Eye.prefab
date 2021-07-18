@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2396310666950843757}
   - component: {fileID: 4638012785722636012}
-  - component: {fileID: 460065454179442755}
+  - component: {fileID: 4496398511603515650}
   - component: {fileID: 4950076982354527330}
   m_Layer: 11
   m_Name: Eye
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &460065454179442755
+--- !u!114 &4496398511603515650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,9 +92,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 9131252173554870473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe4d6f622e483f4680d9ba5a3b500fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 9905d5efc242cca418f654c601b03ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
+  interval: 1
+  enemiesNearby: []
+  hp: 20
+  EYE: {fileID: 0}
+  SPEED: 0.05
 --- !u!61 &4950076982354527330
 BoxCollider2D:
   m_ObjectHideFlags: 0
