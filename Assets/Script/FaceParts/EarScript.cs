@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//#define DURING_DEBUG_ONLY
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
@@ -68,20 +69,56 @@ public class EarScript : FacePartsBaseScript
             Destroy(gameObject);
         }
     }
+
+    private void Volume(float a)
+    {
+        switch (a)
+        {
+            case 0.8f:
+                Debug.Log("call");
+                volume += 2;
+                break;
+
+            case 0.6f:
+                Debug.Log("call2");
+                volume ++;
+                break;
+
+            case 0.4f:
+                Debug.Log("call3");
+                volume --;
+                break;
+        }
+        mixer.SetFloat("BGM", volume);
+    }
     void Start()
     {
-        mixer.SetFloat("BGM", -10);
+        mixer.SetFloat("BGM", volume);
         cacheHp = hp;
     }
-
+    private float cacheTime = 0;
     // Update is called once per frame
+
+#if DURING_DEBUG_ONLY
     void Update()
     {
-        Volume();       
+        if (Time.time > cacheTime + 2)
+        {
+            hp--;
+            cacheTime = Time.time;
+
+            if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
+            else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
+            else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
+        }
     }
+#endif 
 
     public override void TakeDamage()
     {
         hp--;
+        if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
+        else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
+        else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
     }
 }
