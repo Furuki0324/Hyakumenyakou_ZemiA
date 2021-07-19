@@ -5,15 +5,26 @@ using UnityEngine;
 public class EnemySpawnOutsideMainCamera : MonoBehaviour
 {
     //-----------------------Public-------------------------
-    public EnemyCtrl spawnPrefab;
+    public Camera mainCam;
+    public float interval;
+    public int spawnSize;
     public EnemyPrefabInfo[] spawnPrefabs;
     
     //-----------------------Private------------------------
-    private Camera mainCam;
+    
+    private float cacheTime;
 
-    private void Awake()
+
+    private void Update()
     {
-        mainCam = GetComponent<Camera>();
+        if (Time.time > cacheTime + interval)
+        {
+            for(int i = 0; i < spawnSize; i++)
+            {
+                SpawnOutsideCamera();
+            }
+            cacheTime = Time.time;
+        }
     }
 
 

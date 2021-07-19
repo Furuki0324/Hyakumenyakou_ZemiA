@@ -31,7 +31,7 @@ public class EnemyRaycaster : MonoBehaviour
 
         for (int i = 0; detectAngle > acculacy * i; i++)
         {
-            Ray2D ray2D = new Ray2D(origin: transform.position, direction: transform.up);
+            Ray2D ray2D = new Ray2D(origin: transform.position, direction: -transform.right);
             Debug.DrawRay(ray2D.origin, ray2D.direction * detectRange, Color.blue, 2);
 
             hit = Physics2D.Raycast(ray2D.origin, ray2D.direction, detectRange, layerMask);

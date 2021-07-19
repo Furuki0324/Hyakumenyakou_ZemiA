@@ -23,21 +23,21 @@ public class DropItemManager : MonoBehaviour
         thisInstance.RefleshTexts();
     }
 
-    public static void ObtainItem(string type)
+    public static void ObtainItem(string type, int amount = 1)
     {
 
         switch (type)
         {
             case "EyeElement":
-                eyeElements++;
+                eyeElements += amount;
                 break;
 
             case "EarElement":
-                earElements++;
+                earElements += amount;
                 break;
 
             case "MouseElement":
-                mouseElements++;
+                mouseElements += amount;
                 break;
 
             default:

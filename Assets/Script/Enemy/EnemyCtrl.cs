@@ -47,7 +47,7 @@ public class EnemyCtrl : MonoBehaviour
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
         
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
-        transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
+        transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
         transforms = rayCaster.GetTransformsInList();
 
@@ -74,7 +74,7 @@ public class EnemyCtrl : MonoBehaviour
         }
 
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
-        transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
+        transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
     }
 
     void Start()
@@ -84,11 +84,14 @@ public class EnemyCtrl : MonoBehaviour
         rayCaster = GetComponentInChildren<EnemyRaycaster>();
 
         ResetTarget();
+
     }
 
     void Update()
     {
         Chase();
+
+
     }
 
     private void Chase()

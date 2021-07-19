@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemySpawnOutsideMainCamera))]
 public class MainScript : MonoBehaviour
 {
     //------------------Singleton--------------------
@@ -15,6 +14,7 @@ public class MainScript : MonoBehaviour
 
     //------------------------Public-----------------------
     public int phase;
+    public int defaultElementAmount;
 
     [Header("DEBUG ONLY")]
     public KeyCode spawnEnemy;
@@ -24,19 +24,13 @@ public class MainScript : MonoBehaviour
     //----------------------Private-----------------------
     private EnemySpawnOutsideMainCamera spawner;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        spawner = GetComponent<EnemySpawnOutsideMainCamera>();
-
-        spawner.SpawnOutsideCamera();
+        DropItemManager.ObtainItem("EyeElement", defaultElementAmount);
+        DropItemManager.ObtainItem("EarElement", defaultElementAmount);
+        DropItemManager.ObtainItem("MouseElement", defaultElementAmount);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(spawnEnemy)) spawner.SpawnOutsideCamera();
-    }
 
     private void PhaseShift()
     {

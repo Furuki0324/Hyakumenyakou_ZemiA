@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class NoseScript : FacePartsBaseScript
 {
-    public int hp = 15;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public AudioClip damageSound;
+    private AudioSource audioSource;
+
+    private void Start()
     {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            TakeDamage();
-        }
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void TakeDamage()
     {
-        hp--;
+        health--;
+
+        audioSource.PlayOneShot(damageSound);
     }
 }
