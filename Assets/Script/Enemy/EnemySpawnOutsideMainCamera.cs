@@ -15,6 +15,14 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
     private float cacheTime;
 
 
+    private void Start()
+    {
+        for(int i = 0; i < spawnSize; i++)
+        {
+            SpawnOutsideCamera();
+        }
+    }
+
     private void Update()
     {
         if (Time.time > cacheTime + interval)

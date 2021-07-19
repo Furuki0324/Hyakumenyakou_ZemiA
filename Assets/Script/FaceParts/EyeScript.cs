@@ -97,6 +97,7 @@ public class EyeScript : FacePartsBaseScript
         Debug.Log("overriden");
         */
         volume += SPEED;
+        volume = Mathf.Clamp(volume, -1, 1);
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
     }
