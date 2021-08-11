@@ -8,11 +8,11 @@ TagManager:
   - Attack
   - EyeElement
   - EarElement
-  - MouseElement
   - Face_Eye
   - Face_Ear
-  - Face_Mouse
   - Face_Nose
+  - Face_Mouth
+  - MouthElement
   layers:
   - Default
   - TransparentFX

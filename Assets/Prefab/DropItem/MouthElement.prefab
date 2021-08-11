@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 9133134538797276323}
   m_Layer: 14
   m_Name: MouthElement
-  m_TagString: MouseElement
+  m_TagString: MouthElement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

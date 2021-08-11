@@ -145,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341eb70f0adb71b468d7dfd0313b5fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
+  hp: 1
+  attackPower: 1
   attackInterval: 3
   limitAngle: 0
   chaseTarget: {fileID: 0}

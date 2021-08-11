@@ -102,4 +102,14 @@ public class EyeScript : FacePartsBaseScript
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
     }
+
+    public override void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        volume += SPEED;
+        volume = Mathf.Clamp(volume, -1, 1);
+        EYECOLOR.a = volume;
+        EYE.color = EYECOLOR;
+    }
 }

@@ -9,6 +9,7 @@ public class EnemyCtrl : MonoBehaviour
     //---------------------Public------------------
     [Header("Status")]
     public int hp;
+    public int attackPower = 1;
     public float attackInterval = 1;
 
     [Header("Property to chase target")]
@@ -134,7 +135,8 @@ public class EnemyCtrl : MonoBehaviour
     IEnumerator Attack()
     {
         if (!faceScript) yield break;
-        faceScript.TakeDamage();
+        //faceScript.TakeDamage();
+        faceScript.TakeDamage(attackPower);
 
         //インターバルをはさんだ後に同じ処理を繰り返します
         yield return new WaitForSeconds(attackInterval);

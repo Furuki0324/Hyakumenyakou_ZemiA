@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3026644177396801220}
   - component: {fileID: 9031088364722813378}
   m_Layer: 11
-  m_Name: Mouse
-  m_TagString: Face_Mouse
+  m_Name: Mouth
+  m_TagString: Face_Mouth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

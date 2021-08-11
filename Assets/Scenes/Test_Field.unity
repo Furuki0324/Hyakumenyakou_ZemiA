@@ -856,7 +856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyeText: {fileID: 1940438592}
   earText: {fileID: 1541788701}
-  mouseText: {fileID: 1997686177}
+  mouthText: {fileID: 1997686177}
 --- !u!1 &1022416079
 GameObject:
   m_ObjectHideFlags: 0
@@ -6779,7 +6779,7 @@ GameObject:
   - component: {fileID: 1997686178}
   - component: {fileID: 1997686177}
   m_Layer: 5
-  m_Name: MouseCount
+  m_Name: MouthCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

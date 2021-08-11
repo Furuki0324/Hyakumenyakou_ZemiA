@@ -143,4 +143,14 @@ public class MouthScript : FacePartsBaseScript
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
     }
+
+    public override void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        SE.PlayOneShot(SECLIP);
+        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
+        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+    }
 }

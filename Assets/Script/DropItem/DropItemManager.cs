@@ -12,9 +12,9 @@ public class DropItemManager : MonoBehaviour
     [Header("UI Text")]
     public Text eyeText;
     public Text earText;
-    public Text mouseText;
+    public Text mouthText;
 
-    private static int eyeElements = 0, earElements = 0, mouseElements = 0;
+    private static int eyeElements = 0, earElements = 0, mouthElements = 0;
 
 
     private void Awake()
@@ -37,7 +37,7 @@ public class DropItemManager : MonoBehaviour
                 break;
 
             case "MouthElement":
-                mouseElements += amount;
+                mouthElements += amount;
                 break;
 
             default:
@@ -47,7 +47,7 @@ public class DropItemManager : MonoBehaviour
 
         thisInstance.RefleshTexts();
 
-        Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouseElements: " + mouseElements);
+        Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
     }
 
     public static void CreateFaceParts(string type, int cost)
@@ -62,8 +62,8 @@ public class DropItemManager : MonoBehaviour
                 earElements -= cost;
                 break;
 
-            case "Face_Mouse":
-                mouseElements -= cost;
+            case "Face_Mouth":
+                mouthElements -= cost;
                 break;
         }
 
@@ -74,6 +74,6 @@ public class DropItemManager : MonoBehaviour
     {
         eyeText.text = eyeElements.ToString();
         earText.text = earElements.ToString();
-        mouseText.text = mouseElements.ToString();
+        mouthText.text = mouthElements.ToString();
     }
 }

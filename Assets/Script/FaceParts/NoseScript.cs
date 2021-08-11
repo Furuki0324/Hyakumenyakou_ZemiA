@@ -20,4 +20,11 @@ public class NoseScript : FacePartsBaseScript
 
         audioSource.PlayOneShot(damageSound);
     }
+
+    public override void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        audioSource.PlayOneShot(damageSound);
+    }
 }
