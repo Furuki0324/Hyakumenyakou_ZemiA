@@ -90,6 +90,7 @@ public class EyeScript : FacePartsBaseScript
         hp--;
         health--;
 
+        Debug.Log("Eye take damage.");
         /*
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);

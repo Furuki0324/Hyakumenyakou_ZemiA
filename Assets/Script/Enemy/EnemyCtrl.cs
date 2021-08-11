@@ -9,8 +9,10 @@ public class EnemyCtrl : MonoBehaviour
     //---------------------Public------------------
     [Header("Status")]
     public int hp;
+    public float attackInterval = 1;
 
     [Header("Property to chase target")]
+    public float limitAngle;
     public Transform chaseTarget;
     public float speed;
 
@@ -36,6 +38,8 @@ public class EnemyCtrl : MonoBehaviour
 
 
     List<Transform> transforms = new List<Transform>();
+    private Transform[] transformArray;
+    private List<Transform> transformList = new List<Transform>();
 
     /// <summary>
     /// <para>TransformのListをクリアした後、新たなターゲットを定めます。</para>
@@ -43,6 +47,7 @@ public class EnemyCtrl : MonoBehaviour
     public void ResetTarget()
     {
         transforms.Clear();
+        transformList.Clear();
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
         
@@ -50,10 +55,12 @@ public class EnemyCtrl : MonoBehaviour
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
         transforms = rayCaster.GetTransformsInList();
+        //transformArray = MainScript.GetFaceObjectTransformsInArray();
+        transformList = MainScript.GetFaceObjectTransformInList();
 
         Debug.Log(transforms.Count);
 
-        FindClosestTarget(transforms);
+        FindClosestTarget(transformList);
     }
 
     /// <summary>
@@ -66,6 +73,15 @@ public class EnemyCtrl : MonoBehaviour
         {
             for(int i = 0; i < target.Count; i++)
             {
+                float heightDiff = transform.position.y - target[i].position.y;
+                float distance = (transform.position - target[i].position).magnitude;
+
+                if (Mathf.Asin(distance / heightDiff) > Mathf.Abs(limitAngle / 2))
+                {
+                    Debug.Log(Mathf.Asin(distance / heightDiff));
+                    continue;
+                }
+
                 if((transform.position - target[i].position).magnitude < (transform.position - chaseTarget.position).magnitude)
                 {
                     chaseTarget = target[i];
@@ -96,10 +112,33 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Chase()
     {
-        if (faceScript) return;
+        if (faceScript)
+        {
+            rigid2D.velocity = Vector2.zero;
+            return;
+        }
 
         Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<FacePartsBaseScript>())
+        {
+            faceScript = collision.gameObject.GetComponent<FacePartsBaseScript>();
+            StartCoroutine(Attack());
+        }
+    }
+
+    IEnumerator Attack()
+    {
+        if (!faceScript) yield break;
+        faceScript.TakeDamage();
+
+        //インターバルをはさんだ後に同じ処理を繰り返します
+        yield return new WaitForSeconds(attackInterval);
+        StartCoroutine(Attack());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

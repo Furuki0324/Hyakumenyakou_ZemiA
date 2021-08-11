@@ -36,7 +36,7 @@ public class DropItemManager : MonoBehaviour
                 earElements += amount;
                 break;
 
-            case "MouseElement":
+            case "MouthElement":
                 mouseElements += amount;
                 break;
 

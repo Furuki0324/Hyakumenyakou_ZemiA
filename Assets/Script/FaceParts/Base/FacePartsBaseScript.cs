@@ -31,6 +31,7 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         if (health < 0) Dead();
 
+        /*
         if(enemiesNearby.Count > 0)
         {
             if(Time.time > cacheTime + interval)
@@ -39,6 +40,7 @@ public class FacePartsBaseScript : MonoBehaviour
                 cacheTime = Time.time;
             }
         }
+        */
     }
 
 
@@ -71,6 +73,7 @@ public class FacePartsBaseScript : MonoBehaviour
             for(int i = 0; i < enemiesNearby.Count; i++)
             {
                 Destroy(this.gameObject);
+                MainScript.RemoveFaceObject(this.gameObject);
                 enemiesNearby[i].ResetTarget();
             }
         }
