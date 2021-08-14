@@ -20,7 +20,7 @@ public class EnemyCtrl : MonoBehaviour
     [Header("Set Trigger Target")]
     public string triggerTag;
 
-    
+
 
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
@@ -51,7 +51,7 @@ public class EnemyCtrl : MonoBehaviour
         transformList.Clear();
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
-        
+
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
@@ -70,20 +70,20 @@ public class EnemyCtrl : MonoBehaviour
     /// <param name="target"></param>
     private void FindClosestTarget(List<Transform> target)
     {
-        if(target.Count > 0)
+        if (target.Count > 0)
         {
-            for(int i = 0; i < target.Count; i++)
+            for (int i = 0; i < target.Count; i++)
             {
                 float heightDiff = transform.position.y - target[i].position.y;
                 float distance = (transform.position - target[i].position).magnitude;
 
-                if (Mathf.Asin(distance / heightDiff) > Mathf.Abs(limitAngle / 2))
+                if (Mathf.Asin(heightDiff/distance) > Mathf.Abs(limitAngle / 2))
                 {
-                    Debug.Log(Mathf.Asin(distance / heightDiff));
+                    Debug.Log(Mathf.Asin( heightDiff/distance));
                     continue;
                 }
 
-                if((transform.position - target[i].position).magnitude < (transform.position - chaseTarget.position).magnitude)
+                if ((transform.position - target[i].position).magnitude < (transform.position - chaseTarget.position).magnitude)
                 {
                     chaseTarget = target[i];
                 }
@@ -107,8 +107,6 @@ public class EnemyCtrl : MonoBehaviour
     void Update()
     {
         Chase();
-
-
     }
 
     private void Chase()
@@ -151,12 +149,12 @@ public class EnemyCtrl : MonoBehaviour
         {
             hp--;
 
-            if(hp <= 0)
+            if (hp <= 0)
             {
                 Destroy(this.gameObject);
                 MainScript.RemoveFromEnemyList(this);
 
-                if(faceScript != null)
+                if (faceScript != null)
                 {
                     faceScript.RemoveEnemyFromList(this);
                 }
@@ -167,7 +165,7 @@ public class EnemyCtrl : MonoBehaviour
                 dropCtrl.DroppingItem();
             }
 
-            
+
         }
     }
 }
