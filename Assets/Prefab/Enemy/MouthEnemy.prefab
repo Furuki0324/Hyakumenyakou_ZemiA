@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8923163344654159307}
-  - component: {fileID: 3519564542170600649}
+  - component: {fileID: 2462211229653059854}
   m_Layer: 13
   m_Name: GameObject
   m_TagString: Untagged
@@ -202,7 +202,7 @@ Transform:
   m_Father: {fileID: 2872321561028121352}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3519564542170600649
+--- !u!114 &2462211229653059854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,9 +211,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7490667002345827563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d8ccbb3297f0884187b2a703ab9d6f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a3436158e8956e4bb2713e0107c35ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   detectAngle: 90
-  acculacy: 2
-  detectRange: 50
+  detectRange: 10
+  conf:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  minAng: {x: 0, y: 0, z: 0}
+  maxAng: {x: 0, y: 0, z: 0}
+  colList: []

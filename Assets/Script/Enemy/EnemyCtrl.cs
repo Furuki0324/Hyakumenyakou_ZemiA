@@ -24,7 +24,7 @@ public class EnemyCtrl : MonoBehaviour
 
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
-    private EnemyRaycaster rayCaster;
+    private EnemyOverlapper overLapper;
     private FacePartsBaseScript faceScript;
 
     public void SetFaceScript(FacePartsBaseScript face)
@@ -55,7 +55,7 @@ public class EnemyCtrl : MonoBehaviour
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
-        transforms = rayCaster.GetTransformsInList();
+        transforms = overLapper.GetTransformsInList();
         //transformArray = MainScript.GetFaceObjectTransformsInArray();
         transformList = MainScript.GetFaceObjectTransformInList();
 
@@ -98,7 +98,7 @@ public class EnemyCtrl : MonoBehaviour
     {
         rigid2D = GetComponent<Rigidbody2D>();
 
-        rayCaster = GetComponentInChildren<EnemyRaycaster>();
+        overLapper = GetComponentInChildren<EnemyOverlapper>();
 
         ResetTarget();
 
