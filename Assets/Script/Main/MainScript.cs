@@ -22,7 +22,7 @@ public class MainScript : MonoBehaviour
     private static List<EnemyCtrl> enemies = new List<EnemyCtrl>();
 
     //----------------------Private-----------------------
-    private EnemySpawnOutsideMainCamera spawner;
+    private EnemySpawnManager spawner;
     private static List<GameObject> faceObjects = new List<GameObject>();
 
     private void Start()
@@ -104,7 +104,9 @@ public class MainScript : MonoBehaviour
         enemies.Remove(removeObject);
     }
 
-    public static void LetEnemiesResetTarget()
+
+    /*
+    public static void EnemyResetTarget()
     {
         if (enemies.Count <= 0) return;
 
@@ -113,4 +115,5 @@ public class MainScript : MonoBehaviour
             enemies[i].ResetTarget();
         }
     }
+    */
 }
