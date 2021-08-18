@@ -114,6 +114,12 @@ public class EnemyCtrl : MonoBehaviour
             return;
         }
 
+        if (!chaseTarget)
+        {
+            ResetTarget();
+            return;
+        }
+
         Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
     }

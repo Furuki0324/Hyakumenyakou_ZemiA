@@ -23,13 +23,14 @@ public class FacePartsBaseScript : MonoBehaviour
     /// </summary>
     public virtual void TakeDamage()
     {
-        Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
+        //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
+        if (health < 0) Dead();
     }
 
     private float cacheTime = 0;
     private void Update()
     {
-        if (health < 0) Dead();
+        //if (health < 0) Dead();
 
         /*
         if(enemiesNearby.Count > 0)
@@ -48,7 +49,10 @@ public class FacePartsBaseScript : MonoBehaviour
     /// <para>ダメージ量を調整する必要がある場合に使用してください</para>
     /// </summary>
     /// <param name="damage">ダメージ量</param>
-    public virtual void TakeDamage(int damage) { }
+    public virtual void TakeDamage(int damage)
+    {
+        if (health < 0) Dead();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
