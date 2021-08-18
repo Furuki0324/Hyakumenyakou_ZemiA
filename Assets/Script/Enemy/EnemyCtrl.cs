@@ -77,9 +77,9 @@ public class EnemyCtrl : MonoBehaviour
                 float heightDiff = transform.position.y - target[i].position.y;
                 float distance = (transform.position - target[i].position).magnitude;
 
-                if (Mathf.Asin(heightDiff/distance) > Mathf.Abs(limitAngle / 2))
+                if (Mathf.Asin(distance/heightDiff) > Mathf.Abs(limitAngle / 2))
                 {
-                    Debug.Log(Mathf.Asin( heightDiff/distance));
+                    Debug.Log(Mathf.Asin(distance/heightDiff));
                     continue;
                 }
 
