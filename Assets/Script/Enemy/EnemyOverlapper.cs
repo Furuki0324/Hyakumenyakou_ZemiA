@@ -25,7 +25,7 @@ public class EnemyOverlapper : MonoBehaviour
     /// </summary>
     /// <returns></returns>
 
-    public List<Transform> GetTransformsInList()
+    public List<Transform> GetChaseTargetInList()
     {
         layerMask = LayerMask.GetMask("Face");
         List<Transform> objectList = new List<Transform>();
