@@ -157,10 +157,7 @@ public class EnemyCtrl : MonoBehaviour
                 Destroy(this.gameObject);
                 MainScript.RemoveFromEnemyList(this);
 
-                if (faceScript != null)
-                {
-                    faceScript.RemoveEnemyFromList(this);
-                }
+
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();
                 if (!dropCtrl) return;

@@ -8,7 +8,6 @@ public class FacePartsBaseScript : MonoBehaviour
     public int health;
     protected int cacheHealth;
     public float interval;
-    public List<EnemyCtrl> enemiesNearby = new List<EnemyCtrl>();
 
 
     private void Start()
@@ -27,9 +26,6 @@ public class FacePartsBaseScript : MonoBehaviour
         if (health <= 0) Dead();
     }
 
-    private float cacheTime = 0;
-
-
 
     /// <summary>
     /// <para>ダメージ量を調整する必要がある場合に使用してください</para>
@@ -46,37 +42,22 @@ public class FacePartsBaseScript : MonoBehaviour
         if(enemyCtrl != null && enemyCtrl.GetFacePart() == null)
         {
             enemyCtrl.SetFaceScript(this);
-            enemiesNearby.Add(enemyCtrl);
         }
     }
 
-    public void RemoveEnemyFromList(EnemyCtrl enemy)
-    {
-        enemiesNearby.Remove(enemy);
-    }
 
 
     public virtual void Dead()
     {
         if (health > 0)
         {
-            Debug.Log("Do not die");
+            //Debug.Log("Do not die");
             return;
         }
 
         Destroy(gameObject);
         MainScript.RemoveFaceObject(this.gameObject);
 
-        /*
-        if (enemiesNearby.Count > 0)
-        {
-            for(int i = 0; i < enemiesNearby.Count; i++)
-            {
-                Destroy(this.gameObject);
-                MainScript.RemoveFaceObject(this.gameObject);
-                enemiesNearby[i].ResetTarget();
-            }
-        }
-        */
+        
     }
 }

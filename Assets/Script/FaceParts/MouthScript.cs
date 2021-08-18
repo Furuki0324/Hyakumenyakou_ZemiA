@@ -91,17 +91,17 @@ public class MouthScript : FacePartsBaseScript
         switch (a)
         {
             case 0.8f:
-                Debug.Log("call");
+                //Debug.Log("call");
                 volume += 2;
                 break;
 
             case 0.6f:
-                Debug.Log("call2");
+                //Debug.Log("call2");
                 volume ++;
                 break;
 
             case 0.4f:
-                Debug.Log("call3");
+                //Debug.Log("call3");
                 volume --;
                 break;
         }
