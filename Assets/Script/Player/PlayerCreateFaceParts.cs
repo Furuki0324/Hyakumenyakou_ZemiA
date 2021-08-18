@@ -34,7 +34,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
     void Start()
     {
         prefabIndicator.text = prefabInfos[prefabNumber].name;
-        enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
+        
     }
 
     private void Update()
@@ -51,6 +51,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if (Input.GetKeyDown(keyCode))
         {
             CreateFaceParts();
+            enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
             for (int i = 0; i < enemyArray.Length; i++)
             {
                 enemyArray[i].GetComponentInChildren<EnemyCtrl>().ResetTarget();
