@@ -91,17 +91,17 @@ public class MouthScript : FacePartsBaseScript
         switch (a)
         {
             case 0.8f:
-                Debug.Log("call");
+                //Debug.Log("call");
                 volume += 2;
                 break;
 
             case 0.6f:
-                Debug.Log("call2");
+                //Debug.Log("call2");
                 volume ++;
                 break;
 
             case 0.4f:
-                Debug.Log("call3");
+                //Debug.Log("call3");
                 volume --;
                 break;
         }
@@ -142,6 +142,8 @@ public class MouthScript : FacePartsBaseScript
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+
+        base.Dead();
     }
 
     public override void TakeDamage(int damage)
@@ -152,5 +154,7 @@ public class MouthScript : FacePartsBaseScript
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+
+        base.Dead();
     }
 }

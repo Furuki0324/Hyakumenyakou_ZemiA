@@ -8,7 +8,6 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     [Header("Face Part Prefab")]
     public PrefabInfo[] prefabInfos;
-    
 
     [Header("Property")]
     [Tooltip("マウスホイールが入力されてからどれほどの間隔を空けて次の入力を受け付けるのか決定します(単位：秒)。")]
@@ -26,19 +25,23 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private int prefabNumber = 0;
 
     private float time;
-    
+
+    private EnemyCtrl enemyCtrl;
+    private GameObject[] enemyArray;
+
 
     // Start is called before the first frame update
     void Start()
     {
         prefabIndicator.text = prefabInfos[prefabNumber].name;
+        
     }
 
     private void Update()
     {
-        if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
+        if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
         {
-            if(Time.fixedTime > time + interval)
+            if (Time.fixedTime > time + interval)
             {
                 SwitchPrefab(Input.GetAxis("Mouse ScrollWheel"));
                 time = Time.fixedTime;
@@ -48,12 +51,17 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if (Input.GetKeyDown(keyCode))
         {
             CreateFaceParts();
+            enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
+            for (int i = 0; i < enemyArray.Length; i++)
+            {
+                enemyArray[i].GetComponentInChildren<EnemyCtrl>().ResetTarget();
+            }
         }
     }
 
     private void SwitchPrefab(float a)
     {
-        if(a > 0)
+        if (a > 0)
         {
             prefabNumber++;
             if (prefabNumber > prefabInfos.Length - 1) prefabNumber = 0;
@@ -71,7 +79,6 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private void CreateFaceParts()
     {
         FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
-
         DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
     }
 }

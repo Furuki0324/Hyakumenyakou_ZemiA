@@ -86,7 +86,7 @@ public class EyeScript : FacePartsBaseScript
     */
     public override void TakeDamage()
     {
-
+        
         hp--;
         health--;
 
@@ -98,9 +98,11 @@ public class EyeScript : FacePartsBaseScript
         Debug.Log("overriden");
         */
         volume += SPEED;
-        volume = Mathf.Clamp(volume, -1, 1);
+        volume = Mathf.Clamp(volume, -1, 99);
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
+
+        base.Dead();
     }
 
     public override void TakeDamage(int damage)
@@ -111,5 +113,7 @@ public class EyeScript : FacePartsBaseScript
         volume = Mathf.Clamp(volume, -1, 1);
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
+
+        base.Dead();
     }
 }

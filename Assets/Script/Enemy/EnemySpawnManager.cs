@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnOutsideMainCamera : MonoBehaviour
+public class EnemySpawnManager : MonoBehaviour
 {
     //-----------------------Public-------------------------
     public Camera mainCam;
     public float interval;
     public int spawnSize;
     public EnemyPrefabInfo[] spawnPrefabs;
+    public Transform spawnPointParent;
+    [ReadOnly]public Transform[] points;
+    [ReadOnly] public List<EnemySpawnPoint> spawnPoints;
+
+    [Header("Spawn  Option")]
+    public bool spawnOutsideCamera;
     
     //-----------------------Private------------------------
     
@@ -17,6 +23,18 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
 
     private void Start()
     {
+        //敵のスポーンポイントの管理。最終的にはこちらになる予定
+        /*
+        points = spawnPointParent.GetComponentsInChildren<Transform>();
+        spawnPoints.Capacity = points.Length;
+        Debug.Log(spawnPoints.Capacity);
+        for(int i = 0; i < points.Length; i++)
+        {
+            spawnPoints[i].transforms = points[i];
+        }
+        */
+
+        //Spawn first enemies
         for(int i = 0; i < spawnSize; i++)
         {
             SpawnOutsideCamera();
@@ -25,14 +43,27 @@ public class EnemySpawnOutsideMainCamera : MonoBehaviour
 
     private void Update()
     {
+        //フェーズ管理機能が完成し次第、この時間経過でのスポーンは停止
         if (Time.time > cacheTime + interval)
         {
             for(int i = 0; i < spawnSize; i++)
             {
-                SpawnOutsideCamera();
+                SpawnEnemy();
             }
             cacheTime = Time.time;
         }
+    }
+
+    void SpawnEnemy()
+    {
+        SpawnOutsideCamera();
+
+        //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
+        //ランダムでポジションが決まるようになっています。
+        /*
+        if (spawnOutsideCamera) SpawnOutsideCamera();
+        else
+        */
     }
 
 
@@ -88,4 +119,12 @@ public class EnemyPrefabInfo
 {
     public string name;
     public EnemyCtrl prefab;
+}
+
+[System.Serializable]
+public class EnemySpawnPoint
+{
+    public string name;
+    public Transform transforms;
+    public bool isActive;
 }

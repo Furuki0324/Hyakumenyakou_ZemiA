@@ -18,6 +18,6 @@ public class EveryTester : MonoBehaviour
 
     private void GMTester()
     {
-        Debug.Log("Invoked.");
+        //Debug.Log("Invoked.");
     }
 }

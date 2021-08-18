@@ -55,13 +55,13 @@ public class EnemyCtrl : MonoBehaviour
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
-        transforms = overLapper.GetTransformsInList();
+        transforms = overLapper.GetChaseTargetInList();
         //transformArray = MainScript.GetFaceObjectTransformsInArray();
         transformList = MainScript.GetFaceObjectTransformInList();
 
         Debug.Log(transforms.Count);
 
-        FindClosestTarget(transformList);
+        FindClosestTarget(transforms);
     }
 
     /// <summary>
@@ -77,9 +77,9 @@ public class EnemyCtrl : MonoBehaviour
                 float heightDiff = transform.position.y - target[i].position.y;
                 float distance = (transform.position - target[i].position).magnitude;
 
-                if (Mathf.Asin(heightDiff/distance) > Mathf.Abs(limitAngle / 2))
+                if (Mathf.Asin(distance / heightDiff) > Mathf.Abs(limitAngle / 2))
                 {
-                    Debug.Log(Mathf.Asin( heightDiff/distance));
+                    Debug.Log(Mathf.Asin(distance / heightDiff));
                     continue;
                 }
 
@@ -97,11 +97,8 @@ public class EnemyCtrl : MonoBehaviour
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
-
         overLapper = GetComponentInChildren<EnemyOverlapper>();
-
         ResetTarget();
-
     }
 
     void Update()
@@ -114,6 +111,12 @@ public class EnemyCtrl : MonoBehaviour
         if (faceScript)
         {
             rigid2D.velocity = Vector2.zero;
+            return;
+        }
+
+        if (!chaseTarget)
+        {
+            ResetTarget();
             return;
         }
 
@@ -154,10 +157,7 @@ public class EnemyCtrl : MonoBehaviour
                 Destroy(this.gameObject);
                 MainScript.RemoveFromEnemyList(this);
 
-                if (faceScript != null)
-                {
-                    faceScript.RemoveEnemyFromList(this);
-                }
+
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();
                 if (!dropCtrl) return;

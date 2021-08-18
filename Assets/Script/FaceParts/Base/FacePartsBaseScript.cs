@@ -8,7 +8,6 @@ public class FacePartsBaseScript : MonoBehaviour
     public int health;
     protected int cacheHealth;
     public float interval;
-    public List<EnemyCtrl> enemiesNearby = new List<EnemyCtrl>();
 
 
     private void Start()
@@ -23,24 +22,8 @@ public class FacePartsBaseScript : MonoBehaviour
     /// </summary>
     public virtual void TakeDamage()
     {
-        Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
-    }
-
-    private float cacheTime = 0;
-    private void Update()
-    {
-        if (health < 0) Dead();
-
-        /*
-        if(enemiesNearby.Count > 0)
-        {
-            if(Time.time > cacheTime + interval)
-            {
-                TakeDamage();
-                cacheTime = Time.time;
-            }
-        }
-        */
+        //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
+        if (health <= 0) Dead();
     }
 
 
@@ -48,7 +31,10 @@ public class FacePartsBaseScript : MonoBehaviour
     /// <para>ダメージ量を調整する必要がある場合に使用してください</para>
     /// </summary>
     /// <param name="damage">ダメージ量</param>
-    public virtual void TakeDamage(int damage) { }
+    public virtual void TakeDamage(int damage)
+    {
+        if (health <= 0) Dead();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -56,26 +42,22 @@ public class FacePartsBaseScript : MonoBehaviour
         if(enemyCtrl != null && enemyCtrl.GetFacePart() == null)
         {
             enemyCtrl.SetFaceScript(this);
-            enemiesNearby.Add(enemyCtrl);
         }
     }
 
-    public void RemoveEnemyFromList(EnemyCtrl enemy)
-    {
-        enemiesNearby.Remove(enemy);
-    }
 
 
     public virtual void Dead()
     {
-        if(enemiesNearby.Count > 0)
+        if (health > 0)
         {
-            for(int i = 0; i < enemiesNearby.Count; i++)
-            {
-                Destroy(this.gameObject);
-                MainScript.RemoveFaceObject(this.gameObject);
-                enemiesNearby[i].ResetTarget();
-            }
+            //Debug.Log("Do not die");
+            return;
         }
+
+        Destroy(gameObject);
+        MainScript.RemoveFaceObject(this.gameObject);
+
+        
     }
 }
