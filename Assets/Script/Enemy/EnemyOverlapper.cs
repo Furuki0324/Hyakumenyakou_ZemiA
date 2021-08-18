@@ -21,15 +21,11 @@ public class EnemyOverlapper : MonoBehaviour
 
     /// <summary>
     /// <para>このメソッドは親子関係で使われることを前提としています。専用のオブジェクトを配置してください。</para>
-    /// <para>オブジェクトの前方の指定された範囲にレイキャストを発射し、検知したオブジェクトのTransformをListで返します。</para>
+    /// <para>OverlapCircleで疑似Circle Colliderを作り、その内部のcolliderをcolListに一度纏め、NormalAngleの内部かどうかを別途boolで見て場合分けして、objectListに戻している。</para>
     /// </summary>
     /// <returns></returns>
 
-    private void Start()
-    {
-        
-    }
-    public List<Transform> GetTransformsInList()
+    public List<Transform> GetChaseTargetInList()
     {
         layerMask = LayerMask.GetMask("Face");
         List<Transform> objectList = new List<Transform>();
