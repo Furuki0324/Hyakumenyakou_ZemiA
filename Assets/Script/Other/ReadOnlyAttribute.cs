@@ -11,9 +11,8 @@ public class ReadOnlyAttribute : PropertyAttribute
     
 }
 
-
-[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 #if UNITY_EDITOR
+[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyAttributeDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
