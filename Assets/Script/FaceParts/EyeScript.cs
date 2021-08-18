@@ -102,7 +102,7 @@ public class EyeScript : FacePartsBaseScript
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
 
-        if (health < 0) base.Dead();
+        base.Dead();
     }
 
     public override void TakeDamage(int damage)
@@ -114,6 +114,6 @@ public class EyeScript : FacePartsBaseScript
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
 
-        if (health < 0) base.Dead();
+        base.Dead();
     }
 }

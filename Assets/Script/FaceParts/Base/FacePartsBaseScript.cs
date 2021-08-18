@@ -24,25 +24,11 @@ public class FacePartsBaseScript : MonoBehaviour
     public virtual void TakeDamage()
     {
         //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
-        if (health < 0) Dead();
+        if (health <= 0) Dead();
     }
 
     private float cacheTime = 0;
-    private void Update()
-    {
-        //if (health < 0) Dead();
 
-        /*
-        if(enemiesNearby.Count > 0)
-        {
-            if(Time.time > cacheTime + interval)
-            {
-                TakeDamage();
-                cacheTime = Time.time;
-            }
-        }
-        */
-    }
 
 
     /// <summary>
@@ -51,7 +37,7 @@ public class FacePartsBaseScript : MonoBehaviour
     /// <param name="damage">ダメージ量</param>
     public virtual void TakeDamage(int damage)
     {
-        if (health < 0) Dead();
+        if (health <= 0) Dead();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -72,7 +58,17 @@ public class FacePartsBaseScript : MonoBehaviour
 
     public virtual void Dead()
     {
-        if(enemiesNearby.Count > 0)
+        if (health > 0)
+        {
+            Debug.Log("Do not die");
+            return;
+        }
+
+        Destroy(gameObject);
+        MainScript.RemoveFaceObject(this.gameObject);
+
+        /*
+        if (enemiesNearby.Count > 0)
         {
             for(int i = 0; i < enemiesNearby.Count; i++)
             {
@@ -81,5 +77,6 @@ public class FacePartsBaseScript : MonoBehaviour
                 enemiesNearby[i].ResetTarget();
             }
         }
+        */
     }
 }

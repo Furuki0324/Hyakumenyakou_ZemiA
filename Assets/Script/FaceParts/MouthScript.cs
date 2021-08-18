@@ -143,7 +143,7 @@ public class MouthScript : FacePartsBaseScript
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
 
-        if (health < 0) base.Dead();
+        base.Dead();
     }
 
     public override void TakeDamage(int damage)
@@ -155,6 +155,6 @@ public class MouthScript : FacePartsBaseScript
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
 
-        if (health < 0) base.Dead();
+        base.Dead();
     }
 }
