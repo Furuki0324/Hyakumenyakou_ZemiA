@@ -20,6 +20,8 @@ public class EnemyCtrl : MonoBehaviour
     [Header("Set Trigger Target")]
     public string triggerTag;
 
+    [Header("Aim core only")]
+    public bool coreAim;
 
 
     //---------------------Private------------------
@@ -61,7 +63,7 @@ public class EnemyCtrl : MonoBehaviour
 
         Debug.Log(transforms.Count);
 
-        FindClosestTarget(transforms);
+        if (!coreAim) FindClosestTarget(transforms);
     }
 
     /// <summary>
