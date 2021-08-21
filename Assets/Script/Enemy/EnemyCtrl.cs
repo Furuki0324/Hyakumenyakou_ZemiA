@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#define PHASE_TEST
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -101,6 +103,10 @@ public class EnemyCtrl : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
         ResetTarget();
+
+#if PHASE_TEST
+        PhaseManager.enemies.Add(this);
+#endif
     }
 
     void Update()
@@ -159,7 +165,10 @@ public class EnemyCtrl : MonoBehaviour
                 Destroy(this.gameObject);
                 MainScript.RemoveFromEnemyList(this);
 
-
+#if PHASE_TEST
+                PhaseManager.enemies.Remove(this);
+                PhaseManager.HowManyEnemies();
+#endif
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();
                 if (!dropCtrl) return;

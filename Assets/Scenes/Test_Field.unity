@@ -797,6 +797,7 @@ GameObject:
   - component: {fileID: 994697583}
   - component: {fileID: 994697584}
   - component: {fileID: 994697582}
+  - component: {fileID: 994697585}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -957,6 +958,18 @@ MonoBehaviour:
   eyeText: {fileID: 1940438592}
   earText: {fileID: 1541788701}
   mouthText: {fileID: 1997686177}
+--- !u!114 &994697585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994697576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b669e66d20671445aa5bd7d067cc519, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1022416079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   interval: 1
-  enemiesNearby: []
   damageSound: {fileID: 0}
 --- !u!212 &1022416084
 SpriteRenderer:
