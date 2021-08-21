@@ -166,8 +166,7 @@ public class EnemyCtrl : MonoBehaviour
                 MainScript.RemoveFromEnemyList(this);
 
 #if PHASE_TEST
-                PhaseManager.enemies.Remove(this);
-                PhaseManager.HowManyEnemies();
+                PhaseManager.AnEnemyDied(this);
 #endif
 
                 dropCtrl = GetComponent<EnemyDropItemCtrl>();

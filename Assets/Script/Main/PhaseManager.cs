@@ -13,12 +13,25 @@ public class PhaseManager : MonoBehaviour
     /// </summary>
     public static void PhaseShift()
     {
+        EnemySpawnManager.Singleton.SpawnEnemy();
+
         phaseNumber++;
         Debug.Log("Phase: " + phaseNumber);
     }
 
+
+    /// <summary>
+    /// <para>フィールド上の敵が全滅した場合にフェーズを進めます。</para>
+    /// </summary>
     public static void HowManyEnemies()
     {
         if (enemies.Count <= 0) PhaseShift();
+    }
+
+
+    public static void AnEnemyDied(EnemyCtrl enemy)
+    {
+        enemies.Remove(enemy);
+        HowManyEnemies();
     }
 }

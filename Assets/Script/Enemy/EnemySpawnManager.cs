@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    //Singleton
+    public static EnemySpawnManager Singleton;
+
+
     //-----------------------Public-------------------------
     public Camera mainCam;
     public float interval;
@@ -20,6 +24,10 @@ public class EnemySpawnManager : MonoBehaviour
     
     private float cacheTime;
 
+    private void Awake()
+    {
+        Singleton = this;
+    }
 
     private void Start()
     {
@@ -48,22 +56,26 @@ public class EnemySpawnManager : MonoBehaviour
         {
             for(int i = 0; i < spawnSize; i++)
             {
-                SpawnEnemy();
+                //SpawnEnemy();
             }
             cacheTime = Time.time;
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
-        SpawnOutsideCamera();
+        for(int i = 0; i < spawnSize; i++)
+        {
+            SpawnOutsideCamera();
 
-        //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
-        //ランダムでポジションが決まるようになっています。
-        /*
-        if (spawnOutsideCamera) SpawnOutsideCamera();
-        else
-        */
+            //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
+            //ランダムでポジションが決まるようになっています。
+            /*
+            if (spawnOutsideCamera) SpawnOutsideCamera();
+            else
+            */
+        }
+        
     }
 
 
