@@ -233,7 +233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Time 99:99
 --- !u!222 &386479205
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ RectTransform:
   - {fileID: 1823591197}
   - {fileID: 663475610}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -479,7 +479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Eye:      Ear:      Mouse:'
+  m_Text: 'Eye: 99 Ear: 99 Mouse: 99'
 --- !u!222 &613163587
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -654,7 +654,7 @@ RectTransform:
   m_Children:
   - {fileID: 760795248}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -747,7 +747,7 @@ GameObject:
   - component: {fileID: 785492561}
   - component: {fileID: 785492560}
   m_Layer: 5
-  m_Name: PrefabPlayerCreate
+  m_Name: PrefabSelected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -990,9 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f4b98ce166e9f46823b6ca127a2e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
   defaultElementAmount: 10
-  spawnEnemy: 306
 --- !u!114 &994697582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +1041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b669e66d20671445aa5bd7d067cc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 60
+  time: 300
   text: {fileID: 386479204}
 --- !u!1 &1022416079
 GameObject:
@@ -1103,7 +1101,7 @@ Transform:
   m_LocalScale: {x: 0.65343, y: 0.65343, z: 0.65343}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1022416082
 AudioSource:
@@ -1423,7 +1421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1200626860
 GameObject:
@@ -1457,7 +1455,7 @@ Transform:
   - {fileID: 1936524521}
   - {fileID: 376093715}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1447651241
 GameObject:
@@ -1553,7 +1551,7 @@ RectTransform:
   - {fileID: 785492559}
   - {fileID: 386479203}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6495,7 +6493,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1648738077
 BoxCollider2D:
@@ -7060,8 +7058,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCam: {fileID: 994697578}
-  interval: 5
-  spawnSize: 3
   spawnPrefabs:
   - name: Eye
     prefab: {fileID: 2086117516705713442, guid: 9f2042775d9a90a41b69a2be8fe19c66,
@@ -7072,10 +7068,14 @@ MonoBehaviour:
   - name: Mouth
     prefab: {fileID: 4853793268981043821, guid: 706e77514c684174d943d1deb922df07,
       type: 3}
+  bossPrefab: {fileID: 4790342996282701764, guid: 397e1ee08fb602247984212ac357bbec,
+    type: 3}
+  interval: 5
+  spawnSize: 3
+  spawnOutsideCamera: 0
   spawnPointParent: {fileID: 1200626861}
   points: []
   spawnPoints: []
-  spawnOutsideCamera: 0
 --- !u!4 &2011035649
 Transform:
   m_ObjectHideFlags: 0
@@ -7088,7 +7088,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2091372929
 GameObject:

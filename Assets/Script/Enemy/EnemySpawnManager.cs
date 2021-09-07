@@ -10,16 +10,19 @@ public class EnemySpawnManager : MonoBehaviour
 
     //-----------------------Public-------------------------
     public Camera mainCam;
+    [Header("Prefab")]
+    public EnemyPrefabInfo[] spawnPrefabs;
+    public GameObject bossPrefab;
+
+    [Header("Spawn  Option")]
     public float interval;
     public int spawnSize;
-    public EnemyPrefabInfo[] spawnPrefabs;
+    public bool spawnOutsideCamera;
+
+    [Header("Ohter")]
     public Transform spawnPointParent;
     [ReadOnly]public Transform[] points;
     [ReadOnly] public List<EnemySpawnPoint> spawnPoints;
-
-    [Header("Spawn  Option")]
-    public bool spawnOutsideCamera;
-    
     //-----------------------Private------------------------
     
     private float cacheTime;
@@ -78,11 +81,19 @@ public class EnemySpawnManager : MonoBehaviour
         
     }
 
+    public void SpawnBoss()
+    {
+        Vector3 spawnPosition = SetSpawnPosition();
+        spawnPosition.z = 0;
+
+        Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+    }
+
 
 
     private Vector3 SetSpawnPosition()
     {
-        Vector3 spawnPosition = Vector3.one;
+        Vector3 spawnPosition = Vector3.zero;
 
         do
         {

@@ -8,7 +8,7 @@ public class PhaseManager : MonoBehaviour
     [Header("Timer")]
     [Tooltip("制限時間 (単位:秒)")]
     public float time;
-    private int time_;
+    private static int time_;
     private int min;
     private int second;
     
@@ -29,12 +29,19 @@ public class PhaseManager : MonoBehaviour
         if(time > 0)
         {
             time -= Time.deltaTime;
+
+            time_ = (int)time;
+            min = time_ / 60;
+            second = time_ % 60;
+            text.text = "Time " + min.ToString("00") + ":" + second.ToString("00");
+        }
+        else
+        {
+            text.text = "The boss incoming!";
+            text.color = Color.red;
         }
         
-        time_ = (int)time;
-        min = time_ / 60;
-        second = time_ % 60;
-        text.text = "Time " + min.ToString("00") + ":" + second.ToString("00");
+        
     }
 
     /// <summary>
@@ -44,9 +51,16 @@ public class PhaseManager : MonoBehaviour
     {
         phaseNumber++;
         
-        EnemySpawnManager.Singleton.SpawnEnemy();
+        if(time_ > 0)
+        {
+            EnemySpawnManager.Singleton.SpawnEnemy();
+        }
+        else
+        {
+            EnemySpawnManager.Singleton.SpawnBoss();
+        }
+        
 
-        phaseNumber++;
         Debug.Log("Phase: " + phaseNumber);
     }
 
