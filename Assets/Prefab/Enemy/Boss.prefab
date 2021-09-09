@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 6506539276309872388}
   - component: {fileID: -2003412332656441660}
   m_Layer: 13
-  m_Name: tempBoss
+  m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,3 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397ad05d2fe154490ce342900fe225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 1
+  attackPower: 1
+  attackInterval: 1

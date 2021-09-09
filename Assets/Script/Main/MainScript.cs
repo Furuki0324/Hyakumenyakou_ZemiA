@@ -15,8 +15,6 @@ public class MainScript : MonoBehaviour
     //------------------------Public-----------------------
     public int defaultElementAmount;
 
-    private static List<EnemyCtrl> enemies = new List<EnemyCtrl>();
-
     //----------------------Private-----------------------
     private static List<GameObject> faceObjects = new List<GameObject>();
 
@@ -85,23 +83,13 @@ public class MainScript : MonoBehaviour
 
     //ここまで顔パーツの情報
 
-    public static void AddEnemyList(EnemyCtrl newObject)
-    {
-        enemies.Add(newObject);
-    }
-
-    public static void RemoveFromEnemyList(EnemyCtrl removeObject)
-    {
-        enemies.Remove(removeObject);
-    }
-
     public static void GameOver()
     {
-        
+        Debug.Log("Game Over");
     }
 
     public static void GameClear()
     {
-
+        Debug.Log("Game Clear");
     }
 }

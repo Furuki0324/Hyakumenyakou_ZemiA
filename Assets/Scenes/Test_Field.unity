@@ -242,38 +242,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386479202}
   m_CullTransparentMesh: 0
---- !u!1 &398719401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 398719402}
-  m_Layer: 12
-  m_Name: AttackComponent
-  m_TagString: Attack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &398719402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398719401}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1640976760}
-  - {fileID: 1578809782}
-  m_Father: {fileID: 2091372932}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &501319229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,9 +1537,11 @@ GameObject:
   - component: {fileID: 1578809782}
   - component: {fileID: 1578809784}
   - component: {fileID: 1578809783}
+  - component: {fileID: 1578809785}
+  - component: {fileID: 1578809786}
   m_Layer: 12
-  m_Name: Particle System
-  m_TagString: Untagged
+  m_Name: AttackComponent
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1583,11 +1553,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578809781}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 398719402}
+  m_Father: {fileID: 2091372932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &1578809783
@@ -6379,44 +6349,13 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &1640976759
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1640976760}
-  - component: {fileID: 1640976761}
-  m_Layer: 12
-  m_Name: AttackCollider
-  m_TagString: Attack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1640976760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640976759}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 398719402}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &1640976761
+--- !u!68 &1578809785
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640976759}
+  m_GameObject: {fileID: 1578809781}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -6431,6 +6370,18 @@ EdgeCollider2D:
   - {x: 0.74, y: -0.15}
   - {x: 0.49, y: -0.6}
   - {x: 0, y: -1.18}
+--- !u!114 &1578809786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578809781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bae7fdd88eea449b0163e58fd1799f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1648738074
 GameObject:
   m_ObjectHideFlags: 0
@@ -7157,7 +7108,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1922283122}
-  - {fileID: 398719402}
+  - {fileID: 1578809782}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7200,7 +7151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackKey: 324
-  attackParticle: {fileID: 398719401}
+  attackParticle: {fileID: 1578809781}
 --- !u!114 &2091372935
 MonoBehaviour:
   m_ObjectHideFlags: 0

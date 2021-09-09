@@ -17,7 +17,7 @@ public class PhaseManager : MonoBehaviour
 
     public static int phaseNumber = 1;
 
-    public static List<EnemyCtrl> enemies = new List<EnemyCtrl>();
+    private static List<EnemyBaseScript> enemyList = new List<EnemyBaseScript>();
 
     private void Start()
     {
@@ -71,13 +71,18 @@ public class PhaseManager : MonoBehaviour
     /// </summary>
     public static void HowManyEnemies()
     {
-        if (enemies.Count <= 0) PhaseShift();
+        if (enemyList.Count <= 0) PhaseShift();
     }
 
-
-    public static void AnEnemyDied(EnemyCtrl enemy)
+    public static void AddEnemyList(EnemyBaseScript newEnemy)
     {
-        enemies.Remove(enemy);
+        enemyList.Add(newEnemy);
+        Debug.Log("Count" + enemyList.Count);
+    }
+
+    public static void RemoveFromEnemyList(EnemyBaseScript removeEnemy)
+    {
+        enemyList.Remove(removeEnemy);
         HowManyEnemies();
     }
 }

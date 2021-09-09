@@ -114,7 +114,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 
         EnemyCtrl enemyCtrl = Instantiate(GetSpawnPrefab(), spawnPosition, Quaternion.identity);
-        MainScript.AddEnemyList(enemyCtrl);
+        //MainScript.AddEnemyList(enemyCtrl);
     }
 
     private EnemyCtrl GetSpawnPrefab()
