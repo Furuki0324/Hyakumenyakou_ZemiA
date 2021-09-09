@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    //Singleton
+    public static EnemySpawnManager Singleton;
+
+
     //-----------------------Public-------------------------
     public Camera mainCam;
+    [Header("Prefab")]
+    public EnemyPrefabInfo[] spawnPrefabs;
+    public GameObject bossPrefab;
+
+    [Header("Spawn  Option")]
     public float interval;
     public int spawnSize;
-    public EnemyPrefabInfo[] spawnPrefabs;
+    public bool spawnOutsideCamera;
+
+    [Header("Ohter")]
     public Transform spawnPointParent;
     [ReadOnly]public Transform[] points;
     [ReadOnly] public List<EnemySpawnPoint> spawnPoints;
-
-    [Header("Spawn  Option")]
-    public bool spawnOutsideCamera;
-    
     //-----------------------Private------------------------
     
     private float cacheTime;
 
+    private void Awake()
+    {
+        Singleton = this;
+    }
 
     private void Start()
     {
@@ -48,29 +59,41 @@ public class EnemySpawnManager : MonoBehaviour
         {
             for(int i = 0; i < spawnSize; i++)
             {
-                SpawnEnemy();
+                //SpawnEnemy();
             }
             cacheTime = Time.time;
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
-        SpawnOutsideCamera();
+        for(int i = 0; i < spawnSize; i++)
+        {
+            SpawnOutsideCamera();
 
-        //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
-        //ランダムでポジションが決まるようになっています。
-        /*
-        if (spawnOutsideCamera) SpawnOutsideCamera();
-        else
-        */
+            //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
+            //ランダムでポジションが決まるようになっています。
+            /*
+            if (spawnOutsideCamera) SpawnOutsideCamera();
+            else
+            */
+        }
+        
+    }
+
+    public void SpawnBoss()
+    {
+        Vector3 spawnPosition = SetSpawnPosition();
+        spawnPosition.z = 0;
+
+        Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
     }
 
 
 
     private Vector3 SetSpawnPosition()
     {
-        Vector3 spawnPosition = Vector3.one;
+        Vector3 spawnPosition = Vector3.zero;
 
         do
         {
@@ -91,7 +114,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 
         EnemyCtrl enemyCtrl = Instantiate(GetSpawnPrefab(), spawnPosition, Quaternion.identity);
-        MainScript.AddEnemyList(enemyCtrl);
+        //MainScript.AddEnemyList(enemyCtrl);
     }
 
     private EnemyCtrl GetSpawnPrefab()

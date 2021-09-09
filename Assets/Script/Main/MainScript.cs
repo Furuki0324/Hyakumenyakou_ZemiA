@@ -13,29 +13,18 @@ public class MainScript : MonoBehaviour
     }
 
     //------------------------Public-----------------------
-    public int phase;
     public int defaultElementAmount;
 
-    [Header("DEBUG ONLY")]
-    public KeyCode spawnEnemy;
-
-    private static List<EnemyCtrl> enemies = new List<EnemyCtrl>();
-
     //----------------------Private-----------------------
-    private EnemySpawnManager spawner;
     private static List<GameObject> faceObjects = new List<GameObject>();
+
+
 
     private void Start()
     {
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount);
         DropItemManager.ObtainItem("EarElement", defaultElementAmount);
         DropItemManager.ObtainItem("MouthElement", defaultElementAmount);
-    }
-
-
-    private void PhaseShift()
-    {
-        phase++;
     }
 
     //ここから顔パーツの情報
@@ -94,26 +83,13 @@ public class MainScript : MonoBehaviour
 
     //ここまで顔パーツの情報
 
-    public static void AddEnemyList(EnemyCtrl newObject)
+    public static void GameOver()
     {
-        enemies.Add(newObject);
+        Debug.Log("Game Over");
     }
 
-    public static void RemoveFromEnemyList(EnemyCtrl removeObject)
+    public static void GameClear()
     {
-        enemies.Remove(removeObject);
+        Debug.Log("Game Clear");
     }
-
-
-    /*
-    public static void EnemyResetTarget()
-    {
-        if (enemies.Count <= 0) return;
-
-        for(int i = 0; i < enemies.Count; i++)
-        {
-            enemies[i].ResetTarget();
-        }
-    }
-    */
 }

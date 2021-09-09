@@ -10,9 +10,8 @@ public class DropItemManager : MonoBehaviour
 
 
     [Header("UI Text")]
-    public Text eyeText;
-    public Text earText;
-    public Text mouthText;
+    public Text elements;
+
 
     private static int eyeElements = 0, earElements = 0, mouthElements = 0;
 
@@ -72,8 +71,6 @@ public class DropItemManager : MonoBehaviour
 
     private void RefleshTexts()
     {
-        eyeText.text = eyeElements.ToString();
-        earText.text = earElements.ToString();
-        mouthText.text = mouthElements.ToString();
+        elements.text = "Eye: " + eyeElements.ToString() + " Ear: " + earElements.ToString() + " Mouth: " + mouthElements.ToString();
     }
 }

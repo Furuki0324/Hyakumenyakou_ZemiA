@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿#define PHASE_TEST
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class EnemyCtrl : MonoBehaviour
+public class EnemyCtrl : EnemyBaseScript
 {
     //---------------------Public------------------
+    /*この3ステータスはベーススクリプトへ移行しました。
     [Header("Status")]
     public int hp;
     public int attackPower = 1;
     public float attackInterval = 1;
+    */
 
     [Header("Property to chase target")]
     public float limitAngle;
@@ -101,6 +105,8 @@ public class EnemyCtrl : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
         ResetTarget();
+
+        PhaseManager.AddEnemyList(this);
     }
 
     void Update()
@@ -144,30 +150,5 @@ public class EnemyCtrl : MonoBehaviour
         //インターバルをはさんだ後に同じ処理を繰り返します
         yield return new WaitForSeconds(attackInterval);
         StartCoroutine(Attack());
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        EnemyDropItemCtrl dropCtrl;
-
-        if (collision.CompareTag(triggerTag))
-        {
-            hp--;
-
-            if (hp <= 0)
-            {
-                Destroy(this.gameObject);
-                MainScript.RemoveFromEnemyList(this);
-
-
-
-                dropCtrl = GetComponent<EnemyDropItemCtrl>();
-                if (!dropCtrl) return;
-
-                dropCtrl.DroppingItem();
-            }
-
-
-        }
     }
 }
