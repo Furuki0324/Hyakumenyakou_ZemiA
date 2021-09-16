@@ -46,6 +46,13 @@ public class FacePartsBaseScript : MonoBehaviour
     }
 
 
+    public virtual void Repaired(int amount)
+    {
+        
+        health += amount;
+        Mathf.Clamp(health, 0, cacheHealth);
+    }
+
 
     public virtual void Dead()
     {
