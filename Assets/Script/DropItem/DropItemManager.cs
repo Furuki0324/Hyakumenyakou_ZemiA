@@ -54,19 +54,59 @@ public class DropItemManager : MonoBehaviour
         switch (type)
         {
             case "Face_Eye":
-                eyeElements -= cost;
+                if(!(eyeElements - cost < 0)) eyeElements -= cost;
                 break;
 
             case "Face_Ear":
-                earElements -= cost;
+                if(!(earElements - cost < 0)) earElements -= cost;
                 break;
 
             case "Face_Mouth":
-                mouthElements -= cost;
+                if(!(mouthElements - cost < 0)) mouthElements -= cost;
                 break;
         }
 
         thisInstance.RefleshTexts();
+    }
+
+    public static bool CanUseElements(string type, int cost)
+    {
+        int eye, ear, mouth;
+        eye = eyeElements;
+        ear = earElements;
+        mouth = mouthElements;
+
+        switch (type)
+        {
+            case "Face_Eye":
+                eye -= cost;
+                break;
+
+            case "Face_Ear":
+                ear -= cost;
+                break;
+
+            case "Face_Mouth":
+                mouth -= cost;
+                break;
+        }
+
+        if(eye >= 0 && ear >= 0 && mouth >= 0)
+        {
+            eyeElements = eye;
+            earElements = ear;
+            mouthElements = mouth;
+
+            thisInstance.RefleshTexts();
+            Debug.Log("Use elements granted.");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Use elements denied.");
+            return false;
+        }
+
     }
 
     private void RefleshTexts()

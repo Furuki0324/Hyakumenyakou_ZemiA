@@ -48,9 +48,10 @@ public class PlayerRepairPartsScript : MonoBehaviour
 
         if(Input.GetKeyDown(repairKey) && repairTarget)
         {
-            //メソッドの名前は違うけれど流用できるためこれを使用
-            DropItemManager.CreateFaceParts(repairTarget.gameObject.tag, 1);
-            repairTarget.Repaired(1);
+            if (DropItemManager.CanUseElements(repairTarget.gameObject.tag, 1))
+            {
+                repairTarget.Repaired(1);
+            }
         }
     }
 
@@ -64,6 +65,12 @@ public class PlayerRepairPartsScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, radius);
+
+        if (repairTarget)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(repairTarget.transform.position, 1);
+        }
     }
 #endif
 }

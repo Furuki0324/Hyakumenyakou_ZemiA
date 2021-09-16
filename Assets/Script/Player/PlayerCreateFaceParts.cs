@@ -78,8 +78,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     private void CreateFaceParts()
     {
-        FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
-        DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
+        //FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
+        FacePartsBaseScript go = prefabInfos[prefabNumber].prefab;
+        if (DropItemManager.CanUseElements(go.gameObject.tag, prefabInfos[prefabNumber].cost))
+        {
+            Instantiate(go, transform.position, Quaternion.identity);
+        }
     }
 }
 
