@@ -58,7 +58,7 @@ public class EyeScript : FacePartsBaseScript
     {
         transform.SetParent(EYE_ANCHOR);
 
-        EYE = GameObject.Find("Image").GetComponent<Image>();
+        EYE = GameObject.Find("EyeFog").GetComponent<Image>();
 
 
         volume -= 0.2f;

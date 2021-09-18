@@ -11,9 +11,17 @@ public class DropItemManager : MonoBehaviour
 
     [Header("UI Text")]
     public Text elements;
+    public Text eyeElement;
+    public Text earElement;
+    public Text mouthElement;
 
 
     private static int eyeElements = 0, earElements = 0, mouthElements = 0;
+    /// <summary>
+    /// <para>パーツを生成するときの消費量。</para>
+    /// </summary>
+    private static int spendingElement = 0;
+    private static string[] spendingType = { "none", "eye", "ear", "mouth" };
 
 
     private void Awake()
@@ -109,8 +117,26 @@ public class DropItemManager : MonoBehaviour
 
     }
 
+    public static void MoreSpendingElement()
+    {
+
+    }
+
     private void RefleshTexts()
     {
-        elements.text = "Eye: " + eyeElements.ToString() + " Ear: " + earElements.ToString() + " Mouth: " + mouthElements.ToString();
+        //elements.text = "Eye: " + eyeElements.ToString() + " Ear: " + earElements.ToString() + " Mouth: " + mouthElements.ToString();
+        if (eyeElements <= 0) eyeElement.color = Color.red;
+        else eyeElement.color = Color.white;
+
+        if (earElements <= 0) earElement.color = Color.red;
+        else earElement.color = Color.white;
+
+        if (mouthElements <= 0) mouthElement.color = Color.red;
+        else mouthElement.color = Color.white;
+
+
+        eyeElement.text = eyeElements.ToString();
+        earElement.text = earElements.ToString();
+        mouthElement.text = mouthElements.ToString();
     }
 }
