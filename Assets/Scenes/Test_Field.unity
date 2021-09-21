@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 7699909}
   m_Layer: 5
   m_Name: Ear
-  m_TagString: Untagged
+  m_TagString: Face_Ear
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 65365720}
   m_Layer: 5
   m_Name: Eye
-  m_TagString: Untagged
+  m_TagString: Face_Eye
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1120,7 +1120,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &811306877
@@ -1375,6 +1375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5541f1469456ee64587b48cf216ff0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LOCK: 0
+  prefabs: []
   elements: {fileID: 613163586}
   eyeElement: {fileID: 1062463781}
   earElement: {fileID: 1663476103}
@@ -7610,7 +7612,7 @@ GameObject:
   - component: {fileID: 2019170308}
   m_Layer: 5
   m_Name: mouth
-  m_TagString: Untagged
+  m_TagString: Face_Mouth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

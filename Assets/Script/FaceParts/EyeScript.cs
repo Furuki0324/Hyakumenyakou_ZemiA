@@ -65,7 +65,9 @@ public class EyeScript : FacePartsBaseScript
 
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
-        cacheHp = hp;
+
+        cacheHealth = health;
+        //cacheHp = hp;
     }
 
     // Update is called once per frame

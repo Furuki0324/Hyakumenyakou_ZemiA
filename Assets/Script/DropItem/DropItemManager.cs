@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class Prefab
+{
+    public FacePartsBaseScript prefab;
+}
+
 public class DropItemManager : MonoBehaviour
 {
     //Instance prototype
     private static DropItemManager thisInstance;
 
+
+    [Header("Option")]
+    public bool LOCK;
+
+    [Header("Face Prefab")]
+    public Prefab[] prefabs;
 
     [Header("UI Text")]
     public Text elements;
@@ -15,13 +27,27 @@ public class DropItemManager : MonoBehaviour
     public Text earElement;
     public Text mouthElement;
 
+    private static Dictionary<string, int> dictionary = new Dictionary<string, int>()
+    {
+        {"Face_Eye",0 },
+        {"Face_Ear",1 },
+        {"Face_Mouth",2 }
+    };
+
+    private static Dictionary<int, string> reverseDictionary = new Dictionary<int, string>()
+    {
+        {0,"Face_Eye" },
+        {1,"Face_Ear" },
+        {2,"Face_Mouth" }
+    };
+    private static int selectedItem;
+
 
     private static int eyeElements = 0, earElements = 0, mouthElements = 0;
     /// <summary>
     /// <para>パーツを生成するときの消費量。</para>
     /// </summary>
     private static int spendingElement = 0;
-    private static string[] spendingType = { "none", "eye", "ear", "mouth" };
 
 
     private void Awake()
@@ -77,6 +103,13 @@ public class DropItemManager : MonoBehaviour
         thisInstance.RefleshTexts();
     }
 
+
+    /// <summary>
+    /// <para>使用するアイテムの素材量を確認し、素材量が消費量を満たしている場合は素材を消費してtrueを返します。</para>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="cost"></param>
+    /// <returns></returns>
     public static bool CanUseElements(string type, int cost)
     {
         int eye, ear, mouth;
@@ -117,9 +150,85 @@ public class DropItemManager : MonoBehaviour
 
     }
 
-    public static void MoreSpendingElement()
+    public static bool TryToUseElementWhenCreatingFace()
     {
+        if(spendingElement <= 0)
+        {
+            Debug.LogWarning("No element selected.");
+            return false;
+        }
 
+        if (CanUseElements(reverseDictionary[selectedItem], spendingElement))
+        {
+            spendingElement = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int GetReservedElement(int a)
+    {
+        int b = 0;
+
+        switch (a)
+        {
+            case 0:
+                b = eyeElements;
+                break;
+
+            case 1:
+                b = earElements;
+                break;
+
+            case 2:
+                b = mouthElements;
+                break;
+        }
+
+        return b;
+    }
+
+    /// <summary>
+    /// <para>返り値リスト</para>
+    /// <para>0 - Eye</para>
+    /// <para>1 - Ear</para>
+    /// <para>2 - Mouth</para>
+    /// </summary>
+    /// <returns></returns>
+    public static int GetSelectedItem()
+    {
+        return selectedItem;
+    }
+
+
+    /// <summary>
+    /// <para>クリックでアイテムの消費量を増加させます。</para>
+    /// <para>増加消費量の初期値は1です。引数を利用してその諒を変更できます。</para>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="add"></param>
+    public static void MoreSpendingElement(string type, int add = 1)
+    {
+        int tryGetValue;
+        if (dictionary.TryGetValue(type,out tryGetValue))
+        {
+            //新たに選択されたアイテムが以前のものと違う場合は消費量をリセットします
+            if (!(selectedItem == tryGetValue))
+            {
+                spendingElement = 0;
+                selectedItem = tryGetValue;
+            }
+
+            if(spendingElement < GetReservedElement(selectedItem))
+            {
+                spendingElement += add;
+            }
+
+            
+        }
+
+        Debug.Log(spendingElement);
     }
 
     private void RefleshTexts()

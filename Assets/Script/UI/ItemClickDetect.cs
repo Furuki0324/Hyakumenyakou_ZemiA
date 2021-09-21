@@ -8,5 +8,6 @@ public class ItemClickDetect : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Clicked.");
+        DropItemManager.MoreSpendingElement(gameObject.tag);
     }
 }

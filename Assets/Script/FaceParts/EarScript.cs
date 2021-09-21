@@ -110,6 +110,8 @@ public class EarScript : FacePartsBaseScript
         transform.SetParent(EAR_ANCHOR);
 
         mixer.SetFloat("BGM", volume);
+
+        cacheHealth = health;
         cacheHp = hp;
     }
     //private float cacheTime = 0;

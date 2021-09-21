@@ -107,12 +107,16 @@ public class MouthScript : FacePartsBaseScript
         }
         mixer.SetFloat("SE", volume);
     }
+
+
     void Start()
     {
         transform.SetParent(MOUTH_ANCHOR);
 
         SE = GetComponent<AudioSource>();
         mixer.SetFloat("SE", volume);
+
+        cacheHealth = health;
         cacheHp = hp;
     }
     //private float cacheTime = 0;

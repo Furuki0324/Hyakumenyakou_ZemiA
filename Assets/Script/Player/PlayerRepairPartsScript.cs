@@ -48,7 +48,7 @@ public class PlayerRepairPartsScript : MonoBehaviour
 
         if(Input.GetKeyDown(repairKey) && repairTarget)
         {
-            if (DropItemManager.CanUseElements(repairTarget.gameObject.tag, 1))
+            if (repairTarget.Damaged() && DropItemManager.CanUseElements(repairTarget.gameObject.tag, 1))
             {
                 repairTarget.Repaired(1);
             }

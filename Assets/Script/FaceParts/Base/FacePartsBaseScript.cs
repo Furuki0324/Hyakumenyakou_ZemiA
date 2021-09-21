@@ -14,6 +14,7 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         TakeDamage();
         cacheHealth = health;
+        Debug.Log("CacheHealth is " + cacheHealth);
     }
 
     /// <summary>
@@ -50,7 +51,25 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         
         health += amount;
-        Mathf.Clamp(health, 0, cacheHealth);
+        if (health > cacheHealth) health = cacheHealth;
+    }
+
+    /// <summary>
+    /// <para>耐久値が減少している場合はtrueを返します。</para>
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool Damaged()
+    {
+        if (health < cacheHealth)
+        {
+            return true;
+        }
+        else
+        {
+            Debug.Log("Health is full.");
+            Debug.Log("cacheHealth is " + cacheHealth);
+            return false;
+        }
     }
 
 
