@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class FacePartsBaseScript : MonoBehaviour
 {
+    [Header("Scale factor")]
+    [Tooltip("素材消費量が1増えた際の耐久値の増加率")]
+    [Range(0,1)]
+    public float scale;
+
     [Header("Setting in base script")]
     public int health;
     protected int cacheHealth;
-    public float interval;
+    
 
 
     private void Start()
     {
         TakeDamage();
+        SetCache();
+    }
+
+    public void SetCache()
+    {
+        health = health + Mathf.FloorToInt(health * scale * (DropItemManager.GetSpendingElementFromHolder() - 1));
         cacheHealth = health;
         Debug.Log("CacheHealth is " + cacheHealth);
     }

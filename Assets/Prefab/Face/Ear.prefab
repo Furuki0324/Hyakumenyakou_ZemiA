@@ -95,9 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea10ac99c0454124a967f9133d58dd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: 0.1
   health: 20
-  interval: 1
-  enemiesNearby: []
   hp: 20
   mixer: {fileID: 24100000, guid: 241baac3dc0445849a2178dc228a0f8d, type: 2}
 --- !u!61 &2284708616996232226

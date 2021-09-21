@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Prefab
-{
-    public FacePartsBaseScript prefab;
-}
-
 public class DropItemManager : MonoBehaviour
 {
     //Instance prototype
@@ -18,14 +12,20 @@ public class DropItemManager : MonoBehaviour
     [Header("Option")]
     public bool LOCK;
 
-    [Header("Face Prefab")]
-    public Prefab[] prefabs;
+    [Header("UI Image")]
+    public Image spendingElementIndicator;
 
     [Header("UI Text")]
     public Text elements;
     public Text eyeElement;
     public Text earElement;
     public Text mouthElement;
+    private Text indicatorText;
+
+    [Header("UI Position")]
+    public RectTransform eyePoint;
+    public RectTransform earPoint;
+    public RectTransform mouthPoint;
 
     private static Dictionary<string, int> dictionary = new Dictionary<string, int>()
     {
@@ -48,11 +48,15 @@ public class DropItemManager : MonoBehaviour
     /// <para>パーツを生成するときの消費量。</para>
     /// </summary>
     private static int spendingElement = 0;
+    private static int spendingElementHolder;
 
 
     private void Awake()
     {
         thisInstance = this;
+
+        indicatorText = spendingElementIndicator.GetComponentInChildren<Text>();
+
         thisInstance.RefleshTexts();
     }
 
@@ -158,13 +162,28 @@ public class DropItemManager : MonoBehaviour
             return false;
         }
 
+
         if (CanUseElements(reverseDictionary[selectedItem], spendingElement))
         {
+            spendingElementHolder = spendingElement;
             spendingElement = 0;
+            thisInstance.RefleshTexts();
             return true;
         }
 
         return false;
+        
+    }
+
+
+    /// <summary>
+    /// <para>注意：このメソッドはものすごい雑な考えのもとに作られています。可能な限り使わないでください。</para>
+    /// <para>直前に消費した素材の量を一時保存した数値を取得します。</para>
+    /// </summary>
+    /// <returns></returns>
+    public static int GetSpendingElementFromHolder()
+    {
+        return spendingElementHolder;
     }
 
     private static int GetReservedElement(int a)
@@ -201,6 +220,11 @@ public class DropItemManager : MonoBehaviour
         return selectedItem;
     }
 
+    public static int GetSpendingElementAmount()
+    {
+        return spendingElement;
+    }
+
 
     /// <summary>
     /// <para>クリックでアイテムの消費量を増加させます。</para>
@@ -228,6 +252,7 @@ public class DropItemManager : MonoBehaviour
             
         }
 
+        thisInstance.RefleshTexts();
         Debug.Log(spendingElement);
     }
 
@@ -247,5 +272,25 @@ public class DropItemManager : MonoBehaviour
         eyeElement.text = eyeElements.ToString();
         earElement.text = earElements.ToString();
         mouthElement.text = mouthElements.ToString();
+
+        switch (selectedItem)
+        {
+            case 0:
+                spendingElementIndicator.rectTransform.position = eyePoint.position;
+                break;
+
+            case 1:
+                spendingElementIndicator.rectTransform.position = earPoint.position;
+                break;
+
+            case 2:
+                spendingElementIndicator.rectTransform.position = mouthPoint.position;
+                break;
+
+            default:
+                break;
+        }
+
+        indicatorText.text = spendingElement.ToString();
     }
 }

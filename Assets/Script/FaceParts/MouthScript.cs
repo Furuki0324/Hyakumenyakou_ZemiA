@@ -22,9 +22,6 @@ public class MouthScript : FacePartsBaseScript
 
     private static int volume = -5;
     // Start is called before the first frame update
-    [SerializeField]
-    private float hp = 20; //体力
-    private float cacheHp;
     [SerializeField] AudioMixer mixer;
     private AudioSource SE;
     public AudioClip SECLIP;
@@ -61,30 +58,6 @@ public class MouthScript : FacePartsBaseScript
         */
     }
 
-    private void Volume()
-    {
-        if (hp >= cacheHp * 0.8)
-        {
-            mixer.SetFloat("SE", 0);
-            volume += 2;
-        }
-        else if (hp >= cacheHp * 0.6)
-        {
-            mixer.SetFloat("SE", -1);
-        }
-        else if (hp >= cacheHp * 0.4)
-        {
-            mixer.SetFloat("SE", -2);
-        }
-        else if (hp > cacheHp * 0.2)
-        {
-            mixer.SetFloat("SE", -3);
-        }
-        else if (hp == cacheHp * 0)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Volume(float a)
     {
@@ -116,8 +89,7 @@ public class MouthScript : FacePartsBaseScript
         SE = GetComponent<AudioSource>();
         mixer.SetFloat("SE", volume);
 
-        cacheHealth = health;
-        cacheHp = hp;
+        SetCache();
     }
     //private float cacheTime = 0;
     // Update is called once per frame
@@ -140,7 +112,7 @@ public class MouthScript : FacePartsBaseScript
 
     public override void TakeDamage()
     {
-        hp--;
+
         health--;
         SE.PlayOneShot(SECLIP);
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
