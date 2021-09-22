@@ -39,6 +39,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
         {
             if (Time.fixedTime > time + interval)
@@ -47,6 +48,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
                 time = Time.fixedTime;
             }
         }
+        */
 
         if (Input.GetKeyDown(keyCode))
         {
