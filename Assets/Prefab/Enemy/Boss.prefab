@@ -75,6 +75,9 @@ GameObject:
   - component: {fileID: 7657777471842932936}
   - component: {fileID: 6506539276309872388}
   - component: {fileID: -2003412332656441660}
+  - component: {fileID: 93005574096944718}
+  - component: {fileID: 1782176871093411118}
+  - component: {fileID: 7089561439573809134}
   m_Layer: 13
   m_Name: Boss
   m_TagString: Enemy
@@ -206,6 +209,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397ad05d2fe154490ce342900fe225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
+  hp: 10
   attackPower: 1
   attackInterval: 1
+--- !u!114 &93005574096944718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790342996282701764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6df06654f75724c81833010426f567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eyeTearBullet: {fileID: 561857688099031564, guid: 95922ba530db5854dbd4635366f0e65e,
+    type: 3}
+  earBullet: {fileID: 3618851669589839173, guid: f1a4ac9148db1794c8deecc9b7ba2465,
+    type: 3}
+--- !u!114 &1782176871093411118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790342996282701764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d872bc1591651b5428cc256991138f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hsChaseTarget: {fileID: 0}
+--- !u!114 &7089561439573809134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790342996282701764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f1d7c3617ca2640a4e74e9471cb366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

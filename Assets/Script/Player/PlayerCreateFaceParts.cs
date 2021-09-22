@@ -51,6 +51,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if (Input.GetKeyDown(keyCode))
         {
             CreateFaceParts();
+
             enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
             for (int i = 0; i < enemyArray.Length; i++)
             {
@@ -80,6 +81,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
     {
         FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
         DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
+        MainScript.AddFaceObject(go.gameObject);
     }
 }
 
