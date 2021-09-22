@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +19,12 @@ public class MainScript : MonoBehaviour
 
     //----------------------Private-----------------------
     private static List<GameObject> faceObjects = new List<GameObject>();
-
+    private enum tags
+    {
+        Face_Eye,
+        Face_Mouth,
+        Face_Ear
+    }
 
 
     private void Start()
@@ -25,6 +32,11 @@ public class MainScript : MonoBehaviour
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount);
         DropItemManager.ObtainItem("EarElement", defaultElementAmount);
         DropItemManager.ObtainItem("MouthElement", defaultElementAmount);
+
+        foreach (string i in Enum.GetNames(typeof(tags)))
+        {
+            Array.ForEach(GameObject.FindGameObjectsWithTag(i),AddFaceObject);
+        }
     }
 
     //ここから顔パーツの情報
@@ -35,7 +47,7 @@ public class MainScript : MonoBehaviour
     /// <param name="gameObject">リストに追加される対象</param>
     public static void AddFaceObject(GameObject gameObject)
     {
-        if (!gameObject.GetComponent<EnemyCtrl>()) return;
+        //if (!gameObject.GetComponent<EnemyCtrl>()) return;
 
         faceObjects.Add(gameObject);
     }
@@ -57,7 +69,7 @@ public class MainScript : MonoBehaviour
     {
         List<Transform> transforms = new List<Transform>();
 
-        for(int i = 0; i < faceObjects.Count; i++)
+        for (int i = 0; i < faceObjects.Count; i++)
         {
             transforms[i] = faceObjects[i].transform;
         }
@@ -73,9 +85,9 @@ public class MainScript : MonoBehaviour
     {
         List<Transform> transforms = new List<Transform>();
 
-        for(int i = 0; i < faceObjects.Count; i++)
+        for (int i = 0; i < faceObjects.Count; i++)
         {
-            transforms[i] = faceObjects[i].transform;
+            transforms.Add(faceObjects[i].transform);
         }
 
         return transforms;
