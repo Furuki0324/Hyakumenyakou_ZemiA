@@ -34,7 +34,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
     void Start()
     {
         prefabIndicator.text = prefabInfos[prefabNumber].name;
-        
+
     }
 
     private void Update()
@@ -79,12 +79,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     private void CreateFaceParts()
     {
-        if(DropItemManager.TryToUseElementWhenCreatingFace())
+        if (DropItemManager.TryToUseElementWhenCreatingFace())
         {
-            go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
+            FacePartsBaseScript go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
+            DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
+            MainScript.AddFaceObject(go.gameObject);
         }
-        DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
-        MainScript.AddFaceObject(go.gameObject);
     }
 }
 
