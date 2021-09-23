@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,12 @@ public class BossCtrl : EnemyBaseScript
     private IBossStateRoot bp, bdc, bhs, bnp;
     private float time;
     private Renderer bRenderer;
-    private Rigidbody2D bRigid;
+    private enum tags
+    {
+        Face_Eye,
+        Face_Mouth,
+        Face_Ear
+    }
 
     private int temphp;
 
@@ -66,7 +72,7 @@ public class BossCtrl : EnemyBaseScript
                         BossData.bossData.nowState = BossData.State.pos;
                     }
                     //もしぶつかる候補が無かったらパーツ無し状態へ
-                    if (BossDeepData.GetBDpData.transforms.Count < 0)
+                    if (BossDeepData.GetBDpData.transforms.Count <= 0)
                     {
                         BossData.bossData.nowState = BossData.State.noP;
                     }
@@ -96,7 +102,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
 
         //ランダムな方向に弾かれて出てくる
-        transform.position += new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
+        transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
     }
 
     //とりあえずボスが倒されたらゲームクリアのメソッドを呼ぶ記述をしていますが、必要に応じて変更してください。
@@ -111,7 +117,13 @@ public class BossCtrl : EnemyBaseScript
     {
         if (BossData.bossData.nowState == BossData.State.highS)
         {
-            BossDeepData.GetBDpData.toPossessParts = other.transform;
+            foreach (string i in Enum.GetNames(typeof(tags)))
+            {
+                if (other.gameObject.CompareTag(i))
+                {
+                    BossDeepData.GetBDpData.toPossessParts = other.transform;
+                }
+            }
         }
     }
 }

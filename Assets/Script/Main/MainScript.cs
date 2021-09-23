@@ -33,9 +33,11 @@ public class MainScript : MonoBehaviour
         DropItemManager.ObtainItem("EarElement", defaultElementAmount);
         DropItemManager.ObtainItem("MouthElement", defaultElementAmount);
 
+        //開始時点で配置されているパーツを追加
         foreach (string i in Enum.GetNames(typeof(tags)))
         {
-            Array.ForEach(GameObject.FindGameObjectsWithTag(i),AddFaceObject);
+            GameObject[] temp = GameObject.FindGameObjectsWithTag(i);
+            foreach (GameObject j in temp) if (j.layer != 5) AddFaceObject(j); ;
         }
     }
 
