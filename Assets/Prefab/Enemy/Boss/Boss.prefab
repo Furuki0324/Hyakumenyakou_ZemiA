@@ -212,6 +212,8 @@ MonoBehaviour:
   hp: 10
   attackPower: 1
   attackInterval: 1
+  deadParticle: {fileID: 0}
+  pe: {fileID: 1041791214612251350, guid: 6c66b02ee6dae6d46a45e18df38bca06, type: 3}
 --- !u!114 &93005574096944718
 MonoBehaviour:
   m_ObjectHideFlags: 0

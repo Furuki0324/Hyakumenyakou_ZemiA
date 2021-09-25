@@ -7,6 +7,12 @@ public class BossCtrl : EnemyBaseScript
 {
     //---------------------Private------------------
     private IBossStateRoot bp, bdc, bhs, bnp;
+
+    //PossessEffect
+    [SerializeField]
+    private GameObject pe;
+    private GameObject nowPe;
+
     private float time;
     private Renderer bRenderer;
     private enum tags
@@ -38,6 +44,7 @@ public class BossCtrl : EnemyBaseScript
             switch (BossData.bossData.nowState)
             {
                 case BossData.State.pos:
+                    bp.attack();
                     if (temphp > hp)
                     {
                         temphp = hp;
@@ -50,21 +57,19 @@ public class BossCtrl : EnemyBaseScript
                         unPossession();
                         BossData.bossData.nowState = BossData.State.highS;
                     }
-
-                    bp.attack();
                     break;
 
                 case BossData.State.damC:
+                    bdc.move();
                     if (temphp > hp)
                     {
                         temphp = hp;
                         BossDeepData.GetBDpData.hsFirst = true;
                         BossData.bossData.nowState = BossData.State.highS;
                     }
-
-                    bdc.move();
                     break;
                 case BossData.State.highS:
+                    bhs.move();
                     //もしぶつかったら憑依、憑依状態へ
                     if (BossDeepData.GetBDpData.toPossessParts != null)
                     {
@@ -76,8 +81,6 @@ public class BossCtrl : EnemyBaseScript
                     {
                         BossData.bossData.nowState = BossData.State.noP;
                     }
-
-                    bhs.move();
                     break;
                 case BossData.State.noP:
                     //NoParts処理
@@ -93,6 +96,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         transform.position = BossDeepData.GetBDpData.toPossessParts.position;
+        nowPe = Instantiate(pe, BossDeepData.GetBDpData.toPossessParts.position, Quaternion.identity);
     }
 
     void unPossession()
@@ -103,6 +107,7 @@ public class BossCtrl : EnemyBaseScript
 
         //ランダムな方向に弾かれて出てくる
         transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
+        Destroy(nowPe);
     }
 
     //とりあえずボスが倒されたらゲームクリアのメソッドを呼ぶ記述をしていますが、必要に応じて変更してください。
