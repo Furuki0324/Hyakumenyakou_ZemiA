@@ -13,6 +13,7 @@ TagManager:
   - Face_Nose
   - Face_Mouth
   - MouthElement
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Attack
   - Enemy
   - Item
-  - 
+  - Effect
   - 
   - 
   - 
