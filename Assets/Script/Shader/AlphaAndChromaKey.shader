@@ -6,7 +6,7 @@ Shader "UI/Glow"
     {
         _KeyColor("Key Color", Color) = (0,1,0)
         _Near("Near", Range(0, 2)) = 0.2
-        _Opacity("Opacity", Range(0, 1)) = 0.0
+        _Opacity("Opacity", Range(0, 1)) = 1.0
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
 

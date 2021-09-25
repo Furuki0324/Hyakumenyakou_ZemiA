@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AlphaVideo
+  m_Name: PossessMaterial
   m_Shader: {fileID: 4800000, guid: fc8e866e38d719d4cbed3f2cb5df425b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -72,7 +72,7 @@ Material:
     - _Mode: 0
     - _Near: 0.45
     - _OcclusionStrength: 1
-    - _Opacity: 0.603
+    - _Opacity: 0.198
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -88,5 +88,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissionColor: {r: 1.7411765, g: 0.72156864, b: 1.7098039, a: 1}
+    - _EmissionColor: {r: 3.6226416, g: 1.9651122, b: 3.5790226, a: 1}
     - _KeyColor: {r: 0, g: 0, b: 0, a: 1}
