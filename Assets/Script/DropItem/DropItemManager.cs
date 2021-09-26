@@ -84,7 +84,7 @@ public class DropItemManager : MonoBehaviour
 
         thisInstance.RefleshTexts();
 
-        Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
+        //Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
     }
 
     public static void CreateFaceParts(string type, int cost)

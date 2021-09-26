@@ -77,7 +77,7 @@ public class PhaseManager : MonoBehaviour
     public static void AddEnemyList(EnemyBaseScript newEnemy)
     {
         enemyList.Add(newEnemy);
-        Debug.Log("Count" + enemyList.Count);
+        //Debug.Log("Count" + enemyList.Count);
     }
 
     public static void RemoveFromEnemyList(EnemyBaseScript removeEnemy)
