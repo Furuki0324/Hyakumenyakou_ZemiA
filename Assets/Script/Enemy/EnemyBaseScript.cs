@@ -9,6 +9,9 @@ public class EnemyBaseScript : MonoBehaviour
     public int attackPower = 1;
     public float attackInterval = 1;
 
+    [Header("Option")]
+    public ParticleSystem deadParticle;
+
 
     public virtual void EnemyTakeDamage()
     {
@@ -19,6 +22,8 @@ public class EnemyBaseScript : MonoBehaviour
 
     public virtual void EnemyDie()
     {
+        if (deadParticle) Instantiate(deadParticle, transform.position, Quaternion.identity);
+
         EnemyDropItemCtrl dropCtrl;
 
         Destroy(this.gameObject);

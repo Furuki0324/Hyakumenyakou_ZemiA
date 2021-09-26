@@ -210,10 +210,13 @@ MonoBehaviour:
   hp: 1
   attackPower: 1
   attackInterval: 3
+  deadParticle: {fileID: 6079906786904411711, guid: dfd8f16d1effca94ba5e3e06a85a84c1,
+    type: 3}
   limitAngle: 0
   chaseTarget: {fileID: 0}
   speed: 2
   triggerTag: Attack
+  coreAim: 0
 --- !u!114 &5814419688746636883
 MonoBehaviour:
   m_ObjectHideFlags: 0

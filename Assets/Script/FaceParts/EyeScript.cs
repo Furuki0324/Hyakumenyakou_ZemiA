@@ -22,9 +22,7 @@ public class EyeScript : FacePartsBaseScript
 
     // Start is called before the first frame update
     private static float volume = 0;
-    [SerializeField]
-    private float hp = 20; //体力
-    private float cacheHp;
+
     [SerializeField] private Image EYE;
     private static Color EYECOLOR = Color.white;
     public float SPEED;
@@ -58,14 +56,15 @@ public class EyeScript : FacePartsBaseScript
     {
         transform.SetParent(EYE_ANCHOR);
 
-        EYE = GameObject.Find("Image").GetComponent<Image>();
+        EYE = GameObject.Find("EyeFog").GetComponent<Image>();
 
 
         volume -= 0.2f;
 
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
-        cacheHp = hp;
+
+        SetCache();
     }
 
     // Update is called once per frame
@@ -87,7 +86,6 @@ public class EyeScript : FacePartsBaseScript
     public override void TakeDamage()
     {
         
-        hp--;
         health--;
 
         Debug.Log("Eye take damage.");

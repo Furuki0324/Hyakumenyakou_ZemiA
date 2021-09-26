@@ -34,11 +34,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
     void Start()
     {
         prefabIndicator.text = prefabInfos[prefabNumber].name;
-        
+
     }
 
     private void Update()
     {
+        /*
         if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
         {
             if (Time.fixedTime > time + interval)
@@ -47,10 +48,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
                 time = Time.fixedTime;
             }
         }
+        */
 
         if (Input.GetKeyDown(keyCode))
         {
             CreateFaceParts();
+
             enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
             for (int i = 0; i < enemyArray.Length; i++)
             {
@@ -78,8 +81,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     private void CreateFaceParts()
     {
-        FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
-        DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
+        if (DropItemManager.TryToUseElementWhenCreatingFace())
+        {
+            FacePartsBaseScript go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
+            DropItemManager.CreateFaceParts(go.gameObject.tag, prefabInfos[prefabNumber].cost);
+            MainScript.AddFaceObject(go.gameObject);
+        }
     }
 }
 

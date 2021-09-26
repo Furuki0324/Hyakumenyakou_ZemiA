@@ -95,9 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9905d5efc242cca418f654c601b03ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: 0.5
   health: 10
-  interval: 1
-  enemiesNearby: []
   hp: 20
   EYE: {fileID: 0}
   SPEED: 0.05
