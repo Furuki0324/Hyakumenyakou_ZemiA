@@ -65,7 +65,7 @@ public class EnemyCtrl : EnemyBaseScript
         //transformArray = MainScript.GetFaceObjectTransformsInArray();
         transformList = MainScript.GetFaceObjectTransformInList();
 
-        Debug.Log(transforms.Count);
+        //Debug.Log(transforms.Count);
 
         if (!coreAim) FindClosestTarget(transforms);
     }

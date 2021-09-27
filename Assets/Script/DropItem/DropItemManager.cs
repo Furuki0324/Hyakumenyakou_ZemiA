@@ -8,9 +8,19 @@ public class DropItemManager : MonoBehaviour
     //Instance prototype
     private static DropItemManager thisInstance;
 
+    //ENUM
+    private enum SoundPattern { accessGranted, accessDenied}
+    
+
 
     [Header("Option")]
     public bool LOCK;
+
+    [Header("Sound")]
+    public AudioClip deniedSound;
+
+    [Header("AudioSource")]
+    private AudioSource audioSource;
 
     [Header("UI Image")]
     public Image spendingElementIndicator;
@@ -21,6 +31,7 @@ public class DropItemManager : MonoBehaviour
     public Text earElement;
     public Text mouthElement;
     private Text indicatorText;
+    public Text lessElementWarning;
 
     [Header("UI Position")]
     public RectTransform eyePoint;
@@ -53,6 +64,8 @@ public class DropItemManager : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         thisInstance = this;
 
         indicatorText = spendingElementIndicator.GetComponentInChildren<Text>();
@@ -148,6 +161,7 @@ public class DropItemManager : MonoBehaviour
         }
         else
         {
+            thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
             Debug.Log("Use elements denied.");
             return false;
         }
@@ -248,6 +262,10 @@ public class DropItemManager : MonoBehaviour
             {
                 spendingElement += add;
             }
+            else
+            {
+                thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
+            }
 
             
         }
@@ -292,5 +310,21 @@ public class DropItemManager : MonoBehaviour
         }
 
         indicatorText.text = spendingElement.ToString();
+    }
+
+    private void PlaySoundEffect(SoundPattern pattern)
+    {
+        switch (pattern)
+        {
+            case SoundPattern.accessGranted:
+                break;
+
+            case SoundPattern.accessDenied:
+                audioSource.PlayOneShot(deniedSound);
+                break;
+
+            default:
+                break;
+        }
     }
 }

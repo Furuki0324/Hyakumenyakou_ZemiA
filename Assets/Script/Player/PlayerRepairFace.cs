@@ -7,8 +7,11 @@ public class PlayerRepairFace : MonoBehaviour
     //Public
     public KeyCode repairKey;
     public float radius;
+    [Header("Particle")]
+    public ParticleSystem repairParticle;
 
     //private 
+    [Header("READ ONLY")]
     [SerializeField, ReadOnly] private FacePartsBaseScript repairTarget;
     private ContactFilter2D filter2D;
     [SerializeField, ReadOnly] private List<Collider2D> faceList = new List<Collider2D>();
@@ -50,6 +53,7 @@ public class PlayerRepairFace : MonoBehaviour
         {
             if(repairTarget.Damaged() && DropItemManager.CanUseElements(repairTarget.tag, 1))
             {
+                Instantiate(repairParticle, repairTarget.transform.position, Quaternion.identity);
                 repairTarget.Repaired(1);
             }
         }
