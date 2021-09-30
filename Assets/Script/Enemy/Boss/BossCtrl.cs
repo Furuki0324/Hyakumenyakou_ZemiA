@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BossCtrl : EnemyBaseScript
 {
-    //---------------------Private------------------
+    #region PrivateField
     private IBossStateRoot bp, bdc, bhs, bnp;
 
     //PossessEffect
@@ -24,6 +24,7 @@ public class BossCtrl : EnemyBaseScript
 
     private int temphp;
 
+    #endregion
 
     void Start()
     {
