@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(PolygonCollider2D))]
-public class OtherLineWithCollider : MonoBehaviour
+public class LineWithCollider : MonoBehaviour
 {
     LineRenderer lr;
     BezierCurve bc;

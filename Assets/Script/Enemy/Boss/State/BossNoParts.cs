@@ -10,9 +10,12 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
     private Vector2 force;
     private GameObject tempGameObj;
     private NormalBulletCtrl tempNormBul;
-    [SerializeField]
-    private static GameObject toAttack;
+    private GameObject toAttack;
 
+    private void Start()
+    {
+        toAttack = GameObject.FindWithTag("Face_Nose");
+    }
     public bool First { get; set; }
     public void attack() { }
     public void defend() { }
@@ -43,7 +46,7 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
         tempGameObj = Instantiate(normalBullet, transform.position, transform.rotation);
         tempNormBul = tempGameObj.GetComponent<NormalBulletCtrl>();
         tempNormBul.damage = BossData.bossData.noPAttackPowOfBullet;
-        tempNormBul.force = (GameObject.FindWithTag("Face_Nose").transform.position - transform.position).normalized * BossData.bossData.noPAttackSpeed;
+        tempNormBul.force = (toAttack.transform.position - transform.position).normalized * BossData.bossData.noPAttackSpeed;
         yield return new WaitForSeconds(BossData.bossData.noPAttackIntervalOfBullet);
         StartCoroutine(BulletGenerator());
     }

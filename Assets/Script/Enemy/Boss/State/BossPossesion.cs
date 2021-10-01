@@ -8,7 +8,7 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     [SerializeField]
     private GameObject eyeTearBullet;
     [SerializeField]
-    private GameObject mouseVoiceBullet;
+    private GameObject mouthVoiceBullet;
     [SerializeField]
     private GameObject earBullet;
     //CrossBulletコルーチン内で使う
@@ -86,7 +86,10 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     IEnumerator VoiceGenerator()
     {
         if (BossData.bossData.nowState != BossData.State.pos) yield break;
-        Instantiate(mouseVoiceBullet, transform.position, transform.rotation);
+        temp = Instantiate(mouthVoiceBullet, Vector3.zero, Quaternion.identity);
+        temp.GetComponent<VoiceCtrl>().force = 
+            (coreParts.position - transform.position).normalized * BossData.bossData.mouthAttackSpeed;
+        
         yield return new WaitForSeconds(BossData.bossData.mouthAttackInterval);
         StartCoroutine(VoiceGenerator());
     }

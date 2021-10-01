@@ -47,6 +47,8 @@ public class BossData : ScriptableObject
     public int mouthAttackPower = 5;
     public float mouthAttackInterval = 10.0f;
     public float mouthAttackSpeed = 2.0f;
+    
+    public float mouthAttackCurve = 1.0f;
 
     [Header("Ear Value")]
     public int earAttackPower = 1;

@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 3045543053435145584}
   - component: {fileID: 3045543053435145582}
   - component: {fileID: 3045543053435145581}
-  - component: {fileID: 3045543053435145587}
   - component: {fileID: 5288644154366229980}
   - component: {fileID: 4914308278590025512}
-  - component: {fileID: -717583416452119671}
+  - component: {fileID: 6645598760130091079}
   - component: {fileID: 790463162}
   m_Layer: 13
   m_Name: MouthVoice
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4234cd2c43978e041bbe9323c195c4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 10
+  resolution: 20
   drawColor: {r: 1, g: 1, b: 1, a: 1}
   _close: 0
   points: []
@@ -175,14 +174,6 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 3.2348971, y: -4.127749}
---- !u!33 &3045543053435145587
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3045543053435145590}
-  m_Mesh: {fileID: 0}
 --- !u!114 &5288644154366229980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcaa86997bf29e4bab8ad67cfee1837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: {x: 0, y: 0, z: 0}
   speed: 0.01
   curvature: 0.005
 --- !u!114 &4914308278590025512
@@ -209,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282dbc088018f2b4a91c8b2fa5374544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-717583416452119671
+--- !u!114 &6645598760130091079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
