@@ -20,7 +20,6 @@ public class VoiceCtrl : MonoBehaviour
     }
     BezierCurve bc;
 
-    private Transform coreParts;
     private FacePartsBaseScript faceScript;
     public Vector3 force;
     const int pointCount = 2;
@@ -35,9 +34,6 @@ public class VoiceCtrl : MonoBehaviour
     Vector3 secondVec;
     Vector3 secondHandleVec;
 
-    Quaternion f;
-    Quaternion s;
-
     public float speed = 0.01f;
     public float curvature = 0.005f;
 
@@ -47,15 +43,11 @@ public class VoiceCtrl : MonoBehaviour
         for (int i = 0; i < pointCount; i++)
         {
             bc.AddPointAt(Vector3.zero);
-            //bc[i] = gameObject.AddComponent<Rigidbody2D>();
         }
         transform.SetParent(VOICEBULLET_ANCHOR);
 
-        //force = new Vector3(-2, 3, 0).normalized * BossData.bossData.mouthAttackSpeed;
         firstLocalPos = BossDeepData.GetBDpData.bRigid.transform.position;
         secondLocalPos = BossDeepData.GetBDpData.bRigid.transform.position;
-        // firstHandle = BossDeepData.GetBDpData.bRigid.transform.position;
-        // secondHandle = BossDeepData.GetBDpData.bRigid.transform.position;
         firstVec = Quaternion.AngleAxis(45.0f, Vector3.forward) * force;
         secondVec = Quaternion.AngleAxis(-45.0f, Vector3.forward) * force;
         firstHandleVec = Vector3.Cross(Vector3.forward, firstVec).normalized * BossData.bossData.mouthAttackCurve;
@@ -65,7 +57,6 @@ public class VoiceCtrl : MonoBehaviour
     void Update()
     {
         vecBezier();
-        //moveBezier();
     }
 
     void vecBezier()
@@ -76,18 +67,6 @@ public class VoiceCtrl : MonoBehaviour
         secondHandle += secondHandleVec;
         bc[0].localPosition = firstLocalPos;
         bc[0].handle1 = firstHandle;
-        bc[1].localPosition = secondLocalPos;
-        bc[1].handle1 = secondHandle;
-    }
-
-    void moveBezier()
-    {
-        firstLocalPos.x += speed;
-        secondLocalPos.y += speed;
-        firstHandle.y += curvature;
-        secondHandle.x += curvature;
-        bc[0].localPosition = firstLocalPos;
-        bc[0].handle2 = firstHandle;
         bc[1].localPosition = secondLocalPos;
         bc[1].handle1 = secondHandle;
     }
