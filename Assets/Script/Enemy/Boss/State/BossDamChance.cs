@@ -18,4 +18,5 @@ public class BossDamChance : MonoBehaviour, IBossStateRoot
             First = false;
         }
     }
+    public void stopAllCoroutine(){ }
 }

@@ -18,7 +18,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     {
         return faceScript;
     }
-    public bool First {get; set;}
+    public bool First { get; set; }
     public void attack() { }
     public void defend() { }
     public void move()
@@ -29,6 +29,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         }
         chase();
     }
+    public void stopAllCoroutine(){ }
 
     public void ResetTarget()
     {

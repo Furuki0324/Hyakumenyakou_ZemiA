@@ -30,6 +30,11 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
         }
     }
 
+    public void stopAllCoroutine(){
+        StopCoroutine(RandomWalk());
+        StopCoroutine(BulletGenerator());
+    }
+
     IEnumerator RandomWalk()
     {
         if (BossData.bossData.nowState != BossData.State.noP) yield break;

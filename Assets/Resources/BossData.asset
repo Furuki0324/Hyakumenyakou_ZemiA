@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f5926e44fbd75419d9b079b2d7f5b7, type: 3}
   m_Name: BossData
   m_EditorClassIdentifier: 
-  nowState: 3
+  nowState: 0
   possAttackPowToParts: 1
   possAttackToPartsInterval: 1
   attacksRange: 1
@@ -21,12 +21,12 @@ MonoBehaviour:
   eyeAttackSpeed: 2
   mouthAttackPower: 5
   mouthAttackInterval: 10
-  mouthAttackSpeed: 0.001
-  mouthAttackCurve: 0.0005
+  mouthAttackSpeed: 0.01
+  mouthAttackCurve: 0.005
   earAttackPower: 1
   earAttackInterval: 1.17
   earAttackSpeed: 2
-  hsSpeed: 1
+  hsSpeed: 3.51
   noPAttackPowOfBullet: 2
   noPAttackIntervalOfBullet: 0.67
   noPAttackSpeed: 2

@@ -24,6 +24,8 @@ public class BossCtrl : EnemyBaseScript
 
     private bool takeDamage;
 
+    private Transform formerPossess;
+
     #endregion
 
     void Start()
@@ -41,24 +43,27 @@ public class BossCtrl : EnemyBaseScript
 
     void Update()
     {
+        print(BossDeepData.GetBDpData.toPossessParts);
         if (time <= 0)
         {
             switch (BossData.bossData.nowState)
             {
                 case BossData.State.pos:
                     bp.attack();
+                    if (BossDeepData.GetBDpData.toPossessParts == null)
+                    {
+                        bp.stopAllCoroutine();
+                        unPossession();
+                        bhs.First = true;
+                        BossData.bossData.nowState = BossData.State.highS;
+                    }
                     if (takeDamage)
                     {
+                        bp.stopAllCoroutine();
                         takeDamage = false;
                         unPossession();
                         bdc.First = true;
                         BossData.bossData.nowState = BossData.State.damC;
-                    }
-                    if (BossDeepData.GetBDpData.toPossessParts == null)
-                    {
-                        unPossession();
-                        bhs.First = true;
-                        BossData.bossData.nowState = BossData.State.highS;
                     }
                     break;
 
@@ -66,6 +71,7 @@ public class BossCtrl : EnemyBaseScript
                     bdc.move();
                     if (takeDamage)
                     {
+                        bdc.stopAllCoroutine();
                         takeDamage = false;
                         bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
@@ -76,6 +82,7 @@ public class BossCtrl : EnemyBaseScript
                     //もしぶつかったら憑依、憑依状態へ
                     if (BossDeepData.GetBDpData.toPossessParts != null)
                     {
+                        bhs.stopAllCoroutine();
                         possession();
                         bp.First = true;
                         BossData.bossData.nowState = BossData.State.pos;
@@ -83,6 +90,7 @@ public class BossCtrl : EnemyBaseScript
                     //もしぶつかる候補が無かったらパーツ無し状態へ
                     if (BossDeepData.GetBDpData.transforms.Count <= 0)
                     {
+                        bhs.stopAllCoroutine();
                         bnp.First = true;
                         BossData.bossData.nowState = BossData.State.noP;
                     }
@@ -110,7 +118,8 @@ public class BossCtrl : EnemyBaseScript
         bRenderer.enabled = true;
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
-        //BossDeepData.GetBDpData.toPossessParts = null;
+        formerPossess = BossDeepData.GetBDpData.toPossessParts;
+        BossDeepData.GetBDpData.toPossessParts = null;
         //ランダムな方向に弾かれて出てくる
         transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
         Destroy(nowPe.gameObject);
@@ -135,11 +144,14 @@ public class BossCtrl : EnemyBaseScript
     {
         if (BossData.bossData.nowState == BossData.State.highS)
         {
-            foreach (string i in Enum.GetNames(typeof(tags)))
+            if (formerPossess != other.transform)
             {
-                if (other.gameObject.CompareTag(i))
+                foreach (string i in Enum.GetNames(typeof(tags)))
                 {
-                    BossDeepData.GetBDpData.toPossessParts = other.transform;
+                    if (other.gameObject.CompareTag(i))
+                    {
+                        BossDeepData.GetBDpData.toPossessParts = other.transform;
+                    }
                 }
             }
         }

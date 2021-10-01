@@ -68,6 +68,13 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
         }
     }
 
+    public void stopAllCoroutine(){
+        StopCoroutine(PossPartsDamage());
+        StopCoroutine(TearGenerator());
+        StopCoroutine(VoiceGenerator());
+        StopCoroutine(CrossBulletGenerator());
+    }
+
     IEnumerator PossPartsDamage()
     {
         if (BossData.bossData.nowState != BossData.State.pos) yield break;
