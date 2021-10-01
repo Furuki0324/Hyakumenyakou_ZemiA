@@ -47,17 +47,16 @@ public class VoiceCtrl : MonoBehaviour
             bc.AddPointAt(Vector3.zero);
         }
         transform.SetParent(VOICEBULLET_ANCHOR);
-        firstLocalPos = new Vector3(1,1,1);
-        f = Quaternion.AngleAxis(180.0f,Vector3.forward);
-        firstLocalPos = f * firstLocalPos;
+        // firstLocalPos = new Vector3(1,1,1);
+        // f = Quaternion.AngleAxis(180.0f,Vector3.forward);
+        // firstLocalPos = f * firstLocalPos;
     }
 
-    // Update is called once per frame
     void Update()
     {
         moveBezier();
         Vector2 force = (coreParts.position - transform.position).normalized;
-        //transform.rotation = Quaternion.FromToRotation(Vector3.up, force);
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, force);
     }
 
     void moveBezier()
