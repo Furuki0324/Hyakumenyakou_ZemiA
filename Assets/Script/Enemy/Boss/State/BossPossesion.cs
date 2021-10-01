@@ -8,13 +8,16 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     [SerializeField]
     private GameObject eyeTearBullet;
     [SerializeField]
+    private GameObject mouthVoiceBullet;
+    [SerializeField]
     private GameObject earBullet;
+    //CrossBulletコルーチン内で使う
     private GameObject temp;
+    private FacePartsBaseScript faceScript;
+
     private float theta;
-
     private const int earBulletWay = 4;
-
-    public bool First {get; set;}
+    public bool First { get; set; }
 
     private void Start()
     {
@@ -33,6 +36,7 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     {
         if (First)
         {
+            faceScript = BossDeepData.GetBDpData.toPossessParts.GetComponent<FacePartsBaseScript>();
             if (possParts.CompareTag("Face_Eye"))
             {
                 StartCoroutine(TearGenerator());
@@ -64,6 +68,14 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
         }
     }
 
+    IEnumerator PossPartsDamage()
+    {
+        if (BossData.bossData.nowState != BossData.State.pos) yield break;
+        faceScript.TakeDamage(BossData.bossData.possAttackPowToParts);
+        yield return new WaitForSeconds(BossData.bossData.possAttackToPartsInterval);
+        StartCoroutine(PossPartsDamage());
+    }
+
     IEnumerator TearGenerator()
     {
         if (BossData.bossData.nowState != BossData.State.pos) yield break;
@@ -74,9 +86,10 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     IEnumerator VoiceGenerator()
     {
         if (BossData.bossData.nowState != BossData.State.pos) yield break;
-
-
-
+        temp = Instantiate(mouthVoiceBullet, Vector3.zero, Quaternion.identity);
+        temp.GetComponent<VoiceCtrl>().force = 
+            (coreParts.position - transform.position).normalized * BossData.bossData.mouthAttackSpeed;
+        
         yield return new WaitForSeconds(BossData.bossData.mouthAttackInterval);
         StartCoroutine(VoiceGenerator());
     }
@@ -92,7 +105,7 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
             temp = Instantiate(earBullet, transform.position, transform.rotation);
             theta = 360.0f / earBulletWay * (i + 1) * Mathf.Deg2Rad;
             temp.GetComponent<EarBulletCtrl>().force =
-                new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
+                new Vector2(Mathf.Cos(theta), Mathf.Sin(theta)) * BossData.bossData.earAttackSpeed;
         }
         yield return new WaitForSeconds(BossData.bossData.earAttackInterval);
         StartCoroutine(CrossBulletGenerator());

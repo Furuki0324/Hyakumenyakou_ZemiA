@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 93005574096944718}
   - component: {fileID: 1782176871093411118}
   - component: {fileID: 7089561439573809134}
+  - component: {fileID: 3395772533055410001}
   m_Layer: 13
   m_Name: Boss
   m_TagString: Enemy
@@ -228,6 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyeTearBullet: {fileID: 561857688099031564, guid: 95922ba530db5854dbd4635366f0e65e,
     type: 3}
+  mouthVoiceBullet: {fileID: 3045543053435145590, guid: bab48f779b7e0d144b19170bfd72a8dd,
+    type: 3}
   earBullet: {fileID: 3618851669589839173, guid: f1a4ac9148db1794c8deecc9b7ba2465,
     type: 3}
 --- !u!114 &1782176871093411118
@@ -255,3 +258,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f1d7c3617ca2640a4e74e9471cb366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3395772533055410001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790342996282701764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a0981503fe2a2a46a3041305a5eaed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalBullet: {fileID: 5451140710986873123, guid: 3f6b516eaebf5a64ba4ad2cae4587e9e,
+    type: 3}

@@ -34,8 +34,9 @@ public class BossData : ScriptableObject
     }
 
     [Header("Values of Possession state")]
-    public int possPartsAttackPower = 1;
-    public float possAttacksRange = 1.0f;
+    public int possAttackPowToParts = 1;
+    public int possAttackToPartsInterval = 1;
+    public float attacksRange = 1.0f;
 
     [Header("Eye Value")]
     public int eyeAttackPower = 2;
@@ -46,6 +47,8 @@ public class BossData : ScriptableObject
     public int mouthAttackPower = 5;
     public float mouthAttackInterval = 10.0f;
     public float mouthAttackSpeed = 2.0f;
+    
+    public float mouthAttackCurve = 1.0f;
 
     [Header("Ear Value")]
     public int earAttackPower = 1;
@@ -54,5 +57,12 @@ public class BossData : ScriptableObject
 
     [Header("Values of HighSpeed state")]
     public float hsSpeed = 1.0f;
+
+    [Header("Values of NoParts state")]
+    public int noPAttackPowOfBullet;
+    public float noPAttackIntervalOfBullet;
+    public float noPAttackSpeed = 2.0f;
+    public float noPRandWalkInterval;
+    public float noPRandWalkSpeed;
 
 }

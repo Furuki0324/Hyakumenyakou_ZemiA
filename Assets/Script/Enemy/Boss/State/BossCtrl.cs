@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BossCtrl : EnemyBaseScript
 {
-    //---------------------Private------------------
+    #region PrivateField
     private IBossStateRoot bp, bdc, bhs, bnp;
 
     //PossessEffect
@@ -22,19 +22,21 @@ public class BossCtrl : EnemyBaseScript
         Face_Ear
     }
 
-    private int temphp;
+    private bool takeDamage;
 
+    #endregion
 
     void Start()
     {
         bp = gameObject.GetComponent<BossPossesion>();
         bdc = gameObject.GetComponent<BossDamChance>();
         bhs = gameObject.GetComponent<BossHighSpeed>();
+        bnp = gameObject.GetComponent<BossNoParts>();
         time = Camera.main.GetComponent<PhaseManager>().time;
         BossData.bossData.nowState = BossData.State.highS;
         bRenderer = GetComponent<Renderer>();
         BossDeepData.GetBDpData.bRigid = GetComponent<Rigidbody2D>();
-        temphp = hp;
+        takeDamage = false;
     }
 
     void Update()
@@ -45,9 +47,9 @@ public class BossCtrl : EnemyBaseScript
             {
                 case BossData.State.pos:
                     bp.attack();
-                    if (temphp > hp)
+                    if (takeDamage)
                     {
-                        temphp = hp;
+                        takeDamage = false;
                         unPossession();
                         bdc.First = true;
                         BossData.bossData.nowState = BossData.State.damC;
@@ -55,16 +57,17 @@ public class BossCtrl : EnemyBaseScript
                     if (BossDeepData.GetBDpData.toPossessParts == null)
                     {
                         unPossession();
+                        bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
                     }
                     break;
 
                 case BossData.State.damC:
                     bdc.move();
-                    if (temphp > hp)
+                    if (takeDamage)
                     {
-                        temphp = hp;
-                        BossDeepData.GetBDpData.hsFirst = true;
+                        takeDamage = false;
+                        bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
                     }
                     break;
@@ -74,16 +77,19 @@ public class BossCtrl : EnemyBaseScript
                     if (BossDeepData.GetBDpData.toPossessParts != null)
                     {
                         possession();
+                        bp.First = true;
                         BossData.bossData.nowState = BossData.State.pos;
                     }
                     //もしぶつかる候補が無かったらパーツ無し状態へ
                     if (BossDeepData.GetBDpData.transforms.Count <= 0)
                     {
+                        bnp.First = true;
                         BossData.bossData.nowState = BossData.State.noP;
                     }
                     break;
                 case BossData.State.noP:
                     //NoParts処理
+                    bnp.move();
                     break;
             }
         }
@@ -104,10 +110,10 @@ public class BossCtrl : EnemyBaseScript
         bRenderer.enabled = true;
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
-
+        //BossDeepData.GetBDpData.toPossessParts = null;
         //ランダムな方向に弾かれて出てくる
         transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
-        Destroy(nowPe);
+        Destroy(nowPe.gameObject);
     }
 
     //とりあえずボスが倒されたらゲームクリアのメソッドを呼ぶ記述をしていますが、必要に応じて変更してください。
@@ -116,6 +122,13 @@ public class BossCtrl : EnemyBaseScript
     {
         base.EnemyDie();
         MainScript.GameClear(); //まだデバッグ出力がされるのみです。
+    }
+
+    public override void EnemyTakeDamage()
+    {
+        hp--;
+        takeDamage = true;
+        if (hp <= 0) EnemyDie();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -131,14 +144,4 @@ public class BossCtrl : EnemyBaseScript
             }
         }
     }
-}
-
-
-
-public class BossNoParts : MonoBehaviour, IBossStateRoot
-{
-    public bool First { get; set; }
-    public void attack() { }
-    public void defend() { }
-    public void move() { }
 }

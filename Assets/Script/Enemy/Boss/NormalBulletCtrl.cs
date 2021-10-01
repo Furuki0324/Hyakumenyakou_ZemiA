@@ -2,30 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EarBulletCtrl : MonoBehaviour
+public class NormalBulletCtrl : MonoBehaviour
 {
-    static Transform _EARBULLET_ANCHOR;
-    static Transform EARBULLET_ANCHOR
+    static Transform _NORMALBULLET_ANCHOR;
+    static Transform NORMALBULLET_ANCHOR
     {
         get
         {
-            if (_EARBULLET_ANCHOR == null)
+            if (_NORMALBULLET_ANCHOR == null)
             {
-                GameObject go = new GameObject("EARBULLET_ANCHOR");
-                _EARBULLET_ANCHOR = go.transform;
+                GameObject go = new GameObject("NORMALBULLET_ANCHOR");
+                _NORMALBULLET_ANCHOR = go.transform;
             }
-            return _EARBULLET_ANCHOR;
+            return _NORMALBULLET_ANCHOR;
         }
     }
 
     public Vector2 force;
 
+    public int damage;
     private Rigidbody2D rigid;
     private FacePartsBaseScript faceScript;
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        transform.SetParent(EARBULLET_ANCHOR);
+        transform.SetParent(NORMALBULLET_ANCHOR);
     }
 
     void Update()
@@ -42,7 +43,7 @@ public class EarBulletCtrl : MonoBehaviour
             if (other.gameObject.GetComponent<FacePartsBaseScript>())
             {
                 faceScript = other.gameObject.GetComponent<FacePartsBaseScript>();
-                faceScript.TakeDamage(BossData.bossData.earAttackPower);
+                faceScript.TakeDamage(damage);
                 Destroy(this.gameObject);
             }
         }

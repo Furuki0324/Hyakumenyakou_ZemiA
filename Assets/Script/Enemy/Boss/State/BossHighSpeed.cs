@@ -6,7 +6,8 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
 {
     //---------------------Private------------------
     private FacePartsBaseScript faceScript;
-    public Transform hsChaseTarget;
+    [SerializeField]
+    private Transform hsChaseTarget;
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -22,7 +23,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     public void defend() { }
     public void move()
     {
-        if (BossDeepData.GetBDpData.hsFirst)
+        if (First)
         {
             ResetTarget();
         }
@@ -38,7 +39,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
         BossDeepData.GetBDpData.transforms = MainScript.GetFaceObjectTransformInList();
         FindRandomTarget(BossDeepData.GetBDpData.transforms);
-        BossDeepData.GetBDpData.hsFirst = false;
+        First = false;
     }
 
     void FindRandomTarget(List<Transform> target)
