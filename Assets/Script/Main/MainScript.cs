@@ -6,13 +6,6 @@ using UnityEngine;
 
 public class MainScript : MonoBehaviour
 {
-    //------------------Singleton--------------------
-    private static MainScript _S;
-    public static MainScript S
-    {
-        get { return _S; }
-        set { _S = value; }
-    }
 
     //------------------------Public-----------------------
     public int defaultElementAmount;
@@ -49,8 +42,6 @@ public class MainScript : MonoBehaviour
     /// <param name="gameObject">リストに追加される対象</param>
     public static void AddFaceObject(GameObject gameObject)
     {
-        //if (!gameObject.GetComponent<EnemyCtrl>()) return;
-
         faceObjects.Add(gameObject);
     }
 
@@ -104,6 +95,7 @@ public class MainScript : MonoBehaviour
 
     public static void GameClear()
     {
-        Debug.Log("Game Clear");
+        int score = ResultCalculate.CalculateScore(faceObjects, GameObject.FindWithTag("Face_Nose"));
+        Debug.Log("Game Clear! Your score: " + score);
     }
 }

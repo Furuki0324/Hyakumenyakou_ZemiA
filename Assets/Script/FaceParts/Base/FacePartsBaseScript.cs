@@ -34,8 +34,9 @@ public class FacePartsBaseScript : MonoBehaviour
     /// </summary>
     public virtual void TakeDamage()
     {
+        health--;
         //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
-        if (health <= 0) Dead();
+        if (health <= 0) FacePartsDie();
     }
 
 
@@ -45,7 +46,8 @@ public class FacePartsBaseScript : MonoBehaviour
     /// <param name="damage">ダメージ量</param>
     public virtual void TakeDamage(int damage)
     {
-        if (health <= 0) Dead();
+        health -= damage;
+        if (health <= 0) FacePartsDie();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -84,7 +86,7 @@ public class FacePartsBaseScript : MonoBehaviour
     }
 
 
-    public virtual void Dead()
+    public virtual void FacePartsDie()
     {
         if (health > 0)
         {
@@ -94,7 +96,5 @@ public class FacePartsBaseScript : MonoBehaviour
 
         Destroy(gameObject);
         MainScript.RemoveFaceObject(this.gameObject);
-
-        
     }
 }

@@ -54,7 +54,6 @@ public class EnemyCtrl : EnemyBaseScript
     public void ResetTarget()
     {
         transforms.Clear();
-        transformList.Clear();
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
 
@@ -62,8 +61,6 @@ public class EnemyCtrl : EnemyBaseScript
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
 
         transforms = overLapper.GetChaseTargetInList();
-        //transformArray = MainScript.GetFaceObjectTransformsInArray();
-        transformList = MainScript.GetFaceObjectTransformInList();
 
         //Debug.Log(transforms.Count);
 

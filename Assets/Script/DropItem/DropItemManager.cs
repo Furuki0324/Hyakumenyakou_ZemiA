@@ -10,8 +10,9 @@ public class DropItemManager : MonoBehaviour
 
     //ENUM
     private enum SoundPattern { accessGranted, accessDenied}
-    
 
+    [Header("Bool")]
+    private bool lessTextShown;
 
     [Header("Option")]
     public bool LOCK;
@@ -71,6 +72,7 @@ public class DropItemManager : MonoBehaviour
         indicatorText = spendingElementIndicator.GetComponentInChildren<Text>();
 
         thisInstance.RefleshTexts();
+        StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 0));
     }
 
     public static void ObtainItem(string type, int amount = 1)
@@ -100,26 +102,6 @@ public class DropItemManager : MonoBehaviour
         //Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
     }
 
-    public static void CreateFaceParts(string type, int cost)
-    {
-        switch (type)
-        {
-            case "Face_Eye":
-                if(!(eyeElements - cost < 0)) eyeElements -= cost;
-                break;
-
-            case "Face_Ear":
-                if(!(earElements - cost < 0)) earElements -= cost;
-                break;
-
-            case "Face_Mouth":
-                if(!(mouthElements - cost < 0)) mouthElements -= cost;
-                break;
-        }
-
-        thisInstance.RefleshTexts();
-    }
-
 
     /// <summary>
     /// <para>使用するアイテムの素材量を確認し、素材量が消費量を満たしている場合は素材を消費してtrueを返します。</para>
@@ -129,6 +111,8 @@ public class DropItemManager : MonoBehaviour
     /// <returns></returns>
     public static bool CanUseElements(string type, int cost)
     {
+        Debug.Log(cost);
+
         int eye, ear, mouth;
         eye = eyeElements;
         ear = earElements;
@@ -156,13 +140,11 @@ public class DropItemManager : MonoBehaviour
             mouthElements = mouth;
 
             thisInstance.RefleshTexts();
-            Debug.Log("Use elements granted.");
             return true;
         }
         else
         {
             thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
-            Debug.Log("Use elements denied.");
             return false;
         }
 
@@ -264,6 +246,7 @@ public class DropItemManager : MonoBehaviour
             }
             else
             {
+                thisInstance.ShowText("LessElement");
                 thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
             }
 
@@ -326,5 +309,26 @@ public class DropItemManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void ShowText(string text)
+    {
+        switch (text)
+        {
+            case "LessElement":
+                lessElementWarning.gameObject.SetActive(true);
+                
+                if(!lessTextShown)  StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 3));
+                lessTextShown = true;
+                break;
+        }
+    }
+
+
+    IEnumerator DisableGameObject(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        obj.gameObject.SetActive(false);
+        lessTextShown = false;
     }
 }
