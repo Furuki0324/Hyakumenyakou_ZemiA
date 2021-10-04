@@ -8,9 +8,20 @@ public class DropItemManager : MonoBehaviour
     //Instance prototype
     private static DropItemManager thisInstance;
 
+    //ENUM
+    private enum SoundPattern { accessGranted, accessDenied}
+
+    [Header("Bool")]
+    private bool lessTextShown;
 
     [Header("Option")]
     public bool LOCK;
+
+    [Header("Sound")]
+    public AudioClip deniedSound;
+
+    [Header("AudioSource")]
+    private AudioSource audioSource;
 
     [Header("UI Image")]
     public Image spendingElementIndicator;
@@ -21,6 +32,7 @@ public class DropItemManager : MonoBehaviour
     public Text earElement;
     public Text mouthElement;
     private Text indicatorText;
+    public Text lessElementWarning;
 
     [Header("UI Position")]
     public RectTransform eyePoint;
@@ -53,11 +65,14 @@ public class DropItemManager : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         thisInstance = this;
 
         indicatorText = spendingElementIndicator.GetComponentInChildren<Text>();
 
         thisInstance.RefleshTexts();
+        StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 0));
     }
 
     public static void ObtainItem(string type, int amount = 1)
@@ -84,27 +99,7 @@ public class DropItemManager : MonoBehaviour
 
         thisInstance.RefleshTexts();
 
-        Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
-    }
-
-    public static void CreateFaceParts(string type, int cost)
-    {
-        switch (type)
-        {
-            case "Face_Eye":
-                if(!(eyeElements - cost < 0)) eyeElements -= cost;
-                break;
-
-            case "Face_Ear":
-                if(!(earElements - cost < 0)) earElements -= cost;
-                break;
-
-            case "Face_Mouth":
-                if(!(mouthElements - cost < 0)) mouthElements -= cost;
-                break;
-        }
-
-        thisInstance.RefleshTexts();
+        //Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
     }
 
 
@@ -116,6 +111,8 @@ public class DropItemManager : MonoBehaviour
     /// <returns></returns>
     public static bool CanUseElements(string type, int cost)
     {
+        Debug.Log(cost);
+
         int eye, ear, mouth;
         eye = eyeElements;
         ear = earElements;
@@ -143,12 +140,11 @@ public class DropItemManager : MonoBehaviour
             mouthElements = mouth;
 
             thisInstance.RefleshTexts();
-            Debug.Log("Use elements granted.");
             return true;
         }
         else
         {
-            Debug.Log("Use elements denied.");
+            thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
             return false;
         }
 
@@ -248,6 +244,11 @@ public class DropItemManager : MonoBehaviour
             {
                 spendingElement += add;
             }
+            else
+            {
+                thisInstance.ShowText("LessElement");
+                thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
+            }
 
             
         }
@@ -292,5 +293,42 @@ public class DropItemManager : MonoBehaviour
         }
 
         indicatorText.text = spendingElement.ToString();
+    }
+
+    private void PlaySoundEffect(SoundPattern pattern)
+    {
+        switch (pattern)
+        {
+            case SoundPattern.accessGranted:
+                break;
+
+            case SoundPattern.accessDenied:
+                audioSource.PlayOneShot(deniedSound);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void ShowText(string text)
+    {
+        switch (text)
+        {
+            case "LessElement":
+                lessElementWarning.gameObject.SetActive(true);
+                
+                if(!lessTextShown)  StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 3));
+                lessTextShown = true;
+                break;
+        }
+    }
+
+
+    IEnumerator DisableGameObject(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        obj.gameObject.SetActive(false);
+        lessTextShown = false;
     }
 }

@@ -5,15 +5,26 @@ using UnityEngine;
 public class EnemyDropItemCtrl : MonoBehaviour
 {
     //---------------------Public------------------------
+    [Tooltip("ドロップするアイテムの個数")]
+    public int amount = 1;
     public DropItem[] dropItems;
 
     
     public void DroppingItem()
     {
-        int index = Random.Range(0, dropItems.Length);
-        GameObject item = dropItems[index].item;
+        for(int i = 0; i < amount; i++)
+        {
+            int index = Random.Range(0, dropItems.Length);
+            DropItemScript item = dropItems[index].item;
 
-        Instantiate(item, transform.position, Quaternion.identity);
+            float deltaX = Random.Range(-1, 1);
+            float deltaY = Random.Range(-1, 1);
+
+
+            Instantiate(item, transform.position, Quaternion.identity);
+            //item.SetDelta(deltaX, deltaY);
+        }
+        
     }
 }
 
@@ -21,5 +32,5 @@ public class EnemyDropItemCtrl : MonoBehaviour
 public class DropItem
 {
     public string name;
-    public GameObject item;
+    public DropItemScript item;
 }

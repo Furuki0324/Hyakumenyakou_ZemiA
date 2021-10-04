@@ -85,8 +85,7 @@ public class EyeScript : FacePartsBaseScript
     */
     public override void TakeDamage()
     {
-        
-        health--;
+        base.TakeDamage();
 
         Debug.Log("Eye take damage.");
         /*
@@ -100,18 +99,16 @@ public class EyeScript : FacePartsBaseScript
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
 
-        base.Dead();
     }
 
     public override void TakeDamage(int damage)
     {
-        health -= damage;
+        base.TakeDamage(damage);
 
         volume += SPEED;
         volume = Mathf.Clamp(volume, -1, 1);
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
 
-        base.Dead();
     }
 }

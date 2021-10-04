@@ -229,10 +229,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f19e09538071e4496efda548b290c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amount: 1
   dropItems:
   - name: Eye
-    item: {fileID: 448066222237279572, guid: 1f27bc9aa38605b4e8cd5f1eb6ef2dd6, type: 3}
+    item: {fileID: -8728533284164751512, guid: 1f27bc9aa38605b4e8cd5f1eb6ef2dd6, type: 3}
   - name: Ear
-    item: {fileID: 3690620087082056270, guid: 4685ed57554537d438612659a8b88548, type: 3}
+    item: {fileID: 1318847021117410482, guid: 4685ed57554537d438612659a8b88548, type: 3}
   - name: Mouth
-    item: {fileID: 7935129962745745615, guid: 93789ff73aade44478af7e0de839029e, type: 3}
+    item: {fileID: -3534922099545318949, guid: 93789ff73aade44478af7e0de839029e, type: 3}

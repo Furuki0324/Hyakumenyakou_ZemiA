@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class NoseScript : FacePartsBaseScript
 {
-
-
     public AudioClip damageSound;
     private AudioSource audioSource;
 
@@ -16,15 +14,21 @@ public class NoseScript : FacePartsBaseScript
 
     public override void TakeDamage()
     {
-        health--;
+        base.TakeDamage();
 
         audioSource.PlayOneShot(damageSound);
     }
 
     public override void TakeDamage(int damage)
     {
-        health -= damage;
+        base.TakeDamage(damage);
 
-        audioSource.PlayOneShot(damageSound);
+        if(damageSound) audioSource.PlayOneShot(damageSound);
+    }
+
+    public override void FacePartsDie()
+    {
+        base.FacePartsDie();
+        MainScript.GameOver();
     }
 }

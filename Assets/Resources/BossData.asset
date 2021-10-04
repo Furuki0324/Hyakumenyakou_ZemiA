@@ -13,15 +13,22 @@ MonoBehaviour:
   m_Name: BossData
   m_EditorClassIdentifier: 
   nowState: 0
-  possPartsAttackPower: 1
-  possAttacksRange: 1
+  possAttackPowToParts: 1
+  possAttackToPartsInterval: 1
+  attacksRange: 1
   eyeAttackPower: 2
   eyeAttackInterval: 2.11
   eyeAttackSpeed: 2
   mouthAttackPower: 5
   mouthAttackInterval: 10
-  mouthAttackSpeed: 2
+  mouthAttackSpeed: 0.01
+  mouthAttackCurve: 0.005
   earAttackPower: 1
   earAttackInterval: 1.17
   earAttackSpeed: 2
-  hsSpeed: 1
+  hsSpeed: 3.51
+  noPAttackPowOfBullet: 2
+  noPAttackIntervalOfBullet: 0.67
+  noPAttackSpeed: 2
+  noPRandWalkInterval: 0.15
+  noPRandWalkSpeed: 14.61

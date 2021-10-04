@@ -20,11 +20,11 @@ public class EarBulletCtrl : MonoBehaviour
 
     public Vector2 force;
 
-    private Rigidbody2D earRigid;
+    private Rigidbody2D rigid;
     private FacePartsBaseScript faceScript;
     void Start()
     {
-        earRigid = gameObject.GetComponent<Rigidbody2D>();
+        rigid = gameObject.GetComponent<Rigidbody2D>();
         transform.SetParent(EARBULLET_ANCHOR);
     }
 
@@ -32,7 +32,7 @@ public class EarBulletCtrl : MonoBehaviour
     {
         //円形なのでいらない
         //transform.rotation = Quaternion.FromToRotation(Vector3.down, force);
-        earRigid.velocity = force;
+        rigid.velocity = force;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,7 +42,7 @@ public class EarBulletCtrl : MonoBehaviour
             if (other.gameObject.GetComponent<FacePartsBaseScript>())
             {
                 faceScript = other.gameObject.GetComponent<FacePartsBaseScript>();
-                faceScript.TakeDamage(BossData.bossData.eyeAttackPower);
+                faceScript.TakeDamage(BossData.bossData.earAttackPower);
                 Destroy(this.gameObject);
             }
         }

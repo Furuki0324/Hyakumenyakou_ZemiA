@@ -18,6 +18,10 @@ public class PhaseManager : MonoBehaviour
     public static int phaseNumber = 1;
 
     private static List<EnemyBaseScript> enemyList = new List<EnemyBaseScript>();
+    /// <summary>
+    /// <para>ボスがスポーンしているか</para>
+    /// </summary>
+    private static bool boss;
 
     private void Start()
     {
@@ -49,6 +53,11 @@ public class PhaseManager : MonoBehaviour
     /// </summary>
     public static void PhaseShift()
     {
+        if (boss)
+        {
+            return;
+        }
+
         phaseNumber++;
         
         if(time_ > 0)
@@ -58,6 +67,7 @@ public class PhaseManager : MonoBehaviour
         else
         {
             EnemySpawnManager.Singleton.SpawnBoss();
+            boss = true;
         }
         
 
@@ -71,13 +81,14 @@ public class PhaseManager : MonoBehaviour
     /// </summary>
     public static void HowManyEnemies()
     {
+        
         if (enemyList.Count <= 0) PhaseShift();
     }
 
     public static void AddEnemyList(EnemyBaseScript newEnemy)
     {
         enemyList.Add(newEnemy);
-        Debug.Log("Count" + enemyList.Count);
+        //Debug.Log("Count" + enemyList.Count);
     }
 
     public static void RemoveFromEnemyList(EnemyBaseScript removeEnemy)

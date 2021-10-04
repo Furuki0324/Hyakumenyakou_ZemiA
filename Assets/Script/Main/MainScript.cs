@@ -6,13 +6,6 @@ using UnityEngine;
 
 public class MainScript : MonoBehaviour
 {
-    //------------------Singleton--------------------
-    private static MainScript _S;
-    public static MainScript S
-    {
-        get { return _S; }
-        set { _S = value; }
-    }
 
     //------------------------Public-----------------------
     public int defaultElementAmount;
@@ -26,6 +19,14 @@ public class MainScript : MonoBehaviour
         Face_Ear
     }
 
+    //Debug
+    [SerializeField, ReadOnly]
+    private List<GameObject> debugger = new List<GameObject>();
+
+    private void Update()
+    {
+        debugger = faceObjects;
+    }
 
     private void Start()
     {
@@ -49,8 +50,6 @@ public class MainScript : MonoBehaviour
     /// <param name="gameObject">リストに追加される対象</param>
     public static void AddFaceObject(GameObject gameObject)
     {
-        //if (!gameObject.GetComponent<EnemyCtrl>()) return;
-
         faceObjects.Add(gameObject);
     }
 
@@ -104,6 +103,18 @@ public class MainScript : MonoBehaviour
 
     public static void GameClear()
     {
-        Debug.Log("Game Clear");
+        ResultData data = ResultCalculate.CalculateResultData(faceObjects, GameObject.FindWithTag("Face_Nose"));
+        Debug.Log("Game Clear! Your score: " + data.totalScore
+             + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
+             + "\nEar: " + data.earAmountScore
+             + "\nMouth: " + data.mouthAmountScore
+             + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
+             + "\nRightEye: " + data.rightEyeDistanceScore
+             + "\nLeftEar: " + data.leftEarDistanceScore
+             + "\nRightEar: " + data.rightEarDistanceScore
+             + "\nMouth: " + data.mouthDistanceScore
+             + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
+             + "\nEar: " + data.earSumScore
+             + "\nMouth: " + data.mouthSumScore);
     }
 }
