@@ -6,11 +6,8 @@ public class ResultCalculate : MonoBehaviour
 {
     [Header("Correct Point")]
     public Transform leftEye;
-    private static Transform _correctEye;
     public Transform leftEar;
-    private static Transform _correctEar;
     public Transform mouth;
-    private static Transform _correctMouth;
 
     [Header("Correct Amount")]
     public int eyeAmount = 2;
@@ -23,12 +20,8 @@ public class ResultCalculate : MonoBehaviour
     [Header("Dictionary")]
     private static Dictionary<string, Transform> correctPoints = new Dictionary<string, Transform>();
 
-    private void Start()
+    private void Awake()
     {
-        _correctEye = leftEye;
-        _correctEar = leftEar;
-        _correctMouth = mouth;
-
         correctPoints.Add("eye", leftEye);
         correctPoints.Add("ear", leftEar);
         correctPoints.Add("mouth", mouth);
@@ -37,6 +30,7 @@ public class ResultCalculate : MonoBehaviour
         _earAmount = earAmount;
         _mouthAmount = mouthAmount;
     }
+
 
     public static ResultData CalculateResultData(List<GameObject> faceObjects, GameObject noseAsCenter)
     {
@@ -66,8 +60,8 @@ public class ResultCalculate : MonoBehaviour
             data.eyeAmountScore = 0;
         }
 
-        data.leftEyeDistanceScore *= info.distanceRaio.leftEye;
-        data.rightEyeDistanceScore *= info.distanceRaio.rightEye;
+        data.leftEyeDistanceScore *= info.distanceRatio.leftEye;
+        data.rightEyeDistanceScore *= info.distanceRatio.rightEye;
 
         
 
@@ -95,8 +89,8 @@ public class ResultCalculate : MonoBehaviour
             data.earAmountScore = 0;
         }
 
-        data.leftEarDistanceScore *= info.distanceRaio.leftEar;
-        data.rightEarDistanceScore *= info.distanceRaio.rightEar;
+        data.leftEarDistanceScore *= info.distanceRatio.leftEar;
+        data.rightEarDistanceScore *= info.distanceRatio.rightEar;
 
         
         #endregion
@@ -123,7 +117,8 @@ public class ResultCalculate : MonoBehaviour
             data.mouthAmountScore = 0;
         }
 
-        data.mouthDistanceScore *= info.distanceRaio.mouth;
+        if (info.distanceRatio.mouth > 1) data.mouthDistanceScore *= (1 - (info.distanceRatio.mouth - 1));
+        else data.mouthDistanceScore *= info.distanceRatio.mouth;
 
         #endregion
 
@@ -131,7 +126,7 @@ public class ResultCalculate : MonoBehaviour
 
         data.eyeSumScore = Mathf.RoundToInt(data.eyeAmountScore + Mathf.RoundToInt((data.leftEyeDistanceScore + data.rightEyeDistanceScore) / 2) / 2);
         data.earSumScore = Mathf.RoundToInt(data.earAmountScore + Mathf.RoundToInt((data.leftEarDistanceScore + data.rightEarDistanceScore) / 2) / 2);
-        data.mouthSumScore = Mathf.RoundToInt(data.mouthAmountScore * data.mouthDistanceScore);
+        data.mouthSumScore = Mathf.RoundToInt((data.mouthAmountScore + data.mouthDistanceScore) / 2);
 
         data.totalScore = data.eyeSumScore + data.earSumScore + data.mouthSumScore;
 
@@ -311,12 +306,12 @@ class DistanceRatioData
 class CalculateInfo
 {
     public Dictionary<string, GameObject[]> splitFace = new Dictionary<string, GameObject[]>();
-    public DistanceRatioData distanceRaio;
+    public DistanceRatioData distanceRatio;
 
     public CalculateInfo(List<GameObject> faceObjects, GameObject noseAsCenter, Dictionary<string,Transform> correctPoints)
     {
         GetEachObjectOnField(faceObjects);
-        distanceRaio = new DistanceRatioData(splitFace, correctPoints, noseAsCenter);
+        distanceRatio = new DistanceRatioData(splitFace, correctPoints, noseAsCenter);
     }
 
     private void GetEachObjectOnField(List<GameObject> faceObjects)

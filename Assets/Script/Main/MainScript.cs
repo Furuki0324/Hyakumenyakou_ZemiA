@@ -112,6 +112,9 @@ public class MainScript : MonoBehaviour
              + "\nRightEye: " + data.rightEyeDistanceScore
              + "\nLeftEar: " + data.leftEarDistanceScore
              + "\nRightEar: " + data.rightEarDistanceScore
-             + "\nMouth: " + data.mouthDistanceScore);
+             + "\nMouth: " + data.mouthDistanceScore
+             + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
+             + "\nEar: " + data.earSumScore
+             + "\nMouth: " + data.mouthSumScore);
     }
 }
