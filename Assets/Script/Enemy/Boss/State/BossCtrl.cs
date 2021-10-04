@@ -43,7 +43,6 @@ public class BossCtrl : EnemyBaseScript
 
     void Update()
     {
-        print(BossDeepData.GetBDpData.toPossessParts);
         if (time <= 0)
         {
             switch (BossData.bossData.nowState)
@@ -52,14 +51,14 @@ public class BossCtrl : EnemyBaseScript
                     bp.attack();
                     if (BossDeepData.GetBDpData.toPossessParts == null)
                     {
-                        bp.stopAllCoroutine();
+                        bp.stopHavingAllCoroutine();
                         unPossession();
                         bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
                     }
                     if (takeDamage)
                     {
-                        bp.stopAllCoroutine();
+                        bp.stopHavingAllCoroutine();
                         takeDamage = false;
                         unPossession();
                         bdc.First = true;
@@ -71,7 +70,7 @@ public class BossCtrl : EnemyBaseScript
                     bdc.move();
                     if (takeDamage)
                     {
-                        bdc.stopAllCoroutine();
+                        bdc.stopHavingAllCoroutine();
                         takeDamage = false;
                         bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
@@ -82,7 +81,7 @@ public class BossCtrl : EnemyBaseScript
                     //もしぶつかったら憑依、憑依状態へ
                     if (BossDeepData.GetBDpData.toPossessParts != null)
                     {
-                        bhs.stopAllCoroutine();
+                        bhs.stopHavingAllCoroutine();
                         possession();
                         bp.First = true;
                         BossData.bossData.nowState = BossData.State.pos;
@@ -90,7 +89,7 @@ public class BossCtrl : EnemyBaseScript
                     //もしぶつかる候補が無かったらパーツ無し状態へ
                     if (BossDeepData.GetBDpData.transforms.Count <= 0)
                     {
-                        bhs.stopAllCoroutine();
+                        bhs.stopHavingAllCoroutine();
                         bnp.First = true;
                         BossData.bossData.nowState = BossData.State.noP;
                     }

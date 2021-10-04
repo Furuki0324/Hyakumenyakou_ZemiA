@@ -68,7 +68,7 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
         }
     }
 
-    public void stopAllCoroutine(){
+    public void stopHavingAllCoroutine(){
         StopCoroutine(PossPartsDamage());
         StopCoroutine(TearGenerator());
         StopCoroutine(VoiceGenerator());

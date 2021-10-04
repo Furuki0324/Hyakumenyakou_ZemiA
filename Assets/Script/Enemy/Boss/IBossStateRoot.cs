@@ -10,5 +10,5 @@ public interface IBossStateRoot
     void attack();
     void defend();
     void move();
-    void stopAllCoroutine();
+    void stopHavingAllCoroutine();
 }

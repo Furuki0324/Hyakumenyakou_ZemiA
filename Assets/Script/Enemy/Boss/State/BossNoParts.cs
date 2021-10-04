@@ -30,7 +30,7 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
         }
     }
 
-    public void stopAllCoroutine(){
+    public void stopHavingAllCoroutine(){
         StopCoroutine(RandomWalk());
         StopCoroutine(BulletGenerator());
     }

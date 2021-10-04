@@ -29,7 +29,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         }
         chase();
     }
-    public void stopAllCoroutine(){ }
+    public void stopHavingAllCoroutine(){ }
 
     public void ResetTarget()
     {
