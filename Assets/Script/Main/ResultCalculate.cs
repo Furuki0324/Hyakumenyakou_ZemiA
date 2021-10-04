@@ -124,8 +124,8 @@ public class ResultCalculate : MonoBehaviour
 
         #region Sum up
 
-        data.eyeSumScore = Mathf.RoundToInt(data.eyeAmountScore + Mathf.RoundToInt((data.leftEyeDistanceScore + data.rightEyeDistanceScore) / 2) / 2);
-        data.earSumScore = Mathf.RoundToInt(data.earAmountScore + Mathf.RoundToInt((data.leftEarDistanceScore + data.rightEarDistanceScore) / 2) / 2);
+        data.eyeSumScore = Mathf.RoundToInt((data.eyeAmountScore + Mathf.RoundToInt((data.leftEyeDistanceScore + data.rightEyeDistanceScore)) / 2) / 2);
+        data.earSumScore = Mathf.RoundToInt((data.earAmountScore + Mathf.RoundToInt((data.leftEarDistanceScore + data.rightEarDistanceScore)) / 2) / 2);
         data.mouthSumScore = Mathf.RoundToInt((data.mouthAmountScore + data.mouthDistanceScore) / 2);
 
         data.totalScore = data.eyeSumScore + data.earSumScore + data.mouthSumScore;
