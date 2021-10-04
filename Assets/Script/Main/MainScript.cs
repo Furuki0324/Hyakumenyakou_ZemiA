@@ -19,6 +19,14 @@ public class MainScript : MonoBehaviour
         Face_Ear
     }
 
+    //Debug
+    [SerializeField, ReadOnly]
+    private List<GameObject> debugger = new List<GameObject>();
+
+    private void Update()
+    {
+        debugger = faceObjects;
+    }
 
     private void Start()
     {
@@ -96,6 +104,14 @@ public class MainScript : MonoBehaviour
     public static void GameClear()
     {
         ResultData data = ResultCalculate.CalculateResultData(faceObjects, GameObject.FindWithTag("Face_Nose"));
-        Debug.Log("Game Clear! Your score: " + data.eyeAmountScore);
+        Debug.Log("Game Clear! Your score: " + data.totalScore
+             + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
+             + "\nEar: " + data.earAmountScore
+             + "\nMouth: " + data.mouthAmountScore
+             + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
+             + "\nRightEye: " + data.rightEyeDistanceScore
+             + "\nLeftEar: " + data.leftEarDistanceScore
+             + "\nRightEar: " + data.rightEarDistanceScore
+             + "\nMouth: " + data.mouthDistanceScore);
     }
 }
