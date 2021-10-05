@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6645598760130091079}
   - component: {fileID: 790463162}
   m_Layer: 13
-  m_Name: MouthVoice
+  m_Name: mouthVoice
   m_TagString: Bezier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

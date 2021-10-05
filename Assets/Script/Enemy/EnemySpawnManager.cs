@@ -34,34 +34,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
-        //敵のスポーンポイントの管理。最終的にはこちらになる予定
-        /*
-        points = spawnPointParent.GetComponentsInChildren<Transform>();
-        spawnPoints.Capacity = points.Length;
-        Debug.Log(spawnPoints.Capacity);
-        for(int i = 0; i < points.Length; i++)
-        {
-            spawnPoints[i].transforms = points[i];
-        }
-        */
-
         //Spawn first enemies
         for(int i = 0; i < spawnSize; i++)
         {
             SpawnOutsideCamera();
-        }
-    }
-
-    private void Update()
-    {
-        //フェーズ管理機能が完成し次第、この時間経過でのスポーンは停止
-        if (Time.time > cacheTime + interval)
-        {
-            for(int i = 0; i < spawnSize; i++)
-            {
-                //SpawnEnemy();
-            }
-            cacheTime = Time.time;
         }
     }
 
