@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define USE_CUSTOM_EDITOR
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
@@ -22,15 +24,15 @@ public class MouthScript : FacePartsBaseScript
         }
     }
 
-    private static int volume = -5;
-    // Start is called before the first frame update
-    [SerializeField] AudioMixer mixer;
-    private AudioSource SE;
-    private AudioClip SECLIP;
+    private float defaultVolume = 0.5f;
+
+    [Header("Timer")]
+    private float nextSoundTime = 0;
+
 
     [SerializeField] List<AudioClip> highSound = new List<AudioClip>();
     [SerializeField] List<AudioClip> lowSound = new List<AudioClip>();
-
+    private AudioClip lastClip;
     
 
 
@@ -43,63 +45,74 @@ public class MouthScript : FacePartsBaseScript
     }
 
 
-    private void Volume(float a)
-    {
-        switch (a)
-        {
-            case 0.8f:
-                volume += 2;
-                break;
-
-            case 0.6f:
-                volume ++;
-                break;
-
-            case 0.4f:
-                volume --;
-                break;
-        }
-        mixer.SetFloat("SE", volume);
-    }
 
 
     void Start()
     {
         transform.SetParent(MOUTH_ANCHOR);
-
-        SE = GetComponent<AudioSource>();
-        mixer.SetFloat("SE", volume);
-
-        SetCache();
+        Debug.Log(highSound.Count);
     }
-    //private float cacheTime = 0;
-    // Update is called once per frame
 
-
-    public override void TakeDamage()
-    {
-        base.TakeDamage();
-
-        SE.PlayOneShot(SECLIP);
-        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
-
-        
-    }
 
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
+        PlaySound();
+    }
 
-        SE.PlayOneShot(SECLIP);
-        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+    private void PlaySound()
+    {
+        if(Time.time > nextSoundTime && health >= 1)
+        {
 
+            AudioClip audio = GetRandomClip();
+            audioSource.PlayOneShot(audio);
+
+            nextSoundTime = Time.time + audio.length;
+        }
+        
     }
 
 
+    private AudioClip GetRandomClip()
+    {
+        AudioClip clip;
+        float ratio = SetVolume();
+        Debug.Log("Ratio:" + ratio);
+
+        int index;
+        do
+        {
+            if (ratio >= 0.5) //Healthが50%以上
+            {
+                index = Random.Range(0, highSound.Count);
+                clip = highSound[index];
+            }
+            else
+            {
+                index = Random.Range(0, lowSound.Count);
+                clip = lowSound[index];
+            }
+        } while (clip == lastClip);
+        
+
+        lastClip = clip;
+
+        return clip;
+    }
+
+    private float SetVolume()
+    {
+        float ratio = (float)health / cacheHealth;
+        Debug.Log("R:" + ratio);
+
+        audioSource.volume = 1 - defaultVolume * ratio;
+
+        return ratio;
+    }
+
+
+#if USE_CUSTOM_EDITOR
     #region Custom Editor
 
 #if UNITY_EDITOR
@@ -112,6 +125,8 @@ public class MouthScript : FacePartsBaseScript
         int deleteAt = 0;
         int deleteAtInLow = 0;
 
+        float time;
+
         public override void OnInspectorGUI()
         {
             MouthScript mouth = target as MouthScript;
@@ -122,11 +137,14 @@ public class MouthScript : FacePartsBaseScript
             mouth.scale = EditorGUILayout.FloatField(mouth.scale, GUILayout.Width(48));
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.Space();
 
-            //AudioMixer
-            AudioMixer mixer = mouth.mixer;
-            mixer = EditorGUILayout.ObjectField(mixer, typeof(AudioMixer), true) as AudioMixer;
+            EditorGUILayout.LabelField("Dead Sound");
+            mouth.deadSound = EditorGUILayout.ObjectField(mouth.deadSound, typeof(AudioClip), true) as AudioClip;
 
+            EditorGUILayout.Space();
+            time = EditorGUILayout.FloatField(mouth.nextSoundTime);
+            
             EditorGUILayout.Space();
 
             #region High HP
@@ -199,11 +217,17 @@ public class MouthScript : FacePartsBaseScript
             {
                 lowClips.Clear();
             }
+
+
+            mouth.highSound = clips;
+            mouth.lowSound = lowClips;
             #endregion
         }
     }
 
 #endif
 
-#endregion
+    #endregion
+
+#endif
 }

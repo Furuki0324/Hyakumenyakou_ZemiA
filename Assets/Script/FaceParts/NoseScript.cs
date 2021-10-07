@@ -5,7 +5,7 @@ using UnityEngine;
 public class NoseScript : FacePartsBaseScript
 {
     public AudioClip damageSound;
-    private AudioSource audioSource;
+    private float nextTime;
 
     private void Start()
     {
@@ -23,7 +23,11 @@ public class NoseScript : FacePartsBaseScript
     {
         base.TakeDamage(damage);
 
-        if(damageSound) audioSource.PlayOneShot(damageSound);
+        if (damageSound && Time.time > nextTime)
+        {
+            audioSource.PlayOneShot(damageSound);
+            nextTime = Time.time + damageSound.length;
+        }
     }
 
     public override void FacePartsDie()
