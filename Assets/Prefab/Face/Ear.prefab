@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6107900001268447118}
   - component: {fileID: -6981721586349180284}
   - component: {fileID: 2284708616996232226}
+  - component: {fileID: 9037241078437758273}
   m_Layer: 11
   m_Name: Ear
   m_TagString: Face_Ear
@@ -97,7 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 0.1
   health: 20
-  hp: 20
   mixer: {fileID: 24100000, guid: 241baac3dc0445849a2178dc228a0f8d, type: 2}
 --- !u!61 &2284708616996232226
 BoxCollider2D:
@@ -125,3 +125,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.84, y: 2.8}
   m_EdgeRadius: 0
+--- !u!95 &9037241078437758273
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763624083083378975}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f234e65f7c7195e4184beb08b0363730, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
