@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 2491290937116486142}
   - component: {fileID: 1318847021117410482}
   - component: {fileID: 8013615293456658872}
+  - component: {fileID: -2579337748501264914}
   m_Layer: 14
   m_Name: EarElement
   m_TagString: EarElement
@@ -205,3 +206,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.87, y: 2.92}
   m_EdgeRadius: 0
+--- !u!95 &-2579337748501264914
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690620087082056270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d1269a046165b3548a7e8873e819fa74, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
