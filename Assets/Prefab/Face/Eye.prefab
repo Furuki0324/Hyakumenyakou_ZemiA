@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4638012785722636012}
   - component: {fileID: 4496398511603515650}
   - component: {fileID: 4950076982354527330}
+  - component: {fileID: 4864566298659938849}
   m_Layer: 11
   m_Name: Eye
   m_TagString: Face_Eye
@@ -97,7 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 0.5
   health: 10
-  hp: 20
   EYE: {fileID: 0}
   SPEED: 0.05
 --- !u!61 &4950076982354527330
@@ -126,3 +126,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.19, y: 1.76}
   m_EdgeRadius: 0
+--- !u!95 &4864566298659938849
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9131252173554870473}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0cdeaaccf85172489f6febeb341bf88, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
