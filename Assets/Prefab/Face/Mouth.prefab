@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -175860564316748205}
   - component: {fileID: 3026644177396801220}
   - component: {fileID: 9031088364722813378}
+  - component: {fileID: -3730555152093477624}
   m_Layer: 11
   m_Name: Mouth
   m_TagString: Face_Mouth
@@ -96,10 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a46caac7ee1b549a45ffaaf032d9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: 0
   health: 20
-  interval: 1
-  enemiesNearby: []
-  hp: 20
   mixer: {fileID: 24100000, guid: 241baac3dc0445849a2178dc228a0f8d, type: 2}
   SECLIP: {fileID: 8300000, guid: 286e5dd5a2435cb4bb1305a0fae540d1, type: 3}
 --- !u!61 &3026644177396801220
@@ -225,3 +224,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &-3730555152093477624
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501781509327110247}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c248c48b3a9ec584686783565a0f1484, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
