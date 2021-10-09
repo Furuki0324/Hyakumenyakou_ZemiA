@@ -21,7 +21,7 @@ public class EnemyCtrl : EnemyBaseScript
     public Transform chaseTarget;
     public float speed;
 
-    [Header("Set Trigger Target")]
+    [Header("Set Trigger Tag")]
     public string triggerTag;
 
     [Header("Aim core only")]
@@ -32,6 +32,7 @@ public class EnemyCtrl : EnemyBaseScript
     private Rigidbody2D rigid2D;
     private EnemyOverlapper overLapper;
     private FacePartsBaseScript faceScript;
+    private Vector3 scale;
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -57,8 +58,10 @@ public class EnemyCtrl : EnemyBaseScript
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
 
+        /*
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+        */
 
         transforms = overLapper.GetChaseTargetInList();
 
@@ -93,12 +96,17 @@ public class EnemyCtrl : EnemyBaseScript
             }
         }
 
+        /*
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+        */
     }
 
     void Start()
     {
+        scale = transform.localScale;
+        if(attackEffect) _effect = Instantiate(attackEffect, GameObject.Find("EffectCanvas").transform);
+
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
         ResetTarget();
@@ -109,6 +117,7 @@ public class EnemyCtrl : EnemyBaseScript
     void Update()
     {
         Chase();
+        FlipFlop();
     }
 
     private void Chase()
@@ -141,11 +150,27 @@ public class EnemyCtrl : EnemyBaseScript
     IEnumerator Attack()
     {
         if (!faceScript) yield break;
+
+        if (attackEffect)
+        {
+            _effect.transform.position = faceScript.transform.position;
+            _effect.Play();
+        }
+       
         //faceScript.TakeDamage();
         faceScript.TakeDamage(attackPower);
 
         //インターバルをはさんだ後に同じ処理を繰り返します
         yield return new WaitForSeconds(attackInterval);
         StartCoroutine(Attack());
+    }
+
+    private void FlipFlop()
+    {
+        Vector3 newScale = scale;
+        if (transform.position.x <= 0) newScale.x = -scale.x;
+        else newScale.x = scale.x;
+
+        transform.localScale = newScale;
     }
 }

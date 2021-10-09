@@ -7,6 +7,11 @@ public class PlayerRepairFace : MonoBehaviour
     //Public
     public KeyCode repairKey;
     public float radius;
+
+    [Header("Effect")]
+    [SerializeField] UnityEngine.Video.VideoPlayer effect;
+    [SerializeField] Transform parentCanvas;
+
     [Header("Particle")]
     public ParticleSystem repairParticle;
 
@@ -53,7 +58,8 @@ public class PlayerRepairFace : MonoBehaviour
         {
             if(repairTarget.Damaged() && DropItemManager.CanUseElements(repairTarget.tag, 1))
             {
-                Instantiate(repairParticle, repairTarget.transform.position, Quaternion.identity);
+                //Instantiate(repairParticle, repairTarget.transform.position, Quaternion.identity);
+                Instantiate(effect, repairTarget.transform.position, Quaternion.identity, parentCanvas);
                 repairTarget.Repaired(1);
             }
         }

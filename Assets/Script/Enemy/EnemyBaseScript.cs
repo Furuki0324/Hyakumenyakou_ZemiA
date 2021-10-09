@@ -9,6 +9,10 @@ public class EnemyBaseScript : MonoBehaviour
     public int attackPower = 1;
     public float attackInterval = 1;
 
+    [Header("Attack effect")]
+    public UnityEngine.Video.VideoPlayer attackEffect;
+    protected UnityEngine.Video.VideoPlayer _effect;
+
     [Header("Option")]
     public AudioClip deadSound;
     public ParticleSystem deadParticle;

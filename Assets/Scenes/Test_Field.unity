@@ -659,6 +659,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   repairKey: 32
   radius: 2
+  effect: {fileID: 4005552488146070684, guid: 3682d7b5c63fc1940bbf204dee2e0c2e, type: 3}
+  parentCanvas: {fileID: 1367691794}
   repairParticle: {fileID: 7841211404847478983, guid: 55d3cb279a8ee8041a7cb1c606cb8931,
     type: 3}
   repairTarget: {fileID: 0}
@@ -1624,10 +1626,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 12.2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1651,7 +1653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994697576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.81, y: 0, z: -10}
+  m_LocalPosition: {x: -0.21, y: 2.57, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2539,7 +2541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1367691791
 MonoBehaviour:
   m_ObjectHideFlags: 0
