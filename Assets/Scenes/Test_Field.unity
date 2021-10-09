@@ -1405,7 +1405,7 @@ AudioSource:
   m_GameObject: {fileID: 811306875}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4028681156787846928, guid: 241baac3dc0445849a2178dc228a0f8d,
+  OutputAudioMixerGroup: {fileID: -7903834608199440022, guid: 241baac3dc0445849a2178dc228a0f8d,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
@@ -1999,7 +1999,7 @@ AudioSource:
   m_GameObject: {fileID: 1022416079}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4028681156787846928, guid: 241baac3dc0445849a2178dc228a0f8d,
+  OutputAudioMixerGroup: {fileID: -5096387652062387126, guid: 241baac3dc0445849a2178dc228a0f8d,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
@@ -2100,8 +2100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scale: 0
-  health: 100
+  health: 1
   deadSound: {fileID: 0}
+  immortal: 1
   damageSound: {fileID: 8300000, guid: 5d241862d2919c942a988ca924f12417, type: 3}
 --- !u!212 &1022416084
 SpriteRenderer:

@@ -1,7 +1,10 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(BezierPoint))]
 [CanEditMultipleObjects]
 public class BezierPointEditor : Editor {
@@ -150,3 +153,5 @@ public class BezierPointEditor : Editor {
 		p.handle2 = Vector3.zero;
 	}
 }
+
+#endif
