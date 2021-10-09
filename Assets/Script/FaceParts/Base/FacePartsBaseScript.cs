@@ -22,7 +22,9 @@ public class FacePartsBaseScript : MonoBehaviour
     [Header("Sound")]
     protected AudioSource audioSource;
     public AudioClip deadSound;
-   
+
+    [Header("Other")]
+    public bool immortal;
 
     private void Initialize()
     {
@@ -50,7 +52,7 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         health--;
         //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
-        if (health <= 0) FacePartsDie();
+        if (health <= 0 && !immortal) FacePartsDie();
     }
 
 
@@ -61,7 +63,7 @@ public class FacePartsBaseScript : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0) FacePartsDie();
+        if (health <= 0 && !immortal) FacePartsDie();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

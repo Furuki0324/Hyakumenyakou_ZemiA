@@ -73,8 +73,8 @@ public class EnemySpawnManager : MonoBehaviour
 
         do
         {
-            spawnPosition.x = Random.Range(-0.5f, 1.5f);
-            spawnPosition.y = Random.Range(-0.5f, 1.5f);
+            spawnPosition.x = Random.Range(-0.2f, 1.2f);
+            spawnPosition.y = Random.Range(-0.2f, 1.2f);
 
         } while (InTheRange(spawnPosition.x, 0, 1) && InTheRange(spawnPosition.y, 0, 1));
 
