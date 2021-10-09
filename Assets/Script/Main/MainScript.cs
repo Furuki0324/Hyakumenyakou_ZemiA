@@ -19,20 +19,12 @@ public class MainScript : MonoBehaviour
         Face_Ear
     }
 
-    //Debug
-    [SerializeField, ReadOnly]
-    private List<GameObject> debugger = new List<GameObject>();
-
-    private void Update()
-    {
-        debugger = faceObjects;
-    }
 
     private void Start()
     {
-        DropItemManager.ObtainItem("EyeElement", defaultElementAmount);
-        DropItemManager.ObtainItem("EarElement", defaultElementAmount);
-        DropItemManager.ObtainItem("MouthElement", defaultElementAmount);
+        DropItemManager.ObtainItem("EyeElement", defaultElementAmount, true);
+        DropItemManager.ObtainItem("EarElement", defaultElementAmount, true);
+        DropItemManager.ObtainItem("MouthElement", defaultElementAmount, true);
 
         //開始時点で配置されているパーツを追加
         foreach (string i in Enum.GetNames(typeof(tags)))

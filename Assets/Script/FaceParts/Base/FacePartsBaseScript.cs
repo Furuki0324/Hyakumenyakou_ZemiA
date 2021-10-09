@@ -4,21 +4,35 @@ using UnityEngine;
 
 public class FacePartsBaseScript : MonoBehaviour
 {
+    private void Awake()
+    {
+        Initialize();
+    }
+
+
     [Header("Scale factor")]
     [Tooltip("素材消費量が1増えた際の耐久値の増加率")]
     [Range(0,1)]
     public float scale;
 
-    [Header("Setting in base script")]
+    [Header("HP")]
     public int health;
     protected int cacheHealth;
-    
 
+    [Header("Sound")]
+    protected AudioSource audioSource;
+    public AudioClip deadSound;
+   
 
-    private void Start()
+    private void Initialize()
     {
-        TakeDamage();
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         SetCache();
+        Debug.Log("Initialized.");
     }
 
     public void SetCache()
@@ -88,6 +102,12 @@ public class FacePartsBaseScript : MonoBehaviour
 
     public virtual void FacePartsDie()
     {
+        if (deadSound)
+        {
+            StartCoroutine(FacePartsDestroyAfterSound(deadSound.length));
+            return;
+        }
+
         if (health > 0)
         {
             //Debug.Log("Do not die");
@@ -96,5 +116,18 @@ public class FacePartsBaseScript : MonoBehaviour
 
         Destroy(gameObject);
         MainScript.RemoveFaceObject(this.gameObject);
+    }
+
+    public virtual IEnumerator FacePartsDestroyAfterSound(float wait)
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+
+        audioSource.PlayOneShot(deadSound);
+        yield return new WaitForSeconds(wait * 1.1f);
+        
+        Destroy(gameObject);
+        yield return null;
     }
 }

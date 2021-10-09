@@ -9,7 +9,7 @@ public class DropItemManager : MonoBehaviour
     private static DropItemManager thisInstance;
 
     //ENUM
-    private enum SoundPattern { accessGranted, accessDenied}
+    private enum SoundPattern { obtainItem, createFace, accessDenied}
 
     [Header("Bool")]
     private bool lessTextShown;
@@ -18,6 +18,8 @@ public class DropItemManager : MonoBehaviour
     public bool LOCK;
 
     [Header("Sound")]
+    public AudioClip obtainItemSound;
+    public AudioClip createFaceSound;
     public AudioClip deniedSound;
 
     [Header("AudioSource")]
@@ -75,7 +77,7 @@ public class DropItemManager : MonoBehaviour
         StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 0));
     }
 
-    public static void ObtainItem(string type, int amount = 1)
+    public static void ObtainItem(string type, int amount = 1, bool initialize = false)
     {
 
         switch (type)
@@ -97,9 +99,9 @@ public class DropItemManager : MonoBehaviour
                 break;
         }
 
+        if(!initialize) thisInstance.PlaySoundEffect(SoundPattern.obtainItem);
         thisInstance.RefleshTexts();
 
-        //Debug.Log("EyeElements: " + eyeElements + " EarElements: " + earElements + " MouthElements: " + mouthElements);
     }
 
 
@@ -163,6 +165,8 @@ public class DropItemManager : MonoBehaviour
         {
             spendingElementHolder = spendingElement;
             spendingElement = 0;
+
+            thisInstance.PlaySoundEffect(SoundPattern.createFace);
             thisInstance.RefleshTexts();
             return true;
         }
@@ -230,8 +234,7 @@ public class DropItemManager : MonoBehaviour
     /// <param name="add"></param>
     public static void MoreSpendingElement(string type, int add = 1)
     {
-        int tryGetValue;
-        if (dictionary.TryGetValue(type,out tryGetValue))
+        if (dictionary.TryGetValue(type,out int tryGetValue))
         {
             //新たに選択されたアイテムが以前のものと違う場合は消費量をリセットします
             if (!(selectedItem == tryGetValue))
@@ -299,7 +302,12 @@ public class DropItemManager : MonoBehaviour
     {
         switch (pattern)
         {
-            case SoundPattern.accessGranted:
+            case SoundPattern.obtainItem:
+                audioSource.PlayOneShot(obtainItemSound);
+                break;
+
+            case SoundPattern.createFace:
+                audioSource.PlayOneShot(createFaceSound);
                 break;
 
             case SoundPattern.accessDenied:

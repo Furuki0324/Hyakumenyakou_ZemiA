@@ -96,12 +96,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a46caac7ee1b549a45ffaaf032d9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
-  interval: 1
-  enemiesNearby: []
-  hp: 20
-  mixer: {fileID: 24100000, guid: 241baac3dc0445849a2178dc228a0f8d, type: 2}
-  SECLIP: {fileID: 8300000, guid: 286e5dd5a2435cb4bb1305a0fae540d1, type: 3}
+  scale: 0
+  health: 10
+  deadSound: {fileID: 8300000, guid: d3bf732098f59604d9eca878c6913de0, type: 3}
+  highSound:
+  - {fileID: 8300000, guid: 4854487179a6dce4b9208327833d01cf, type: 3}
+  - {fileID: 8300000, guid: b3c8dd13b3f0e94448250da9035ac03f, type: 3}
+  - {fileID: 8300000, guid: 1a4f4b8a6c8483141aa884f838ddbb29, type: 3}
+  lowSound:
+  - {fileID: 8300000, guid: 41023110fd88d014a93806143f5b2cc6, type: 3}
+  - {fileID: 8300000, guid: 6eafe38a99b97db4cb253f847640690c, type: 3}
+  - {fileID: 8300000, guid: 2e2e96f688eca7d45ac33dae3c1eb979, type: 3}
+  - {fileID: 8300000, guid: 1116bcbb320acb54ab256783205d9242, type: 3}
+  - {fileID: 8300000, guid: b28f64f95c88e344ba826e4d0b03cb6f, type: 3}
 --- !u!61 &3026644177396801220
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -137,11 +144,11 @@ AudioSource:
   m_GameObject: {fileID: 501781509327110247}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4028681156787846928, guid: 241baac3dc0445849a2178dc228a0f8d,
+  OutputAudioMixerGroup: {fileID: 4990049613877156175, guid: 241baac3dc0445849a2178dc228a0f8d,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

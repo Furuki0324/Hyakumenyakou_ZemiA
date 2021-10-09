@@ -10,6 +10,7 @@ public class EnemyBaseScript : MonoBehaviour
     public float attackInterval = 1;
 
     [Header("Option")]
+    public AudioClip deadSound;
     public ParticleSystem deadParticle;
 
 
@@ -22,7 +23,9 @@ public class EnemyBaseScript : MonoBehaviour
 
     public virtual void EnemyDie()
     {
+        //if(deadSound)
         if (deadParticle) Instantiate(deadParticle, transform.position, Quaternion.identity);
+        
 
         EnemyDropItemCtrl dropCtrl;
 
