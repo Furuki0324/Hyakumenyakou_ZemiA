@@ -9,12 +9,6 @@ using UnityEngine;
 public class EnemyCtrl : EnemyBaseScript
 {
     //---------------------Public------------------
-    /*この3ステータスはベーススクリプトへ移行しました。
-    [Header("Status")]
-    public int hp;
-    public int attackPower = 1;
-    public float attackInterval = 1;
-    */
 
     [Header("Property to chase target")]
     public float limitAngle;
@@ -177,10 +171,19 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void FlipFlop()
     {
+        /*
         Vector3 newScale = scale;
         if (transform.position.x <= 0) newScale.x = -scale.x;
         else newScale.x = scale.x;
+        
 
         transform.localScale = newScale;
+        */
+
+        Quaternion newRotation = Quaternion.identity;
+        if (transform.position.x <= 0) newRotation.y = 180;
+        else newRotation.y = 0;
+
+        transform.rotation = newRotation;
     }
 }

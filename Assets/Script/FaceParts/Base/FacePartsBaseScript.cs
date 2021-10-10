@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class FacePartsBaseScript : MonoBehaviour
 {
     private void Awake()
@@ -9,6 +11,7 @@ public class FacePartsBaseScript : MonoBehaviour
         Initialize();
     }
 
+    #region Public variables
 
     [Header("Scale factor")]
     [Tooltip("素材消費量が1増えた際の耐久値の増加率")]
@@ -19,12 +22,23 @@ public class FacePartsBaseScript : MonoBehaviour
     public int health;
     protected int cacheHealth;
 
+    [Header("Image")]
+    public List<Sprite> sprites;
+
     [Header("Sound")]
     protected AudioSource audioSource;
     public AudioClip deadSound;
 
     [Header("Other")]
     public bool immortal;
+
+    #endregion
+
+    #region Private variables
+
+    protected SpriteRenderer spriteRenderer;
+
+    #endregion
 
     private void Initialize()
     {
@@ -33,6 +47,9 @@ public class FacePartsBaseScript : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         SetCache();
         Debug.Log("Initialized.");
     }
