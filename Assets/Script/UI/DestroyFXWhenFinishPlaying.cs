@@ -2,23 +2,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(VideoPlayer))]
+[RequireComponent(typeof(RawImage))]
 public class DestroyFXWhenFinishPlaying : MonoBehaviour
 {
     private VideoPlayer videoPlayer;
+    private RawImage image;
     private float wait;
+    public bool doOnce;
+
+    private RenderTexture texture;
+
+    #region enum
+    public enum Pattern { none,play,destroy}
+    #endregion
 
     private void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>();
+        image = GetComponent<RawImage>();
+        CreateRenderTexture();
+        //if(!videoPlayer.playOnAwake) image.enabled = false;
+
         wait = (float)videoPlayer.clip.length * 1.1f;
 
-        StartCoroutine(WaitForDestroy());
+        if(doOnce) StartCoroutine(WaitForDestroy());
+    }
+
+    private void CreateRenderTexture()
+    {
+        texture = new RenderTexture(256, 256, 24);
+        videoPlayer.targetTexture = texture;
+        image.texture = texture;
+    }
+
+    public void StartTheCoroutine(Pattern pattern)
+    {
+        switch (pattern)
+        {
+            case Pattern.play:
+                videoPlayer.Play();
+                StartCoroutine(PlayFX());
+                break;
+
+            case Pattern.destroy:
+                StartCoroutine(WaitForDestroy());
+                break;
+        }
+    }
+
+    IEnumerator PlayFX()
+    {
+        while (videoPlayer.isPlaying)
+        {
+            image.enabled = videoPlayer.isPlaying;
+            yield return null;
+        }
     }
 
     IEnumerator WaitForDestroy()
     {
-        yield return new WaitForSeconds(wait);
+        while (videoPlayer.isPlaying) yield return null;
+        //yield return new WaitForSeconds(wait);
         Destroy(gameObject);
     }
 }

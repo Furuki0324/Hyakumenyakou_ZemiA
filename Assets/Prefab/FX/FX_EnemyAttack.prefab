@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7620371809157636896}
   - component: {fileID: 7620371809157636897}
   - component: {fileID: 7620371809157636902}
+  - component: {fileID: 6428656837598167654}
   m_Layer: 15
   m_Name: FX_EnemyAttack
   m_TagString: Untagged
@@ -60,8 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: b9d2f741e7839a246b678b64703307ec, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -106,3 +107,16 @@ VideoPlayer:
   m_Looping: 0
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
+--- !u!114 &6428656837598167654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620371809157636900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42854b94079e604f9ab924770905966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnce: 0

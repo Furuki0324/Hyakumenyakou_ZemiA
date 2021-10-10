@@ -1687,10 +1687,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 5000
+  far clip plane: 100
   field of view: 40
   orthographic: 1
-  orthographic size: 12.2
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1714,7 +1714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994697576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21, y: 2.57, z: -10}
+  m_LocalPosition: {x: -6.67, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1766,7 +1766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultElementAmount: 10
-  debugger: []
 --- !u!114 &994697582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,7 +2026,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12, y: 0}
+  m_Offset: {x: -0.1, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2164,7 +2163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scale: 0
-  health: 1
+  health: 100
   deadSound: {fileID: 0}
   immortal: 1
   damageSound: {fileID: 8300000, guid: 5d241862d2919c942a988ca924f12417, type: 3}
@@ -7810,11 +7809,13 @@ EdgeCollider2D:
   m_Offset: {x: 0.34, y: 0}
   m_EdgeRadius: 0.13
   m_Points:
-  - {x: 0, y: 0.74}
-  - {x: 0.52, y: 0.24}
-  - {x: 0.74, y: -0.15}
-  - {x: 0.49, y: -0.6}
-  - {x: 0, y: -1.18}
+  - {x: -1.2699063, y: 0.37094948}
+  - {x: -0.8530139, y: 0.69559294}
+  - {x: 0.08169451, y: 0.92553616}
+  - {x: 1.0465388, y: 0.3975927}
+  - {x: 1.1301836, y: -0.7120252}
+  - {x: -0.13611373, y: -1.2922422}
+  - {x: -1.2531207, y: -0.8250101}
 --- !u!114 &1578809786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7824,9 +7825,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1578809781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86bae7fdd88eea449b0163e58fd1799f, type: 3}
+  m_Script: {fileID: 11500000, guid: dff897dc23062b441b9270a37230da84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackKey: 324
+  effect: {fileID: 8899689046137985069, guid: 75accced92267a2418a1c36a1490512c, type: 3}
 --- !u!1 &1648738074
 GameObject:
   m_ObjectHideFlags: 0
@@ -8076,7 +8079,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761959765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.81, y: 0, z: -10}
+  m_LocalPosition: {x: -6.67, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1052845002}
@@ -8187,8 +8190,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.87216294, w: 0.48921564}
   m_LocalPosition: {x: -0.022413004, y: 0.40217033, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 165076550}
+  m_Children: []
   m_Father: {fileID: 2131992620}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8492,7 +8494,7 @@ MonoBehaviour:
   - {fileID: 2131992620}
   - {fileID: 1998144958}
   - {fileID: 1779184631}
-  - {fileID: 165076550}
+  - {fileID: 0}
   - {fileID: 1829127282}
   - {fileID: 975901388}
   m_Bounds:
@@ -8896,7 +8898,6 @@ GameObject:
   - component: {fileID: 2091372931}
   - component: {fileID: 2091372933}
   - component: {fileID: 2091372930}
-  - component: {fileID: 2091372934}
   - component: {fileID: 2091372935}
   m_Layer: 9
   m_Name: Player
@@ -8947,7 +8948,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091372929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.81, y: 0, z: 0}
+  m_LocalPosition: {x: -6.67, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1922283122}
@@ -8982,20 +8983,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.72562736, y: 1.3022978}
   m_EdgeRadius: 0
---- !u!114 &2091372934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091372929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dff897dc23062b441b9270a37230da84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackKey: 324
-  attackParticle: {fileID: 1578809781}
 --- !u!114 &2091372935
 MonoBehaviour:
   m_ObjectHideFlags: 0

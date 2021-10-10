@@ -12,6 +12,7 @@ public class Player2DMovement : MonoBehaviour
     private Rigidbody2D rigid2D;
     private Animator anim;
     private Quaternion localRotation;
+    private Vector3 scale;
 
 
     void Start()
@@ -19,6 +20,7 @@ public class Player2DMovement : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         localRotation = transform.rotation;
+        scale = transform.localScale;
     }
 
 
@@ -38,17 +40,19 @@ public class Player2DMovement : MonoBehaviour
         else anim.SetBool("isWalking", false);
 
 
-
         if(velocity2D.x < 0)
         {
             localRotation.y = 180;
+            scale.x = -1;
         }
         if(velocity2D.x > 0)
         {
             localRotation.y = 0;
+            scale.x = 1;
         }
 
-        transform.rotation = localRotation;
+        //transform.rotation = localRotation;
+        transform.localScale = scale;
         rigid2D.velocity = velocity2D * walkSpeed;
     }
 

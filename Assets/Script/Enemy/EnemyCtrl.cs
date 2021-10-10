@@ -48,6 +48,7 @@ public class EnemyCtrl : EnemyBaseScript
     List<Transform> transforms = new List<Transform>();
     private Transform[] transformArray;
     private List<Transform> transformList = new List<Transform>();
+    private Transform lastTarget;
 
     /// <summary>
     /// <para>TransformのListをクリアした後、新たなターゲットを定めます。</para>
@@ -105,7 +106,6 @@ public class EnemyCtrl : EnemyBaseScript
     void Start()
     {
         scale = transform.localScale;
-        if(attackEffect) _effect = Instantiate(attackEffect, GameObject.Find("EffectCanvas").transform);
 
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
@@ -140,29 +140,39 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<FacePartsBaseScript>())
+        if (collision.gameObject.GetComponent<FacePartsBaseScript>() && lastTarget != collision.transform)
         {
             faceScript = collision.gameObject.GetComponent<FacePartsBaseScript>();
+            lastTarget = collision.transform;
             StartCoroutine(Attack());
         }
     }
 
     IEnumerator Attack()
     {
-        if (!faceScript) yield break;
-
-        if (attackEffect)
+        Debug.Log("Called: " + gameObject.name);
+        while (faceScript)
         {
-            _effect.transform.position = faceScript.transform.position;
-            _effect.Play();
-        }
+            
+            if (attackEffect)
+            {
+                _effect.transform.position = faceScript.transform.position;
+                _effect.Play();
+            }
        
-        //faceScript.TakeDamage();
-        faceScript.TakeDamage(attackPower);
+            //faceScript.TakeDamage();
+            faceScript.TakeDamage(attackPower);
 
-        //インターバルをはさんだ後に同じ処理を繰り返します
-        yield return new WaitForSeconds(attackInterval);
-        StartCoroutine(Attack());
+            if(faceScript.health <= 0)
+            {
+                faceScript = null;
+                yield break;
+            }
+
+            //インターバルをはさんだ後に同じ処理を繰り返します
+            yield return new WaitForSeconds(attackInterval);
+        }
+
     }
 
     private void FlipFlop()
