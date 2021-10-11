@@ -37,6 +37,7 @@ public class FacePartsBaseScript : MonoBehaviour
     #region Private variables
 
     protected SpriteRenderer spriteRenderer;
+    protected float stepRatio;
 
     #endregion
 
@@ -50,7 +51,12 @@ public class FacePartsBaseScript : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        if (sprites.Count > 0) stepRatio = 1.0f / sprites.Count;
+        else Debug.LogWarning("No sprites is set to " + gameObject.name);
+
+
         SetCache();
+        SetSpriteImage();
         Debug.Log("Initialized.");
     }
 
@@ -70,6 +76,7 @@ public class FacePartsBaseScript : MonoBehaviour
         health--;
         //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
         if (health <= 0 && !immortal) FacePartsDie();
+        else SetSpriteImage();
     }
 
 
@@ -81,6 +88,7 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         health -= damage;
         if (health <= 0 && !immortal) FacePartsDie();
+        else SetSpriteImage();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -95,9 +103,11 @@ public class FacePartsBaseScript : MonoBehaviour
 
     public virtual void Repaired(int amount)
     {
-        
+        //Fail safe
+        if (health > cacheHealth) return;
+
         health += amount;
-        if (health > cacheHealth) health = cacheHealth;
+        SetSpriteImage();
     }
 
     /// <summary>
@@ -116,6 +126,24 @@ public class FacePartsBaseScript : MonoBehaviour
             Debug.Log("cacheHealth is " + cacheHealth);
             return false;
         }
+    }
+
+    private void SetSpriteImage()
+    {
+        Sprite newSprite = null;
+        float lifePercent = (float)health / cacheHealth;
+
+
+        for(int i = 0; i < sprites.Count; i++)
+        {
+
+            if(lifePercent <= 1 - stepRatio * i)
+            {
+                newSprite = sprites[i];
+            }
+        }
+
+        spriteRenderer.sprite = newSprite;
     }
 
 

@@ -257,7 +257,7 @@ public class DropItemManager : MonoBehaviour
         }
 
         thisInstance.RefleshTexts();
-        Debug.Log(spendingElement);
+        //Debug.Log(spendingElement);
     }
 
     private void RefleshTexts()

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 501781509327110247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.8639994, y: -1.3300277, z: -7.982422}
-  m_LocalScale: {x: 0.6369506, y: 0.6369506, z: 0.6369506}
+  m_LocalScale: {x: 0.27675503, y: 0.27675503, z: 0.27675503}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9b4f366fb5464dd4daea26f5801aed1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3a2ddda64d2d4f1469eadfb941f33197, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 0
   health: 10
+  sprites:
+  - {fileID: 21300000, guid: 3a2ddda64d2d4f1469eadfb941f33197, type: 3}
+  - {fileID: 21300000, guid: e7f02cb26c75ae2488736a9bad3b6b79, type: 3}
+  - {fileID: 21300000, guid: e1e72addaa41afd48afcdb6db184dfb3, type: 3}
   deadSound: {fileID: 8300000, guid: d3bf732098f59604d9eca878c6913de0, type: 3}
+  immortal: 0
   highSound:
   - {fileID: 8300000, guid: 4854487179a6dce4b9208327833d01cf, type: 3}
   - {fileID: 8300000, guid: b3c8dd13b3f0e94448250da9035ac03f, type: 3}
@@ -123,18 +128,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06, y: 0.07}
+  m_Offset: {x: 0.03, y: -0.33}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.02, y: 2.09}
+    oldSize: {x: 12.8, y: 12.8}
     newSize: {x: 1.62, y: 1.62}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.19, y: 1.78}
+  m_Size: {x: 8.3, y: 1.5}
   m_EdgeRadius: 0
 --- !u!82 &9031088364722813378
 AudioSource:

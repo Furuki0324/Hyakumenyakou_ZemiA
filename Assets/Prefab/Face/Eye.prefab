@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 9131252173554870473}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.8639994, y: -1.3300277, z: -7.982422}
-  m_LocalScale: {x: 0.58718, y: 0.58718, z: 0.58718}
+  m_LocalScale: {x: 0.17605841, y: 0.17605841, z: 0.17605841}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e7db1104873e0844788097791dc9cc78, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef5030c1733c6104181351d0282c77cd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,6 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 0.5
   health: 10
+  sprites:
+  - {fileID: 21300000, guid: ef5030c1733c6104181351d0282c77cd, type: 3}
+  - {fileID: 21300000, guid: 314603966043452408b36ab8a5d5e87d, type: 3}
+  - {fileID: 21300000, guid: 34189ece93ee63541807c4ae063039b0, type: 3}
+  deadSound: {fileID: 0}
+  immortal: 0
   EYE: {fileID: 0}
   SPEED: 0.05
 --- !u!61 &4950076982354527330
@@ -113,18 +119,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.51}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 1.96}
+    oldSize: {x: 12.8, y: 12.8}
     newSize: {x: 1.62, y: 1.62}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.19, y: 1.76}
+  m_Size: {x: 11, y: 4.5}
   m_EdgeRadius: 0
 --- !u!95 &4864566298659938849
 Animator:
