@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f5926e44fbd75419d9b079b2d7f5b7, type: 3}
   m_Name: BossData
   m_EditorClassIdentifier: 
-  nowState: 0
+  nowState: 2
   possAttackPowToParts: 1
   possAttackToPartsInterval: 1
   attacksRange: 1
