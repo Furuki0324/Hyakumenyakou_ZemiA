@@ -13,7 +13,7 @@ public class BossCtrl : EnemyBaseScript
     private GameObject pe;
     private GameObject nowPe;
 
-    private float time;
+    private PhaseManager time;
     private Renderer bRenderer;
     private enum tags
     {
@@ -24,7 +24,10 @@ public class BossCtrl : EnemyBaseScript
 
     private bool takeDamage;
 
+    [SerializeField]
     private Transform formerPossess;
+    private bool throughFlag;
+    private int formerLayerNum;
 
     #endregion
 
@@ -34,16 +37,17 @@ public class BossCtrl : EnemyBaseScript
         bdc = gameObject.GetComponent<BossDamChance>();
         bhs = gameObject.GetComponent<BossHighSpeed>();
         bnp = gameObject.GetComponent<BossNoParts>();
-        time = Camera.main.GetComponent<PhaseManager>().time;
+        time = Camera.main.GetComponent<PhaseManager>();
         BossData.bossData.nowState = BossData.State.highS;
         bRenderer = GetComponent<Renderer>();
         BossDeepData.GetBDpData.bRigid = GetComponent<Rigidbody2D>();
         takeDamage = false;
+        throughFlag = false;
     }
 
     void Update()
     {
-        if (time <= 0)
+        if (time.time <= 0)
         {
             switch (BossData.bossData.nowState)
             {
@@ -71,6 +75,7 @@ public class BossCtrl : EnemyBaseScript
                     if (takeDamage)
                     {
                         bdc.stopHavingAllCoroutine();
+                        if (formerPossess != null) formerPossess.gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
                         takeDamage = false;
                         bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
@@ -87,7 +92,7 @@ public class BossCtrl : EnemyBaseScript
                         BossData.bossData.nowState = BossData.State.pos;
                     }
                     //もしぶつかる候補が無かったらパーツ無し状態へ
-                    if (BossDeepData.GetBDpData.transforms.Count <= 0)
+                    if (BossDeepData.GetBDpData.Transforms.Count <= 0)
                     {
                         bhs.stopHavingAllCoroutine();
                         bnp.First = true;
@@ -110,6 +115,8 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         transform.position = BossDeepData.GetBDpData.toPossessParts.position;
         nowPe = Instantiate(pe, BossDeepData.GetBDpData.toPossessParts.position, Quaternion.identity);
+
+        if (formerPossess != null) formerPossess.gameObject.layer = LayerMask.NameToLayer("Face");
     }
 
     void unPossession()
@@ -118,6 +125,9 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         formerPossess = BossDeepData.GetBDpData.toPossessParts;
+
+        //formerPossess.gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
+
         BossDeepData.GetBDpData.toPossessParts = null;
         //ランダムな方向に弾かれて出てくる
         transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
@@ -153,6 +163,68 @@ public class BossCtrl : EnemyBaseScript
                     }
                 }
             }
+            // else if (throughFlag = false)
+            // {
+            //     // gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
+            //     BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
+            //     throughFlag = true;
+            // }
         }
     }
+
+    // private void OnCollisionStay2D(Collision2D other)
+    // {
+    //     if (BossData.bossData.nowState == BossData.State.highS &&
+    //         formerPossess == other.transform &&
+    //         throughFlag == false)
+    //     {
+    //         // gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
+    //         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
+    //         throughFlag = true;
+    //     }
+    // }
+
+    // private void OnCollisionExit2D(Collision2D other)
+    // {
+
+    //     if (BossData.bossData.nowState == BossData.State.highS && throughFlag == true)
+    //         {
+    //         // gameObject.layer = LayerMask.NameToLayer("Enemy");
+    //         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
+    //         throughFlag = false;
+    //     }
+
+    // }
+
+    // private void OnTriggerStay2D(Collider2D other)
+    // {
+    //     // if (BossData.bossData.nowState == BossData.State.highS &&
+    //     //     formerPossess == other.transform &&
+    //     //     throughFlag == false)
+    //     // {
+    //     //     BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
+    //     //     throughFlag = true;
+    //     // }
+    //     if (BossData.bossData.nowState == BossData.State.highS &&
+    //         formerPossess == other.transform) //&&
+    //                                           //throughFlag == false)
+    //     {
+    //         //formerLayerNum = formerPossess.gameObject.layer;
+    //         formerPossess.gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
+    //         throughFlag = true;
+    //     }
+    // }
+
+    // private void OnTriggerExit2D(Collider2D other)
+    // {
+    //     //どうもレイヤーを変えると出ていった判定になるらしい。
+    //     if (BossData.bossData.nowState == BossData.State.highS &&
+    //         formerPossess == other.transform)// &&
+    //                                          // throughFlag == true)
+    //     {
+    //         // BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
+    //         formerPossess.gameObject.layer = LayerMask.NameToLayer("Face");
+    //         throughFlag = false;
+    //     }
+    // }
 }

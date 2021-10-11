@@ -33,13 +33,11 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
 
     public void ResetTarget()
     {
-        BossDeepData.GetBDpData.transforms.Clear();
         hsChaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
 
         Vector3 diff = (hsChaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
-        BossDeepData.GetBDpData.transforms = MainScript.GetFaceObjectTransformInList();
-        FindRandomTarget(BossDeepData.GetBDpData.transforms);
+        FindRandomTarget(BossDeepData.GetBDpData.Transforms);
         First = false;
     }
 
