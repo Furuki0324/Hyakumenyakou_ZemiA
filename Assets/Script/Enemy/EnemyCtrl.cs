@@ -9,19 +9,13 @@ using UnityEngine;
 public class EnemyCtrl : EnemyBaseScript
 {
     //---------------------Public------------------
-    /*この3ステータスはベーススクリプトへ移行しました。
-    [Header("Status")]
-    public int hp;
-    public int attackPower = 1;
-    public float attackInterval = 1;
-    */
 
     [Header("Property to chase target")]
     public float limitAngle;
     public Transform chaseTarget;
     public float speed;
 
-    [Header("Set Trigger Target")]
+    [Header("Set Trigger Tag")]
     public string triggerTag;
 
     [Header("Aim core only")]
@@ -32,6 +26,7 @@ public class EnemyCtrl : EnemyBaseScript
     private Rigidbody2D rigid2D;
     private EnemyOverlapper overLapper;
     private FacePartsBaseScript faceScript;
+    private Vector3 scale;
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -47,6 +42,7 @@ public class EnemyCtrl : EnemyBaseScript
     List<Transform> transforms = new List<Transform>();
     private Transform[] transformArray;
     private List<Transform> transformList = new List<Transform>();
+    private Transform lastTarget;
 
     /// <summary>
     /// <para>TransformのListをクリアした後、新たなターゲットを定めます。</para>
@@ -57,8 +53,10 @@ public class EnemyCtrl : EnemyBaseScript
 
         chaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
 
+        /*
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+        */
 
         transforms = overLapper.GetChaseTargetInList();
 
@@ -93,12 +91,16 @@ public class EnemyCtrl : EnemyBaseScript
             }
         }
 
+        /*
         Vector3 diff = (chaseTarget.position - transform.position).normalized;
         transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+        */
     }
 
     void Start()
     {
+        scale = transform.localScale;
+
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
         ResetTarget();
@@ -109,6 +111,7 @@ public class EnemyCtrl : EnemyBaseScript
     void Update()
     {
         Chase();
+        FlipFlop();
     }
 
     private void Chase()
@@ -131,21 +134,56 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<FacePartsBaseScript>())
+        if (collision.gameObject.GetComponent<FacePartsBaseScript>() && lastTarget != collision.transform)
         {
             faceScript = collision.gameObject.GetComponent<FacePartsBaseScript>();
+            lastTarget = collision.transform;
             StartCoroutine(Attack());
         }
     }
 
     IEnumerator Attack()
     {
-        if (!faceScript) yield break;
-        //faceScript.TakeDamage();
-        faceScript.TakeDamage(attackPower);
+        Debug.Log("Called: " + gameObject.name);
+        while (faceScript)
+        {
+            
+            if (attackEffect)
+            {
+                _effect.transform.position = faceScript.transform.position;
+                _effect.Play();
+            }
+       
+            //faceScript.TakeDamage();
+            faceScript.TakeDamage(attackPower);
 
-        //インターバルをはさんだ後に同じ処理を繰り返します
-        yield return new WaitForSeconds(attackInterval);
-        StartCoroutine(Attack());
+            if(faceScript.health <= 0)
+            {
+                faceScript = null;
+                yield break;
+            }
+
+            //インターバルをはさんだ後に同じ処理を繰り返します
+            yield return new WaitForSeconds(attackInterval);
+        }
+
+    }
+
+    private void FlipFlop()
+    {
+        /*
+        Vector3 newScale = scale;
+        if (transform.position.x <= 0) newScale.x = -scale.x;
+        else newScale.x = scale.x;
+        
+
+        transform.localScale = newScale;
+        */
+
+        Quaternion newRotation = Quaternion.identity;
+        if (transform.position.x <= 0) newRotation.y = 180;
+        else newRotation.y = 0;
+
+        transform.rotation = newRotation;
     }
 }
