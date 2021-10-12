@@ -222,6 +222,7 @@ MonoBehaviour:
   speed: 2
   triggerTag: Attack
   coreAim: 0
+  leftForward: 1
 --- !u!114 &8613575289714568627
 MonoBehaviour:
   m_ObjectHideFlags: 0

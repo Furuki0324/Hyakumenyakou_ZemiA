@@ -21,12 +21,15 @@ public class EnemyCtrl : EnemyBaseScript
     [Header("Aim core only")]
     public bool coreAim;
 
+    [Header("Sprite direction")]
+    public bool leftForward;
 
     //---------------------Private------------------
     private Rigidbody2D rigid2D;
     private EnemyOverlapper overLapper;
     private FacePartsBaseScript faceScript;
     private Vector3 scale;
+    private SpriteRenderer spriteRenderer;
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -103,6 +106,7 @@ public class EnemyCtrl : EnemyBaseScript
 
         rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         ResetTarget();
 
         PhaseManager.AddEnemyList(this);
@@ -171,19 +175,16 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void FlipFlop()
     {
-        /*
-        Vector3 newScale = scale;
-        if (transform.position.x <= 0) newScale.x = -scale.x;
-        else newScale.x = scale.x;
-        
+        if (leftForward)
+        {
+            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = true;
+            else spriteRenderer.flipX = false;
+        }
+        else
+        {
+            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = false;
+            else spriteRenderer.flipX = true;
+        }
 
-        transform.localScale = newScale;
-        */
-
-        Quaternion newRotation = Quaternion.identity;
-        if (transform.position.x <= 0) newRotation.y = 180;
-        else newRotation.y = 0;
-
-        transform.rotation = newRotation;
     }
 }

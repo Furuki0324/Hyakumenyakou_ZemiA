@@ -9302,6 +9302,9 @@ MonoBehaviour:
   - name: Mouth
     prefab: {fileID: 4853793268981043821, guid: 706e77514c684174d943d1deb922df07,
       type: 3}
+  - name: Nurikabe
+    prefab: {fileID: 6623836137628725787, guid: 7c26fee18d8e51f4d9c754cd2ccaa96a,
+      type: 3}
   bossPrefab: {fileID: 4790342996282701764, guid: 397e1ee08fb602247984212ac357bbec,
     type: 3}
   interval: 5
