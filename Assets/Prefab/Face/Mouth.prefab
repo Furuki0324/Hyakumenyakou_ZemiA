@@ -103,7 +103,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3a2ddda64d2d4f1469eadfb941f33197, type: 3}
   - {fileID: 21300000, guid: e7f02cb26c75ae2488736a9bad3b6b79, type: 3}
   - {fileID: 21300000, guid: e1e72addaa41afd48afcdb6db184dfb3, type: 3}
-  deadSound: {fileID: 8300000, guid: d3bf732098f59604d9eca878c6913de0, type: 3}
+  deadSound: {fileID: 8300000, guid: 17849cc9fe9cef84e8396afca516e492, type: 3}
   immortal: 0
   highSound:
   - {fileID: 8300000, guid: 4854487179a6dce4b9208327833d01cf, type: 3}

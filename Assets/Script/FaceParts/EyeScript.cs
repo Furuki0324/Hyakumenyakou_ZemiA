@@ -27,30 +27,6 @@ public class EyeScript : FacePartsBaseScript
     private static Color EYECOLOR = Color.white;
     public float SPEED;
 
-    private void Volume(float a)
-    {
-        switch (a)
-        {
-            case 0.8f:
-                Debug.Log("call");
-                volume += SPEED;
-                break;
-
-            case 0.6f:
-                Debug.Log("call2");
-                volume+= SPEED;
-                break;
-
-            case 0.4f:
-                Debug.Log("call3");
-                volume+= SPEED;
-                break;
-        }
-
-        //volume = Mathf.Clamp(volume, 0, 1);
-        EYECOLOR.a = volume;
-        EYE.color = EYECOLOR;
-    }
 
     void Start()
     {
@@ -67,22 +43,6 @@ public class EyeScript : FacePartsBaseScript
         SetCache();
     }
 
-    // Update is called once per frame
-    /*
-    private float cacheTime = 0;
-    void Update()
-    {
-        if (Time.time > cacheTime + 2)
-        {
-            hp--;
-            cacheTime = Time.time;
-
-            if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
-            else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
-            else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
-        }
-    }
-    */
     public override void TakeDamage()
     {
         base.TakeDamage();
@@ -110,5 +70,15 @@ public class EyeScript : FacePartsBaseScript
         EYECOLOR.a = volume;
         EYE.color = EYECOLOR;
 
+    }
+
+    public override void Repaired(int amount)
+    {
+        base.Repaired(amount);
+
+        volume -= SPEED;
+
+        EYECOLOR.a = volume;
+        EYE.color = EYECOLOR;
     }
 }

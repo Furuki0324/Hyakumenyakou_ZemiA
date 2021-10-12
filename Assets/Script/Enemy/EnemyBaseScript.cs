@@ -14,8 +14,15 @@ public class EnemyBaseScript : MonoBehaviour
     protected UnityEngine.Video.VideoPlayer _effect;
 
     [Header("Option")]
+    public AudioClip damageSound;
     public AudioClip deadSound;
     public ParticleSystem deadParticle;
+
+    #region private variables
+
+    
+
+    #endregion
 
     private void Awake()
     {
@@ -25,17 +32,22 @@ public class EnemyBaseScript : MonoBehaviour
     public virtual void EnemyTakeDamage()
     {
         hp--;
+        if(damageSound) EnemySoundPlayer.PlayEnemySFX(damageSound);
 
         if (hp <= 0) EnemyDie();
     }
 
     public virtual void EnemyDie()
     {
-        //if(deadSound)
+        if (deadSound) EnemySoundPlayer.PlayEnemySFX(deadSound);
         if (deadParticle) Instantiate(deadParticle, transform.position, Quaternion.identity);
 
-        DestroyFXWhenFinishPlaying fx = _effect.GetComponent<DestroyFXWhenFinishPlaying>();
-        if (attackEffect && fx) fx.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.destroy);
+        if (_effect)
+        {
+            DestroyFXWhenFinishPlaying fx = _effect.GetComponent<DestroyFXWhenFinishPlaying>();
+            if (attackEffect && fx) fx.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.destroy);
+        }
+       
 
         EnemyDropItemCtrl dropCtrl;
 

@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerAttackCtrl : MonoBehaviour
 {
     //------------------------Public------------------
     [Header("Set action key")]
     public KeyCode attackKey;
 
-    [Header("Effect")]
+    [Header("SFX")]
+    [SerializeField] AudioClip sound;
+    private AudioSource audioSource;
+
+    [Header("VFX")]
     [SerializeField] DestroyFXWhenFinishPlaying effect;
     private DestroyFXWhenFinishPlaying _effect;
     private VideoPlayer videoPlayer;
@@ -24,6 +29,7 @@ public class PlayerAttackCtrl : MonoBehaviour
         edgeCollider = GetComponent<EdgeCollider2D>();
         edgeCollider.enabled = false;
 
+        audioSource = GetComponent<AudioSource>();
         
         _effect = Instantiate(effect, GameObject.Find("EffectCanvas").transform);
         videoPlayer = _effect.GetComponent<VideoPlayer>();
@@ -48,6 +54,7 @@ public class PlayerAttackCtrl : MonoBehaviour
 
     private void Attack()
     {
+        audioSource.PlayOneShot(sound);
         _effect.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.play); 
     }
 

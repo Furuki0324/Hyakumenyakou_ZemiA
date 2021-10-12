@@ -67,6 +67,7 @@ public class PhaseManager : MonoBehaviour
         else
         {
             EnemySpawnManager.Singleton.SpawnBoss();
+            BGMPlayer.ChangeBGM();
             boss = true;
         }
         

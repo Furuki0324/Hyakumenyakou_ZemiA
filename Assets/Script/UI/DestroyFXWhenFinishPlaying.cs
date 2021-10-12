@@ -13,6 +13,7 @@ public class DestroyFXWhenFinishPlaying : MonoBehaviour
     private float wait;
     public bool doOnce;
 
+
     private RenderTexture texture;
 
     #region enum
@@ -43,6 +44,8 @@ public class DestroyFXWhenFinishPlaying : MonoBehaviour
         switch (pattern)
         {
             case Pattern.play:
+                if (videoPlayer.isPlaying) videoPlayer.Stop();
+
                 videoPlayer.Play();
                 StartCoroutine(PlayFX());
                 break;
@@ -64,6 +67,9 @@ public class DestroyFXWhenFinishPlaying : MonoBehaviour
 
     IEnumerator WaitForDestroy()
     {
+        //再生開始を待つ
+        if(doOnce) yield return new WaitForSeconds(0.1f);
+
         while (videoPlayer.isPlaying) yield return null;
         //yield return new WaitForSeconds(wait);
         Destroy(gameObject);

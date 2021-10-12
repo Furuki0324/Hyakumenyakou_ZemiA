@@ -43,7 +43,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        for(int i = 0; i < spawnSize; i++)
+        for(int i = 0; i < spawnSize + PhaseManager.phaseNumber / 5; i++)
         {
             SpawnOutsideCamera();
 

@@ -211,15 +211,16 @@ MonoBehaviour:
   hp: 1
   attackPower: 1
   attackInterval: 3
-  deadSound: {fileID: 0}
+  attackEffect: {fileID: 7620371809157636902, guid: 314938397123e11419a40de1c309866f,
+    type: 3}
+  damageSound: {fileID: 8300000, guid: 26fbb95a49b9e6748b9f25b8065b2b36, type: 3}
+  deadSound: {fileID: 8300000, guid: 6fad41f80c9454149b78f2c4d547caa9, type: 3}
   deadParticle: {fileID: 6079906786904411711, guid: dfd8f16d1effca94ba5e3e06a85a84c1,
     type: 3}
   limitAngle: 0
   chaseTarget: {fileID: 0}
   speed: 2
   triggerTag: Attack
-  attackEffect: {fileID: 7620371809157636902, guid: 314938397123e11419a40de1c309866f,
-    type: 3}
   coreAim: 0
 --- !u!114 &5814419688746636883
 MonoBehaviour:
