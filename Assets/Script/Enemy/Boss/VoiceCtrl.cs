@@ -37,6 +37,8 @@ public class VoiceCtrl : MonoBehaviour
     public float speed = 0.01f;
     public float curvature = 0.005f;
 
+    private Vector3 startPos;
+
     void Start()
     {
         bc = gameObject.GetComponent<BezierCurve>();
@@ -52,11 +54,19 @@ public class VoiceCtrl : MonoBehaviour
         secondVec = Quaternion.AngleAxis(-45.0f, Vector3.forward) * force;
         firstHandleVec = Vector3.Cross(Vector3.forward, firstVec).normalized * BossData.bossData.mouthAttackCurve;
         secondHandleVec = Vector3.Cross(Vector3.forward, secondVec).normalized * BossData.bossData.mouthAttackCurve;
+
+        startPos = transform.position;
     }
 
     void Update()
     {
         vecBezier();
+        lifeRange();
+    }
+
+     void lifeRange()
+    {
+        if ((bc[0].localPosition - startPos).magnitude > BossData.bossData.attacksRange) Destroy(this.gameObject);
     }
 
     void vecBezier()
