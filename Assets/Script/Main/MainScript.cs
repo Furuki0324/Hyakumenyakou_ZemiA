@@ -19,7 +19,11 @@ public class MainScript : MonoBehaviour
         Face_Mouth,
         Face_Ear
     }
-    private static TextMeshProUGUI tmp;
+    [SerializeField]
+    private GameObject resultParent;
+    [SerializeField]
+    private GameObject resultObj;
+    private static TextMeshProUGUI result;
 
     private void Start()
     {
@@ -34,8 +38,9 @@ public class MainScript : MonoBehaviour
             foreach (GameObject j in temp) if (j.layer != 5) AddFaceObject(j); ;
         }
 
-        tmp = GameObject.FindWithTag("Finish").GetComponent<TextMeshProUGUI>();
-        tmp.text = "ono";
+        GameObject tempInst = Instantiate(resultObj, resultParent.transform);
+        result = tempInst.GetComponent<TextMeshProUGUI>();
+        result.text = "";
     }
 
     //ここから顔パーツの情報
@@ -113,24 +118,17 @@ public class MainScript : MonoBehaviour
              + "\nEar: " + data.earSumScore
              + "\nMouth: " + data.mouthSumScore);
 
-
-    }
-
-    private void Update()
-    {
-        ResultData data = ResultCalculate.CalculateResultData(faceObjects, GameObject.FindWithTag("Face_Nose"));
-
-        tmp.text = "Game Clear! Your score: " + data.totalScore
-                + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
-                + "\nEar: " + data.earAmountScore
-                + "\nMouth: " + data.mouthAmountScore
-                + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
-                + "\nRightEye: " + data.rightEyeDistanceScore
-                + "\nLeftEar: " + data.leftEarDistanceScore
-                + "\nRightEar: " + data.rightEarDistanceScore
-                + "\nMouth: " + data.mouthDistanceScore
-                + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
-                + "\nEar: " + data.earSumScore
-                + "\nMouth: " + data.mouthSumScore;
+        result.text = "Game Clear!" + "\nYour score: " + data.totalScore
+            + "\n\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
+            + "\nEar: " + data.earAmountScore
+            + "\nMouth: " + data.mouthAmountScore
+            + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
+            + "\nRightEye: " + data.rightEyeDistanceScore
+            + "\nLeftEar: " + data.leftEarDistanceScore
+            + "\nRightEar: " + data.rightEarDistanceScore
+            + "\nMouth: " + data.mouthDistanceScore
+            + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
+            + "\nEar: " + data.earSumScore
+            + "\nMouth: " + data.mouthSumScore;
     }
 }
