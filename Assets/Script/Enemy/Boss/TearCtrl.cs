@@ -21,11 +21,16 @@ public class TearCtrl : MonoBehaviour
     private Transform coreParts;
     private Rigidbody2D tearRigid;
     private FacePartsBaseScript faceScript;
+    private Vector3 startPos;
+
     void Start()
     {
         coreParts = GameObject.FindGameObjectWithTag("Face_Nose").transform;
         tearRigid = GetComponent<Rigidbody2D>();
         transform.SetParent(TEARBULLET_ANCHOR);
+
+        startPos = transform.position;
+        
     }
 
     void Update()
@@ -34,6 +39,12 @@ public class TearCtrl : MonoBehaviour
         transform.rotation = Quaternion.FromToRotation(Vector3.down, force);
         force *= BossData.bossData.eyeAttackSpeed;
         tearRigid.velocity = force;
+        lifeRange();
+    }
+
+     void lifeRange()
+    {
+        if ((transform.position - startPos).magnitude > BossData.bossData.attacksRange) Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

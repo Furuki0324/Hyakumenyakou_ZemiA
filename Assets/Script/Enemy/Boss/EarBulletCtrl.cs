@@ -22,10 +22,14 @@ public class EarBulletCtrl : MonoBehaviour
 
     private Rigidbody2D rigid;
     private FacePartsBaseScript faceScript;
+    private Vector3 startPos;
+
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         transform.SetParent(EARBULLET_ANCHOR);
+        startPos = transform.position;
+        
     }
 
     void Update()
@@ -33,6 +37,12 @@ public class EarBulletCtrl : MonoBehaviour
         //円形なのでいらない
         //transform.rotation = Quaternion.FromToRotation(Vector3.down, force);
         rigid.velocity = force;
+        lifeRange();
+    }
+
+     void lifeRange()
+    {
+        if ((transform.position - startPos).magnitude > BossData.bossData.attacksRange) Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
