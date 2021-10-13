@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.copocopo.textmeshpro.animator": {
+      "version": "https://github.com/coposuke/TextMeshProAnimator.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "2.0.1"
+      },
+      "hash": "HEAD"
+    },
     "com.unity.2d.animation": {
       "version": "3.2.11",
       "depth": 0,
