@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.textmeshpro": "2.0.1"
       },
-      "hash": "HEAD"
+      "hash": "aa579c237e0bbcf025e8d6bc962252e1e4ac9d8f"
     },
     "com.unity.2d.animation": {
       "version": "3.2.11",

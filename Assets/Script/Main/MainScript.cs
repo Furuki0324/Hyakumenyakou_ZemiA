@@ -130,5 +130,7 @@ public class MainScript : MonoBehaviour
             + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
             + "\nEar: " + data.earSumScore
             + "\nMouth: " + data.mouthSumScore;
+
+        result.GetComponent<TextMeshProSimpleAnimator>().Play();
     }
 }
