@@ -20,9 +20,9 @@ public class EarScript : FacePartsBaseScript
         }
     }
 
-    private static int volume = -5;
+    private static float volume;
     
-    // Start is called before the first frame update
+    private enum Pattern { none, heal, damage}
 
     [SerializeField] AudioMixer mixer;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,6 +60,9 @@ public class EarScript : FacePartsBaseScript
         transform.SetParent(EAR_ANCHOR);
         if (transform.position.x > 0) spriteRenderer.flipX = true;
 
+        mixer.GetFloat("BGM", out float value);
+        volume = value + 1.0f;
+
         mixer.SetFloat("BGM", volume);
 
         SetCache();
@@ -86,18 +89,56 @@ public class EarScript : FacePartsBaseScript
     {
         base.TakeDamage();
 
+        VolumeControl(Pattern.damage);
+        /*
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
-
+        */
     }
 
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
 
+        VolumeControl(Pattern.damage);
+        /*
         if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
         else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
         else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
+        */
+    }
+
+    private void VolumeControl(Pattern pattern, float healAmount = 0)
+    {
+        switch (pattern)
+        {
+            case Pattern.heal:
+                volume += healAmount;
+                break;
+
+            case Pattern.damage:
+                volume--;
+                break;
+
+            default:
+                break;
+        }
+        mixer.SetFloat("BGM",volume);
+    }
+
+    public override void Repaired(int amount)
+    {
+        base.Repaired(amount);
+
+        VolumeControl(Pattern.heal);
+    }
+
+    public override void Repaird(float percent)
+    {
+        base.Repaird(percent);
+
+        float healAmount = cacheHealth * percent / 100;
+        VolumeControl(Pattern.heal, healAmount);
     }
 }

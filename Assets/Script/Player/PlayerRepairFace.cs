@@ -60,7 +60,7 @@ public class PlayerRepairFace : MonoBehaviour
             {
                 //Instantiate(repairParticle, repairTarget.transform.position, Quaternion.identity);
                 Instantiate(effect, repairTarget.transform.position, Quaternion.identity, parentCanvas);
-                repairTarget.Repaired(1);
+                repairTarget.Repaird(10);
             }
         }
     }

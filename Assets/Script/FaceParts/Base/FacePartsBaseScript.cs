@@ -111,6 +111,22 @@ public class FacePartsBaseScript : MonoBehaviour
     }
 
     /// <summary>
+    /// 割合回復
+    /// </summary>
+    /// <param name="percent">0~100の間で入力</param>
+    public virtual void Repaird(float percent)
+    {
+        //Fail safe
+        if (health > cacheHealth || percent < 0 || percent > 100) return;
+
+        float ratio = percent / 100;
+
+        health += (int)(cacheHealth * ratio);
+        if (health > cacheHealth) health = cacheHealth;
+        SetSpriteImage();
+    }
+
+    /// <summary>
     /// <para>耐久値が減少している場合はtrueを返します。</para>
     /// </summary>
     /// <returns></returns>
