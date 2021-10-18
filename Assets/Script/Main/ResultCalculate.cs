@@ -32,10 +32,10 @@ public class ResultCalculate : MonoBehaviour
     }
 
 
-    public static ResultData CalculateResultData(List<GameObject> faceObjects, GameObject noseAsCenter)
+    public static ResultData CalculateResultData(GameObject noseAsCenter)
     {
         ResultData data = new ResultData();
-        CalculateInfo info = new CalculateInfo(faceObjects, noseAsCenter, correctPoints);
+        CalculateInfo info = new CalculateInfo(noseAsCenter, correctPoints);
 
 
         #region Calculate about eyes
@@ -163,16 +163,35 @@ class DistanceRatioData
 
             foreach(GameObject g in eyeValue)
             {
-                if(tempLeft == null  && g.transform.position.x <= 0)
+                if(tempLeft == null || tempRight == null)
                 {
-                    tempLeft = g;
-                    continue;
-                } 
-                else if(tempRight == null && g.transform.position.x > 0)
-                {
-                    tempRight = g;
-                    continue;
+                    if(g.transform.position.x <= 0)
+                    {
+                        if(tempLeft == null)
+                        {
+                            tempLeft = g;
+                            continue;
+                        } else if(tempRight == null)
+                        {
+                            tempRight = g;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if(tempRight == null)
+                        {
+                            tempRight = g;
+                            continue;
+                        } else if(tempLeft == null)
+                        {
+                            tempLeft = g;
+                            continue;
+                        }
+                    }
                 }
+
+
 
                 if(g.transform.position.x <= 0)
                 {
@@ -194,14 +213,21 @@ class DistanceRatioData
             float rightDistance = 0;
             if (tempLeft) 
             { 
-                leftDistance = Vector2.Distance(tempLeft.transform.position, noseAsCenter.transform.position);
+                leftDistance = Vector2.Distance(tempLeft.transform.position, eyeCorrectPoint.transform.position);
             }
             
-            if(tempRight) rightDistance = Vector2.Distance(tempRight.transform.position, noseAsCenter.transform.position);
-            
+            if(tempRight) rightDistance = Vector2.Distance(tempRight.transform.position, new Vector2(-eyeCorrectPoint.position.x, eyeCorrectPoint.position.y));
 
-            leftEye = leftDistance / correctDistance;
-            rightEye = rightDistance / correctDistance;
+
+            if (leftDistance != 0) 
+                leftEye = 1 - leftDistance / correctDistance;
+            else 
+                leftEye = 0;
+
+            if (rightDistance != 0) 
+                rightEye = 1 - rightDistance / correctDistance;
+            else 
+                rightEye = 0;
         }
         else
         {
@@ -221,29 +247,53 @@ class DistanceRatioData
 
             foreach(GameObject g in earValue)
             {
-                if (tempLeft == null && g.transform.position.x < 0)
+                if(tempLeft == null || tempRight == null)
                 {
-                    tempLeft = g;
-                    continue;
-                }
-                else if(tempRight == null && g.transform.position.x> 0)
-                {
-                    tempRight = g;
-                    continue;
+                    if(g.transform.position.x <= 0)
+                    {
+                        if(tempLeft == null)
+                        {
+                            tempLeft = g;
+                            Debug.Log("Left ear initialized.");
+                            continue;
+                        } else if(tempRight == null)
+                        {
+                            tempRight = g;
+                            Debug.Log("Right ear initialized.");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if(tempRight == null)
+                        {
+                            tempRight = g;
+                            Debug.Log("Right ear initialized.");
+                            continue;
+                        } else if(tempLeft == null)
+                        {
+                            tempLeft = g;
+                            Debug.Log("Left ear initialized.");
+                            continue;
+                        }
+                    }
                 }
 
-                if(g.transform.position.x <= 0)
+
+                if(g.transform.position.x <= 0 && tempLeft)
                 {
                     if(Vector2.Distance(tempLeft.transform.position,earCorrectPoint.position) > Vector2.Distance(g.transform.position, earCorrectPoint.position))
                     {
                         tempLeft = g;
+                        Debug.Log("Left ear switched.");
                     }
                 }
-                else
+                else if(tempRight)
                 {
                     if(Vector2.Distance(tempRight.transform.position,new Vector2(-earCorrectPoint.position.x,earCorrectPoint.position.y)) > Vector2.Distance(g.transform.position,new Vector2(-earCorrectPoint.position.x, earCorrectPoint.position.y)))
                     {
                         tempRight = g;
+                        Debug.Log("Right ear switched.");
                     }
                 }
             }
@@ -251,11 +301,20 @@ class DistanceRatioData
             float leftDistance = 0;
             float rightDistance = 0;
 
-            if(tempLeft) leftDistance = Vector2.Distance(tempLeft.transform.position, noseAsCenter.transform.position);
-            if(tempRight) rightDistance = Vector2.Distance(tempRight.transform.position, noseAsCenter.transform.position);
+            if(tempLeft) leftDistance = Vector2.Distance(tempLeft.transform.position, earCorrectPoint.transform.position);
+            if(tempRight) rightDistance = Vector2.Distance(tempRight.transform.position, new Vector2(-earCorrectPoint.position.x, earCorrectPoint.position.y));
 
-            leftEar = leftDistance / correctDistance;
-            rightEar = rightDistance / correctDistance;
+
+            if (leftDistance != 0)
+                leftEar = 1 - leftDistance / correctDistance;
+            else 
+                leftEar = 0;
+
+            if (rightDistance != 0)
+                rightEar = 1 - rightDistance / correctDistance;
+            else
+                rightEar = 0;
+
         }
         else
         {
@@ -289,9 +348,12 @@ class DistanceRatioData
 
             float distance = 0;
 
-            if(temp) distance = Vector2.Distance(temp.transform.position, noseAsCenter.transform.position);
+            if(temp) distance = Vector2.Distance(temp.transform.position, mouthCorrectPoint.transform.position);
 
-            mouth = distance / correctDistance;
+            if (distance != 0)
+                mouth = 1 - distance / correctDistance;
+            else
+                mouth = 0;
         }
         else
         {
@@ -308,17 +370,18 @@ class CalculateInfo
     public Dictionary<string, GameObject[]> splitFace = new Dictionary<string, GameObject[]>();
     public DistanceRatioData distanceRatio;
 
-    public CalculateInfo(List<GameObject> faceObjects, GameObject noseAsCenter, Dictionary<string,Transform> correctPoints)
+    public CalculateInfo(GameObject noseAsCenter, Dictionary<string,Transform> correctPoints)
     {
-        GetEachObjectOnField(faceObjects);
+        GetEachObjectOnField();
         distanceRatio = new DistanceRatioData(splitFace, correctPoints, noseAsCenter);
     }
 
-    private void GetEachObjectOnField(List<GameObject> faceObjects)
+    private void GetEachObjectOnField()
     {
-        GameObject[] eyesOnField = FindGameObjectsWithTagInList(faceObjects, "Face_Eye");
-        GameObject[] earsOnField = FindGameObjectsWithTagInList(faceObjects, "Face_Ear");
-        GameObject[] mouthsOnField = FindGameObjectsWithTagInList(faceObjects, "Face_Mouth");
+        
+        GameObject[] eyesOnField = GameObject.FindGameObjectsWithTag("Face_Eye");
+        GameObject[] earsOnField = GameObject.FindGameObjectsWithTag("Face_Ear");
+        GameObject[] mouthsOnField = GameObject.FindGameObjectsWithTag("Face_Mouth");
 
         splitFace.Add("eyes", eyesOnField);
         splitFace.Add("ears", earsOnField);

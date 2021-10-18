@@ -104,7 +104,7 @@ public class MainScript : MonoBehaviour
 
     public static void GameClear()
     {
-        ResultData data = ResultCalculate.CalculateResultData(faceObjects, GameObject.FindWithTag("Face_Nose"));
+        ResultData data = ResultCalculate.CalculateResultData(GameObject.FindWithTag("Face_Nose"));
         Debug.Log("Game Clear! Your score: " + data.totalScore
              + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
              + "\nEar: " + data.earAmountScore

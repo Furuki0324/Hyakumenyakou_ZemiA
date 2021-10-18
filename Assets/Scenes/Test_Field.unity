@@ -1837,7 +1837,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 130839
+    m_Bits: 261911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2022,7 +2022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b669e66d20671445aa5bd7d067cc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
+  time: 100
   text: {fileID: 386479204}
 --- !u!82 &994697586
 AudioSource:

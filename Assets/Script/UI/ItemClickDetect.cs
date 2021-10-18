@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 public class ItemClickDetect : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
+    private enum Item { none, Face_Eye, Face_Ear, Face_Mouth}
+    [SerializeField] private Item item;
+
     public AudioSource audioSource;
 
     [Header("Sound")]
@@ -20,6 +23,6 @@ public class ItemClickDetect : MonoBehaviour, IPointerClickHandler, IPointerEnte
     {
         Debug.Log("Clicked.");
         audioSource.PlayOneShot(onPointerClick);
-        DropItemManager.MoreSpendingElement(gameObject.tag);
+        DropItemManager.MoreSpendingElement(item.ToString());
     }
 }
