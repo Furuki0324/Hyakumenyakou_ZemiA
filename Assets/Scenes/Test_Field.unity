@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7699909}
   m_Layer: 5
   m_Name: Ear
-  m_TagString: Face_Ear
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af5ef45ee6715641b624a9e6300e260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: 2
   audioSource: {fileID: 811306879}
   onPointerEnter: {fileID: 8300000, guid: 81cea4777bb8afa449d8c99d07fbd3f9, type: 3}
   onPointerClick: {fileID: 8300000, guid: fa969c9d54c187e4595f53dc88569068, type: 3}
@@ -227,7 +228,7 @@ GameObject:
   - component: {fileID: 65365720}
   m_Layer: 5
   m_Name: Eye
-  m_TagString: Face_Eye
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -301,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af5ef45ee6715641b624a9e6300e260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: 1
   audioSource: {fileID: 811306879}
   onPointerEnter: {fileID: 8300000, guid: 81cea4777bb8afa449d8c99d07fbd3f9, type: 3}
   onPointerClick: {fileID: 8300000, guid: fa969c9d54c187e4595f53dc88569068, type: 3}
@@ -1830,10 +1832,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 12.2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1857,7 +1859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994697576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.67, y: 0, z: -10}
+  m_LocalPosition: {x: -0.21, y: 2.57, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2022,7 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b669e66d20671445aa5bd7d067cc519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 100
+  time: 1
   text: {fileID: 386479204}
 --- !u!82 &994697586
 AudioSource:
@@ -4553,7 +4555,7 @@ GameObject:
   - component: {fileID: 2019170308}
   m_Layer: 5
   m_Name: mouth
-  m_TagString: Face_Mouth
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4627,6 +4629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af5ef45ee6715641b624a9e6300e260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: 3
   audioSource: {fileID: 811306879}
   onPointerEnter: {fileID: 8300000, guid: 81cea4777bb8afa449d8c99d07fbd3f9, type: 3}
   onPointerClick: {fileID: 8300000, guid: fa969c9d54c187e4595f53dc88569068, type: 3}
