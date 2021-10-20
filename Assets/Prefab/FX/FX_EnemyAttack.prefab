@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7620371809157636897}
   - component: {fileID: 7620371809157636902}
   - component: {fileID: 6428656837598167654}
+  - component: {fileID: -1987425157047734998}
   m_Layer: 15
   m_Name: FX_EnemyAttack
   m_TagString: Untagged
@@ -120,3 +121,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doOnce: 0
+--- !u!114 &-1987425157047734998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620371809157636900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3d7ea2836a1a946b5dfcc378abd491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relativePath: EnemyAttack.mp4
