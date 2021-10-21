@@ -20,12 +20,11 @@ public class EyeScript : FacePartsBaseScript
     }
 
 
-    // Start is called before the first frame update
-    private static float volume = 0;
+    private static float blind = 0;
 
-    [SerializeField] private Image EYE;
+    private Image EYE;
     private static Color EYECOLOR = Color.white;
-    public float SPEED;
+
 
 
     void Start()
@@ -35,40 +34,33 @@ public class EyeScript : FacePartsBaseScript
         EYE = GameObject.Find("EyeFog").GetComponent<Image>();
 
 
-        volume -= 0.2f;
+        blind -= 0.2f;
 
-        EYECOLOR.a = volume;
+        EYECOLOR.a = blind;
         EYE.color = EYECOLOR;
 
         SetCache();
     }
 
-    public override void TakeDamage()
+    private void BlindControl(float diff)
     {
-        base.TakeDamage();
+        blind += diff;
 
-        Debug.Log("Eye take damage.");
-        /*
-        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
-        Debug.Log("overriden");
-        */
-        volume += SPEED;
-        volume = Mathf.Clamp(volume, -1, 99);
-        EYECOLOR.a = volume;
+        EYECOLOR.a = blind;
         EYE.color = EYECOLOR;
-
     }
+
+    
+
 
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
 
-        volume += SPEED;
-        volume = Mathf.Clamp(volume, -1, 1);
-        EYECOLOR.a = volume;
-        EYE.color = EYECOLOR;
+
+        float diff = (float)damage / cacheHealth;
+
+        BlindControl(diff);
 
     }
 
@@ -76,9 +68,17 @@ public class EyeScript : FacePartsBaseScript
     {
         base.Repaired(amount);
 
-        volume -= SPEED;
+        float diff = (float)amount / cacheHealth;
 
-        EYECOLOR.a = volume;
-        EYE.color = EYECOLOR;
+        BlindControl(-diff);
+    }
+
+    public override void Repaired(float percent)
+    {
+        base.Repaired(percent);
+
+        float diff = (float)percent / 100;
+
+        BlindControl(-diff);
     }
 }

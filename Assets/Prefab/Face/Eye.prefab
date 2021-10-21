@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9905d5efc242cca418f654c601b03ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 0.5
+  scale: 0.1
   health: 10
   sprites:
   - {fileID: 21300000, guid: ef5030c1733c6104181351d0282c77cd, type: 3}
@@ -105,8 +105,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 34189ece93ee63541807c4ae063039b0, type: 3}
   deadSound: {fileID: 8300000, guid: 17849cc9fe9cef84e8396afca516e492, type: 3}
   immortal: 0
-  EYE: {fileID: 0}
-  SPEED: 0.05
 --- !u!61 &4950076982354527330
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -114,7 +114,7 @@ public class FacePartsBaseScript : MonoBehaviour
     /// 割合回復
     /// </summary>
     /// <param name="percent">0~100の間で入力</param>
-    public virtual void Repaird(float percent)
+    public virtual void Repaired(float percent)
     {
         //Fail safe
         if (health > cacheHealth || percent < 0 || percent > 100) return;

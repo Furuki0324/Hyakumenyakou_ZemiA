@@ -134,9 +134,9 @@ public class EarScript : FacePartsBaseScript
         VolumeControl(Pattern.heal);
     }
 
-    public override void Repaird(float percent)
+    public override void Repaired(float percent)
     {
-        base.Repaird(percent);
+        base.Repaired(percent);
 
         float healAmount = cacheHealth * percent / 100;
         VolumeControl(Pattern.heal, healAmount);
