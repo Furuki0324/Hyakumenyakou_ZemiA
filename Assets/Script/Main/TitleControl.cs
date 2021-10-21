@@ -5,18 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class TitleControl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SceneLoading()
     {
-        
+        SceneManager.LoadScene("Test_Field");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void QuitGame()
     {
-        if (Input.anyKeyDown)
-        {
-            SceneManager.LoadScene("Test_Field");
-        }
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+
+#elif UNITY_STANDALONE
+        Application.Quit();
+
+#endif
     }
 }
