@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1041791214612251351}
   - component: {fileID: 1041791214612251338}
   - component: {fileID: 2886257000766174172}
+  - component: {fileID: -500745757328960043}
   m_Layer: 15
   m_Name: PossessEffect2
   m_TagString: Untagged
@@ -120,3 +121,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scale: 0.006
+--- !u!114 &-500745757328960043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041791214612251350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3d7ea2836a1a946b5dfcc378abd491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relativePath: BossTakeover2.mp4
