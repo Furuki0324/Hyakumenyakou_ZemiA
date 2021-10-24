@@ -11,7 +11,7 @@ public class QuitGame : MonoBehaviour
         if (Input.GetKeyDown(quitKey)) Quit();
     }
 
-    void Quit()
+    public void Quit()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
