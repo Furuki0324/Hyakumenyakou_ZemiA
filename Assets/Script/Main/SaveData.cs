@@ -4,8 +4,101 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
+    private static SaveData _S;
+
+    public static SaveData S
+    {
+        get
+        {
+            return _S;
+        }
+        set
+        {
+            if(_S != null)
+            {
+                Debug.LogError("SaveData singleton - Second attempt");
+            }
+            _S = value;
+        }
+    }
+
+    //public AchievementPopUp popUp;
     public StepRecord[] stepRecords;
     public Achievement[] achievements;
+
+    private static Dictionary<Achievement.StepType, StepRecord> STEP_REC_DICT;
+    //private static Dictionary<>
+
+    private void Awake()
+    {
+        S = this;
+
+        STEP_REC_DICT = new Dictionary<Achievement.StepType, StepRecord>();
+        foreach(StepRecord sRec in stepRecords)
+        {
+            STEP_REC_DICT.Add(sRec.type, sRec);
+        }
+    }
+
+    private void TriggerPopUp(string achievementName, string achievementDescription = "")
+    {
+        //popUp.PopUp(achievementName, achievementDescription);
+    }
+
+
+    public static void AchievementStep(Achievement.StepType stepType, int num = 1)
+    {
+        StepRecord sRec = STEP_REC_DICT[stepType];
+        if(sRec != null)
+        {
+            sRec.Progress(num);
+
+            foreach(Achievement ach in S.achievements)
+            {
+                if (!ach.complete)
+                {
+                    if (ach.CheckCompletion(stepType, sRec.num))
+                    {
+                        AnnounceAchievementCompletion(ach);
+
+                        //SaveGameManager.Save();
+                    }
+                }
+            }
+        }
+    }
+
+    public static void AnnounceAchievementCompletion(Achievement ach)
+    {
+        string description = ach.description.Replace("#", ach.stepCount.ToString("N0"));
+        //S.TriggerPopUp(ach.name, description);
+        Debug.Log("Achievement unlocked.\n" +
+            "Name: " + ach.name + "\n" +
+            "Description: " + description);
+    }
+
+    public static Achievement[] GetAchievements()
+    {
+        return S.achievements;
+    }
+
+    public static StepRecord[] GetStepRecords()
+    {
+        return S.stepRecords;
+    }
+
+    public static void LoadFromSaveData(SaveFile saveFile)
+    {
+        foreach(StepRecord sRec in saveFile.stepRecords)
+        {
+            STEP_REC_DICT[sRec.type].num = sRec.num;
+        }
+
+        foreach(Achievement ach in saveFile.achievements)
+        {
+
+        }
+    }
 }
 
 
@@ -15,8 +108,8 @@ public class Achievement
     public enum StepType
     {
         highScore,  //ハイスコア更新
-        practiceMakesPerfect,  //一定以上のプレイ回数
-        killLeader,  //1プレイの中で一定数以上の敵を撃破
+        playCount,  //一定以上のプレイ回数-PracticeMakesPerfect
+        killEnemy,  //敵を撃破-KillLeader(1プレイ中に敵を一定数以上撃破)、AllYouNeedIsKill(敵の累計撃破数が一定以上)
         collector,  //累積回収アイテム数が一定を超える
         creator,  //累積生成パーツ数が一定を超える
     }

@@ -1644,7 +1644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &666742357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,14 +1658,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepRecords:
-  - type: 0
-    cumulative: 0
+  - type: 1
+    cumulative: 1
     _num: 0
   achievements:
-  - name: 
-    description: 
-    stepType: 0
-    stepCount: 0
+  - name: "\u7FD2\u3046\u3088\u308A\u6163\u308C\u3088"
+    description: "\u30D7\u30EC\u30A4\u56DE\u6570\u304C#\u56DE\u3092\u7A81\u7834"
+    stepType: 1
+    stepCount: 10
     _complete: 0
 --- !u!4 &666742358
 Transform:
@@ -2702,6 +2702,8 @@ MonoBehaviour:
   resultParent: {fileID: 703665764}
   resultObj: {fileID: 1854416545812903993, guid: f8e1eb67f1f40124b9a569d0ae7a1d43,
     type: 3}
+  option: {fileID: 1643839810}
+  openOptionKey: 8
 --- !u!114 &994697582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,7 +5124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26cbf1eda3e717d4cb7ecb4f2b385df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openKey: 0
   masterSlider: {fileID: 1998988468}
   bgmSlider: {fileID: 792029691}
   seSlider: {fileID: 402737159}

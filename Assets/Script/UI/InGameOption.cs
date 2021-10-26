@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class InGameOption : MonoBehaviour
 {
     #region Public/Serialize variables
-    [Header("Key")]
-    [SerializeField] KeyCode openKey;
 
     [Header("Sound Slider")]
     [SerializeField] private Slider masterSlider;
@@ -41,13 +39,8 @@ public class InGameOption : MonoBehaviour
     private void Update()
     {
         VolumeChange();
-        if(Input.GetKeyDown(openKey)) OpenOption();
     }
 
-    private void OpenOption()
-    {
-
-    }
 
     private void InitializeVolume()
     {

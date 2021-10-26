@@ -32,9 +32,13 @@ public class MainScript : MonoBehaviour
 
     private void Start()
     {
+        GameStart();
+
+        //各素材の初期値を取得
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount, true);
         DropItemManager.ObtainItem("EarElement", defaultElementAmount, true);
         DropItemManager.ObtainItem("MouthElement", defaultElementAmount, true);
+
 
         //開始時点で配置されているパーツを追加
         foreach (string i in Enum.GetNames(typeof(Tags)))
@@ -48,14 +52,26 @@ public class MainScript : MonoBehaviour
         result.text = "";
     }
 
+    private void GameStart()
+    {
+        //ゲームが開始されたことを記録
+        SaveData.AchievementStep(Achievement.StepType.playCount);
+        //SaveGameManager.Save();
+    }
+
+
+
     private void Update()
     {
-        if (Input.GetKeyDown(openOptionKey)) OptionModeToggle();
+        if (Input.GetKeyDown(openOptionKey) && option) OptionModeToggle();
     }
 
     private void OptionModeToggle()
     {
         optionIsOpened = !optionIsOpened;
+
+        if (optionIsOpened) Time.timeScale = 0;
+        else Time.timeScale = 1;
 
         option.gameObject.SetActive(optionIsOpened);
     }
