@@ -25,6 +25,11 @@ public class MainScript : MonoBehaviour
     private GameObject resultObj;
     private static TextMeshProUGUI result;
 
+    [Header("Option")]
+    [SerializeField] private InGameOption option;
+    [SerializeField] private KeyCode openOptionKey;
+    private bool optionIsOpened = false;
+
     private void Start()
     {
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount, true);
@@ -41,6 +46,18 @@ public class MainScript : MonoBehaviour
         GameObject tempInst = Instantiate(resultObj, resultParent.transform);
         result = tempInst.GetComponent<TextMeshProUGUI>();
         result.text = "";
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(openOptionKey)) OptionModeToggle();
+    }
+
+    private void OptionModeToggle()
+    {
+        optionIsOpened = !optionIsOpened;
+
+        option.gameObject.SetActive(optionIsOpened);
     }
 
     //ここから顔パーツの情報
