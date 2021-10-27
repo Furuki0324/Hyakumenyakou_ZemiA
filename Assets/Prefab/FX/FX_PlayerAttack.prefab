@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8899689046137985068}
   - component: {fileID: 8899689046137985069}
   - component: {fileID: 1623297480239753892}
+  - component: {fileID: 4212507649106755548}
   m_Layer: 15
   m_Name: FX_PlayerAttack
   m_TagString: Untagged
@@ -134,3 +135,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativePath: PlayerAttack.mp4
+--- !u!114 &4212507649106755548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899689046137985071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ce760a3a1479647bb9dc53c6c83a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FXStart: 0
+  FXEnd: 1.0343667
+  startTime: 0.168
+  endTime: 0.591

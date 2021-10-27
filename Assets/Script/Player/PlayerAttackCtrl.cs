@@ -17,7 +17,7 @@ public class PlayerAttackCtrl : MonoBehaviour
     [Header("VFX")]
     [SerializeField] DestroyFXWhenFinishPlaying effect;
     private DestroyFXWhenFinishPlaying _effect;
-    private VideoPlayer videoPlayer;
+    private AttackCollisionControl collisionControl;
 
 
     //------------------------Private--------------------
@@ -32,7 +32,7 @@ public class PlayerAttackCtrl : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         
         _effect = Instantiate(effect, GameObject.Find("EffectCanvas").transform);
-        videoPlayer = _effect.GetComponent<VideoPlayer>();
+        collisionControl = _effect.GetComponent<AttackCollisionControl>();
 
         scale = _effect.transform.localScale;
         
@@ -45,18 +45,26 @@ public class PlayerAttackCtrl : MonoBehaviour
 
         if (Input.GetKeyDown(attackKey)) Attack();
 
-        edgeCollider.enabled = videoPlayer.isPlaying;
+        CollisionCheck();
+
 
         Vector3 newScale = scale;
         newScale.x *= -transform.parent.localScale.x;
         _effect.transform.localScale = newScale;
     }
 
+
     private void Attack()
     {
         audioSource.PlayOneShot(sound);
         _effect.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.play); 
     }
+
+    private void CollisionCheck()
+    {
+        edgeCollider.enabled = collisionControl.IsColliderEnabled();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
