@@ -99,7 +99,13 @@ public class DropItemManager : MonoBehaviour
                 break;
         }
 
-        if(!initialize) thisInstance.PlaySoundEffect(SoundPattern.obtainItem);
+        if (!initialize)
+        {
+            thisInstance.PlaySoundEffect(SoundPattern.obtainItem);
+
+            //セーブデータに素材を一つ回収したことを記録
+            SaveData.AchievementStep(Achievement.StepType.collector);
+        }
         thisInstance.RefleshTexts();
 
     }
@@ -113,7 +119,6 @@ public class DropItemManager : MonoBehaviour
     /// <returns></returns>
     public static bool CanUseElements(string type, int cost)
     {
-        Debug.Log(cost);
 
         int eye, ear, mouth;
         eye = eyeElements;

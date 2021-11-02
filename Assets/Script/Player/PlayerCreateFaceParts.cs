@@ -10,12 +10,8 @@ public class PlayerCreateFaceParts : MonoBehaviour
     public PrefabInfo[] prefabInfos;
 
     [Header("Property")]
-    [Tooltip("マウスホイールが入力されてからどれほどの間隔を空けて次の入力を受け付けるのか決定します(単位：秒)。")]
-    public float interval;
     public KeyCode keyCode;
 
-    [Header("Indicator UI")]
-    public Text prefabIndicator;
 
     /// <summary>
     /// <para>1 - Eye Prefab</para>
@@ -30,12 +26,6 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private GameObject[] enemyArray;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        prefabIndicator.text = prefabInfos[prefabNumber].name;
-
-    }
 
     private void Update()
     {
@@ -75,8 +65,6 @@ public class PlayerCreateFaceParts : MonoBehaviour
             if (prefabNumber < 0) prefabNumber = prefabInfos.Length - 1;
         }
 
-        prefabIndicator.text = prefabInfos[prefabNumber].name;
-        Debug.Log(prefabNumber);
     }
 
     private void CreateFaceParts()
@@ -85,6 +73,9 @@ public class PlayerCreateFaceParts : MonoBehaviour
         {
             FacePartsBaseScript go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
             MainScript.AddFaceObject(go.gameObject);
+
+            //セーブデータにパーツを一つ生成したことを記録
+            SaveData.AchievementStep(Achievement.StepType.creator);
         }
     }
 }

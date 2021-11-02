@@ -62,17 +62,17 @@ public class PhaseManager : MonoBehaviour
         
         if(time_ > 0)
         {
-            EnemySpawnManager.Singleton.SpawnEnemy();
+            EnemySpawnManager.SpawnEnemy();
         }
         else
         {
-            EnemySpawnManager.Singleton.SpawnBoss();
+            EnemySpawnManager.SpawnBoss();
             BGMPlayer.ChangeBGM();
             boss = true;
         }
         
 
-        Debug.Log("Phase: " + phaseNumber);
+        //Debug.Log("Phase: " + phaseNumber);
     }
 
 

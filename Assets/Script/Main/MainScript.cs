@@ -50,13 +50,13 @@ public class MainScript : MonoBehaviour
         GameObject tempInst = Instantiate(resultObj, resultParent.transform);
         result = tempInst.GetComponent<TextMeshProUGUI>();
         result.text = "";
+        
     }
 
     private void GameStart()
     {
         //ゲームが開始されたことを記録
         SaveData.AchievementStep(Achievement.StepType.playCount);
-        //SaveGameManager.Save();
     }
 
 

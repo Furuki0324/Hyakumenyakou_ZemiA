@@ -120,12 +120,14 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void Chase()
     {
+        //攻撃対象に接触している間は移動を停止します。
         if (faceScript)
         {
             rigid2D.velocity = Vector2.zero;
             return;
         }
 
+        //何らかの理由で追跡対象を見つけられていない場合は再度検索します。
         if (!chaseTarget)
         {
             ResetTarget();
@@ -135,6 +137,25 @@ public class EnemyCtrl : EnemyBaseScript
         Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
     }
+
+    /// <summary>
+    /// <para>インスペクターで設定できるleftForward(イラストが左向き)というboolを基に</para>
+    /// <para>ターゲットとの座標を比較してイラストを反転させます。</para>
+    /// </summary>
+    private void FlipFlop()
+    {
+        if (leftForward)
+        {
+            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = true;
+            else spriteRenderer.flipX = false;
+        }
+        else
+        {
+            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = false;
+            else spriteRenderer.flipX = true;
+        }
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -148,7 +169,7 @@ public class EnemyCtrl : EnemyBaseScript
 
     IEnumerator Attack()
     {
-        Debug.Log("Called: " + gameObject.name);
+        //Debug.Log("Called: " + gameObject.name);
         while (faceScript)
         {
             
@@ -169,21 +190,6 @@ public class EnemyCtrl : EnemyBaseScript
 
             //インターバルをはさんだ後に同じ処理を繰り返します
             yield return new WaitForSeconds(attackInterval);
-        }
-
-    }
-
-    private void FlipFlop()
-    {
-        if (leftForward)
-        {
-            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = true;
-            else spriteRenderer.flipX = false;
-        }
-        else
-        {
-            if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = false;
-            else spriteRenderer.flipX = true;
         }
 
     }

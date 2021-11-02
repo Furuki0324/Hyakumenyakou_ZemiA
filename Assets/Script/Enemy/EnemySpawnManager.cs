@@ -4,72 +4,118 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    //Singleton
-    public static EnemySpawnManager Singleton;
-
-
     //-----------------------Public-------------------------
     public Camera mainCam;
     [Header("Prefab")]
     public EnemyPrefabInfo[] spawnPrefabs;
-    public GameObject bossPrefab;
+    private static List<EnemyPrefabInfo> _spawnPrefabs = new List<EnemyPrefabInfo>();
+    public BossCtrl bossPrefab;
+    private static BossCtrl _bossPrefab;
 
     [Header("Spawn  Option")]
-    public float interval;
     public int spawnSize;
-    public bool spawnOutsideCamera;
+    private static int _spawnSize;
 
-    [Header("Ohter")]
-    public Transform spawnPointParent;
-    [ReadOnly]public Transform[] points;
-    [ReadOnly] public List<EnemySpawnPoint> spawnPoints;
-    //-----------------------Private------------------------
-    
-    private float cacheTime;
+    [Header("Spawn Point")]
+    [SerializeField] private float difference;
+    private static float _difference;
+    [SerializeField] private Transform[] spawnPoints;
+    private static List<Transform> _spawnPoints = new List<Transform>();
+
 
     private void Awake()
     {
-        Singleton = this;
+        //Get static variables
+        foreach (EnemyPrefabInfo info in spawnPrefabs)
+        {
+            _spawnPrefabs.Add(info);
+        }
+        _bossPrefab = bossPrefab;
+        _spawnSize = spawnSize;
+        _difference = difference;
+        foreach(Transform transform in spawnPoints)
+        {
+            _spawnPoints.Add(transform);
+        }
+        
     }
 
     private void Start()
     {
         //Spawn first enemies
-        for(int i = 0; i < spawnSize; i++)
+        SpawnEnemy();
+    }
+
+    public static void SpawnEnemy()
+    {
+        if(_spawnPrefabs.Count <= 0)
         {
-            SpawnOutsideCamera();
+            Debug.LogError("No enemy prefab is set to EnemySpawner.");
+            return;
+        }
+
+        for(int i = 0; i < _spawnSize + PhaseManager.phaseNumber / 5; i++)
+        {
+            Vector2 spawnPosition = GetSpawnPoint();
+            AddDifference<Vector2>(ref spawnPosition);
+
+            EnemyCtrl enemy = GetSpawnPrefab();
+
+            Instantiate(enemy, spawnPosition, Quaternion.identity);
         }
     }
 
-    public void SpawnEnemy()
+    public static void SpawnBoss()
     {
-        for(int i = 0; i < spawnSize + PhaseManager.phaseNumber / 5; i++)
+        if(_bossPrefab == null)
         {
-            SpawnOutsideCamera();
-
-            //最終的には数か所の指定されたポジションからスポーンするようにしますが、今はカメラの外から
-            //ランダムでポジションが決まるようになっています。
-            /*
-            if (spawnOutsideCamera) SpawnOutsideCamera();
-            else
-            */
+            Debug.LogError("No boss prefab is set to EnemySpawner.");
+            return;
         }
-        
-    }
 
-    public void SpawnBoss()
-    {
-        Vector3 spawnPosition = SetSpawnPosition();
-        spawnPosition.z = 0;
+        Vector2 spawnPosition = GetSpawnPoint();
 
-        Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+        Instantiate(_bossPrefab, spawnPosition, Quaternion.identity);
     }
 
 
-
-    private Vector3 SetSpawnPosition()
+    private static Vector2 GetSpawnPoint()
     {
-        Vector3 spawnPosition = Vector3.zero;
+        int index = Random.Range(0, _spawnPoints.Count);
+        Vector2 position = _spawnPoints[index].position;
+
+        return position;
+    }
+    
+
+    private static EnemyCtrl GetSpawnPrefab()
+    {
+        int index = Random.Range(0, _spawnPrefabs.Count);
+        return _spawnPrefabs[index].prefab;
+    }
+
+    /// <summary>
+    /// <para>敵が全く同一の地点にスポーンしないように差異を加えます。</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="pos"></param>
+    private static void AddDifference<T>(ref Vector2 pos)
+    {
+        float xDif = Random.Range(-_difference, _difference);
+        float yDif = Random.Range(-_difference, _difference);
+
+        pos.x += xDif;
+        pos.y += yDif;
+    }
+
+
+    #region Never used methods
+    /*
+    private Vector2 SetSpawnPosition()
+    {
+        Vector2 spawnPosition = Vector2.zero;
+
+        AddDifference<Vector2>(ref spawnPosition);
 
         do
         {
@@ -93,11 +139,6 @@ public class EnemySpawnManager : MonoBehaviour
         //MainScript.AddEnemyList(enemyCtrl);
     }
 
-    private EnemyCtrl GetSpawnPrefab()
-    {
-        int index = Random.Range(0, spawnPrefabs.Length);
-        return spawnPrefabs[index].prefab;
-    }
 
     /// <summary>
     /// <para>対象(target)の数値が任意の範囲にある場合にtrueを返します。</para>
@@ -111,6 +152,8 @@ public class EnemySpawnManager : MonoBehaviour
         if (target > min && target < max) return true;
         else return false;
     }
+    */
+    #endregion
 }
 
 [System.Serializable]
@@ -118,12 +161,4 @@ public class EnemyPrefabInfo
 {
     public string name;
     public EnemyCtrl prefab;
-}
-
-[System.Serializable]
-public class EnemySpawnPoint
-{
-    public string name;
-    public Transform transforms;
-    public bool isActive;
 }

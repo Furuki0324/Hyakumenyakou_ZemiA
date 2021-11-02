@@ -21,7 +21,7 @@ public class ItemClickDetect : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Clicked.");
+        //Debug.Log("Clicked.");
         audioSource.PlayOneShot(onPointerClick);
         DropItemManager.MoreSpendingElement(item.ToString());
     }

@@ -1,0 +1,74 @@
+{
+    "highScore": 100,
+    "stepRecords": [
+        {
+            "type": 1,
+            "cumulative": true,
+            "_num": 1
+        },
+        {
+            "type": 2,
+            "cumulative": true,
+            "_num": 50
+        },
+        {
+            "type": 3,
+            "cumulative": true,
+            "_num": 49
+        },
+        {
+            "type": 4,
+            "cumulative": true,
+            "_num": 48
+        },
+        {
+            "type": 5,
+            "cumulative": true,
+            "_num": 0
+        }
+    ],
+    "achievements": [
+        {
+            "name": "習うより慣れよ",
+            "description": "プレイ回数が#回を突破",
+            "stepType": 1,
+            "stepCount": 10,
+            "_complete": false
+        },
+        {
+            "name": "仙人",
+            "description": "プレイ回数が#回を突破",
+            "stepType": 1,
+            "stepCount": 50,
+            "_complete": false
+        },
+        {
+            "name": "キルリーダー",
+            "description": "1プレイで敵を#体撃破",
+            "stepType": 2,
+            "stepCount": 50,
+            "_complete": true
+        },
+        {
+            "name": "All you need is kill",
+            "description": "敵を#体撃破",
+            "stepType": 3,
+            "stepCount": 200,
+            "_complete": false
+        },
+        {
+            "name": "コレクター",
+            "description": "素材を#個集める",
+            "stepType": 4,
+            "stepCount": 200,
+            "_complete": false
+        },
+        {
+            "name": "クリエイター",
+            "description": "パーツを#個生成",
+            "stepType": 5,
+            "stepCount": 200,
+            "_complete": false
+        }
+    ]
+}

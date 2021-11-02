@@ -61,7 +61,7 @@ public class SaveData : MonoBehaviour
                     {
                         AnnounceAchievementCompletion(ach);
 
-                        //SaveGameManager.Save();
+                        SaveGameManager.Save();
                     }
                 }
             }
@@ -109,7 +109,8 @@ public class Achievement
     {
         highScore,  //ハイスコア更新
         playCount,  //一定以上のプレイ回数-PracticeMakesPerfect
-        killEnemy,  //敵を撃破-KillLeader(1プレイ中に敵を一定数以上撃破)、AllYouNeedIsKill(敵の累計撃破数が一定以上)
+        killEnemy_ResetForEachPlay,  //敵を撃破-KillLeader(1プレイ中に敵を一定数以上撃破)
+        killEnemy_Cumulative,  //AllYouNeedIsKill(敵の累計撃破数が一定以上)
         collector,  //累積回収アイテム数が一定を超える
         creator,  //累積生成パーツ数が一定を超える
     }

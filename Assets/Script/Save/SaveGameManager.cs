@@ -12,10 +12,11 @@ public class SaveGameManager : MonoBehaviour
     {
         saveFile = new SaveFile();
 
-#if UNITY_STANDALONE
-        filePath = Application.persistentDataPath + "/HyakumenYakou.save";
-#endif
+        filePath = Application.dataPath + "/HyakumenYakou.save";
+        Debug.Log(filePath);
+        //
     }
+
 
     public static void Save()
     {

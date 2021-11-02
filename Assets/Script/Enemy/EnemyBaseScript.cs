@@ -47,7 +47,9 @@ public class EnemyBaseScript : MonoBehaviour
             DestroyFXWhenFinishPlaying fx = _effect.GetComponent<DestroyFXWhenFinishPlaying>();
             if (attackEffect && fx) fx.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.destroy);
         }
-       
+
+        SaveData.AchievementStep(Achievement.StepType.killEnemy_ResetForEachPlay);
+        SaveData.AchievementStep(Achievement.StepType.killEnemy_Cumulative);
 
         EnemyDropItemCtrl dropCtrl;
 
