@@ -2,44 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class DropItemManager : MonoBehaviour
 {
-    //Instance prototype
-    private static DropItemManager thisInstance;
 
     //ENUM
+    /// <summary>
+    /// <para>obtainItem - アイテム取得</para>
+    /// <para>createFace - 顔パーツ生成</para>
+    /// <para>accessDenied - 素材所持数を超えて使用しようとしたとき</para>
+    /// </summary>
     private enum SoundPattern { obtainItem, createFace, accessDenied}
 
     [Header("Bool")]
-    private bool lessTextShown;
-
-    [Header("Option")]
-    public bool LOCK;
+    private static bool _lessTextShown;
 
     [Header("Sound")]
-    public AudioClip obtainItemSound;
-    public AudioClip createFaceSound;
-    public AudioClip deniedSound;
+    [SerializeField] private AudioClip obtainItemSound;
+    [SerializeField] private AudioClip createFaceSound;
+    [SerializeField] private AudioClip deniedSound;
 
     [Header("AudioSource")]
-    private AudioSource audioSource;
+    private static AudioSource _audioSource;
 
     [Header("UI Image")]
-    public Image spendingElementIndicator;
+    [SerializeField] private Image spendingElementCircle;
 
     [Header("UI Text")]
-    public Text elements;
-    public Text eyeElement;
-    public Text earElement;
-    public Text mouthElement;
-    private Text indicatorText;
-    public Text lessElementWarning;
+    [SerializeField] private Text eyeElement;
+    [SerializeField] private Text earElement;
+    [SerializeField] private Text mouthElement;
+    private static Text indicatorText;
+    [SerializeField] private Text lessElementWarning;
 
     [Header("UI Position")]
-    public RectTransform eyePoint;
-    public RectTransform earPoint;
-    public RectTransform mouthPoint;
+    [SerializeField] private RectTransform eyePoint;
+    [SerializeField] private RectTransform earPoint;
+    [SerializeField] private RectTransform mouthPoint;
 
     private static Dictionary<string, int> dictionary = new Dictionary<string, int>()
     {
@@ -65,17 +65,51 @@ public class DropItemManager : MonoBehaviour
     private static int spendingElementHolder;
 
 
+    #region Get static variables from editor inspector
+    private static Image _spendingElementCircle;
+    private static Text _eyeElement, _earElement, _mouthElement, _lessElementWarning;
+    private static AudioClip _obtainItemSound, _createFaceSound, _deniedSound;
+    private static RectTransform _eyePoint, _earPoint, _mouthPoint;
+
+    #endregion
+
+
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
-        thisInstance = this;
+        GetStaticVariables();
 
-        indicatorText = spendingElementIndicator.GetComponentInChildren<Text>();
-
-        thisInstance.RefleshTexts();
-        StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 0));
+        RefleshTexts();
+        DisableText(_lessElementWarning, 0);
     }
+
+
+    private void GetStaticVariables()
+    {
+        //UI Image
+        _spendingElementCircle = spendingElementCircle;
+
+        //UI Text
+        _eyeElement = eyeElement;
+        _earElement = earElement;
+        _mouthElement = mouthElement;
+        _lessElementWarning = lessElementWarning;
+        indicatorText = _spendingElementCircle.GetComponentInChildren<Text>();
+
+        //AudioClip
+        _obtainItemSound = obtainItemSound;
+        _createFaceSound = createFaceSound;
+        _deniedSound = deniedSound;
+
+        //RectTransform
+        _eyePoint = eyePoint;
+        _earPoint = earPoint;
+        _mouthPoint = mouthPoint;
+
+
+    }
+
 
     public static void ObtainItem(string type, int amount = 1, bool initialize = false)
     {
@@ -101,12 +135,12 @@ public class DropItemManager : MonoBehaviour
 
         if (!initialize)
         {
-            thisInstance.PlaySoundEffect(SoundPattern.obtainItem);
+            PlaySoundEffect(SoundPattern.obtainItem);
 
             //セーブデータに素材を一つ回収したことを記録
             SaveData.AchievementStep(Achievement.StepType.collector);
         }
-        thisInstance.RefleshTexts();
+        RefleshTexts();
 
     }
 
@@ -146,12 +180,12 @@ public class DropItemManager : MonoBehaviour
             earElements = ear;
             mouthElements = mouth;
 
-            thisInstance.RefleshTexts();
+            RefleshTexts();
             return true;
         }
         else
         {
-            thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
+            PlaySoundEffect(SoundPattern.accessDenied);
             return false;
         }
 
@@ -171,8 +205,8 @@ public class DropItemManager : MonoBehaviour
             spendingElementHolder = spendingElement;
             spendingElement = 0;
 
-            thisInstance.PlaySoundEffect(SoundPattern.createFace);
-            thisInstance.RefleshTexts();
+            PlaySoundEffect(SoundPattern.createFace);
+            RefleshTexts();
             return true;
         }
 
@@ -254,46 +288,46 @@ public class DropItemManager : MonoBehaviour
             }
             else
             {
-                thisInstance.ShowText("LessElement");
-                thisInstance.PlaySoundEffect(SoundPattern.accessDenied);
+                ShowText("LessElement");
+                PlaySoundEffect(SoundPattern.accessDenied);
             }
 
             
         }
 
-        thisInstance.RefleshTexts();
+        RefleshTexts();
         //Debug.Log(spendingElement);
     }
 
-    private void RefleshTexts()
+    private static void RefleshTexts()
     {
         //elements.text = "Eye: " + eyeElements.ToString() + " Ear: " + earElements.ToString() + " Mouth: " + mouthElements.ToString();
-        if (eyeElements <= 0) eyeElement.color = Color.red;
-        else eyeElement.color = Color.white;
+        if (eyeElements <= 0) _eyeElement.color = Color.red;
+        else _eyeElement.color = Color.white;
 
-        if (earElements <= 0) earElement.color = Color.red;
-        else earElement.color = Color.white;
+        if (earElements <= 0) _earElement.color = Color.red;
+        else _earElement.color = Color.white;
 
-        if (mouthElements <= 0) mouthElement.color = Color.red;
-        else mouthElement.color = Color.white;
+        if (mouthElements <= 0) _mouthElement.color = Color.red;
+        else _mouthElement.color = Color.white;
 
 
-        eyeElement.text = eyeElements.ToString();
-        earElement.text = earElements.ToString();
-        mouthElement.text = mouthElements.ToString();
+        _eyeElement.text = eyeElements.ToString();
+        _earElement.text = earElements.ToString();
+        _mouthElement.text = mouthElements.ToString();
 
         switch (selectedItem)
         {
             case 0:
-                spendingElementIndicator.rectTransform.position = eyePoint.position;
+                _spendingElementCircle.rectTransform.position = _eyePoint.position;
                 break;
 
             case 1:
-                spendingElementIndicator.rectTransform.position = earPoint.position;
+                _spendingElementCircle.rectTransform.position = _earPoint.position;
                 break;
 
             case 2:
-                spendingElementIndicator.rectTransform.position = mouthPoint.position;
+                _spendingElementCircle.rectTransform.position = _mouthPoint.position;
                 break;
 
             default:
@@ -303,20 +337,20 @@ public class DropItemManager : MonoBehaviour
         indicatorText.text = spendingElement.ToString();
     }
 
-    private void PlaySoundEffect(SoundPattern pattern)
+    private static void PlaySoundEffect(SoundPattern pattern)
     {
         switch (pattern)
         {
             case SoundPattern.obtainItem:
-                audioSource.PlayOneShot(obtainItemSound);
+                _audioSource.PlayOneShot(_obtainItemSound);
                 break;
 
             case SoundPattern.createFace:
-                audioSource.PlayOneShot(createFaceSound);
+                _audioSource.PlayOneShot(_createFaceSound);
                 break;
 
             case SoundPattern.accessDenied:
-                audioSource.PlayOneShot(deniedSound);
+                _audioSource.PlayOneShot(_deniedSound);
                 break;
 
             default:
@@ -324,24 +358,28 @@ public class DropItemManager : MonoBehaviour
         }
     }
 
-    private void ShowText(string text)
+    private static void ShowText(string text)
     {
         switch (text)
         {
             case "LessElement":
-                lessElementWarning.gameObject.SetActive(true);
-                
-                if(!lessTextShown)  StartCoroutine(DisableGameObject(lessElementWarning.gameObject, 3));
-                lessTextShown = true;
+                _lessElementWarning.gameObject.SetActive(true);
+
+                if (!_lessTextShown) DisableText(_lessElementWarning, 3000);
+                _lessTextShown = true;
                 break;
         }
     }
 
 
-    IEnumerator DisableGameObject(GameObject obj, float time)
+    private static async void DisableText(Text text, int milliSecond)
     {
-        yield return new WaitForSeconds(time);
-        obj.gameObject.SetActive(false);
-        lessTextShown = false;
+        //Debug.Log("Task started.");
+
+        await Task.Delay(milliSecond);
+        text.gameObject.SetActive(false);
+        _lessTextShown = false;
+
+        //Debug.Log("Task finished.");
     }
 }

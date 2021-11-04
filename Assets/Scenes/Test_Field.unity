@@ -2450,7 +2450,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
+  m_BackGroundColor: {r: 0.22289115, g: 0.21760415, b: 0.2830189, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2471,7 +2471,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 261911
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2633,12 +2633,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5541f1469456ee64587b48cf216ff0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LOCK: 0
   obtainItemSound: {fileID: 8300000, guid: 7d84d7a946a9c3e459f43a5e0d68ec43, type: 3}
   createFaceSound: {fileID: 8300000, guid: 6a03384f70ab0bb4097ea4f907eb928c, type: 3}
   deniedSound: {fileID: 8300000, guid: 5045c52de2b169348a4d708137900578, type: 3}
-  spendingElementIndicator: {fileID: 1552559195}
-  elements: {fileID: 0}
+  spendingElementCircle: {fileID: 1552559195}
   eyeElement: {fileID: 1062463781}
   earElement: {fileID: 1663476103}
   mouthElement: {fileID: 732512870}
@@ -4358,7 +4356,7 @@ GameObject:
   - component: {fileID: 1552559196}
   - component: {fileID: 1552559195}
   m_Layer: 5
-  m_Name: SpendElementIndicator
+  m_Name: SpendElementCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
