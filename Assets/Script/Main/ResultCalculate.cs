@@ -1,24 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResultCalculate : MonoBehaviour
 {
+    /*****************************************************************
+    *         このスクリプト内ではstatic変数に「_」を付けています。      *
+    *         private変数の印ではありません                            *
+    ******************************************************************/
+
     [Header("Correct Point")]
-    public Transform leftEye;
-    public Transform leftEar;
-    public Transform mouth;
+    [SerializeField] Transform leftEye;
+    [SerializeField] Transform leftEar;
+    [SerializeField] Transform mouth;
 
     [Header("Correct Amount")]
-    public int eyeAmount = 2;
+    [SerializeField] int eyeAmount = 2;
     private static int _eyeAmount;
-    public int earAmount = 2;
+    [SerializeField] int earAmount = 2;
     private static int _earAmount;
-    public int mouthAmount = 1;
+    [SerializeField] int mouthAmount = 1;
     private static int _mouthAmount;
+
+    [Header("UI")]
+    [SerializeField] private Text T_totalScore;
+    [SerializeField] private Text T_eye;
+    [SerializeField] private Text T_ear;
+    [SerializeField] private Text T_mouth;
+    #region Static UI
+    private static Text _T_totalScore, _T_eyeSum, _T_eyeStar_A, _T_eyeStar_P,
+        _T_earSum, _T_earStar_A, _T_earStar_P,
+        _T_mouthSum, _T_mouthStar_A, _T_mouthStar_P;
+    #endregion
+
 
     [Header("Dictionary")]
     private static Dictionary<string, Transform> correctPoints = new Dictionary<string, Transform>();
+
+
+
 
     private void Awake()
     {
@@ -26,15 +48,80 @@ public class ResultCalculate : MonoBehaviour
         correctPoints.Add("ear", leftEar);
         correctPoints.Add("mouth", mouth);
 
+        GetStaticUI();
+
         _eyeAmount = eyeAmount;
         _earAmount = earAmount;
         _mouthAmount = mouthAmount;
     }
 
+    private static string GetStar(int score)
+    {
+        if (score >= 95) return "★★★";
+        else if (score >= 50) return "★★☆";
+        else return "★☆☆";
+    }
+
+    private void GetStaticUI()
+    {
+        _T_totalScore = T_totalScore.transform.GetChild(0).GetComponent<Text>();
+
+        _T_eyeSum = T_eye.transform.GetChild(0).GetComponent<Text>();
+        _T_eyeStar_A = T_eye.transform.GetChild(1).GetComponent<Text>();
+        _T_eyeStar_P = T_eye.transform.GetChild(2).GetComponent<Text>();
+
+        _T_earSum = T_ear.transform.GetChild(0).GetComponent<Text>();
+        _T_earStar_A = T_ear.transform.GetChild(1).GetComponent<Text>();
+        _T_earStar_P = T_ear.transform.GetChild(2).GetComponent<Text>();
+
+        _T_mouthSum = T_mouth.transform.GetChild(0).GetComponent<Text>();
+        _T_mouthStar_A = T_mouth.transform.GetChild(1).GetComponent<Text>();
+        _T_mouthStar_P = T_mouth.transform.GetChild(2).GetComponent<Text>();
+    }
+
+    private static void SetTextUI(ResultData data)
+    {
+        data.T_totalScore = _T_totalScore;
+
+        data.T_eyeSumScore = _T_eyeSum;
+        data.T_eyeStar_A = _T_eyeStar_A;
+        data.T_eyeStar_P = _T_eyeStar_P;
+
+        data.T_earSumScore = _T_earSum;
+        data.T_earStar_A = _T_earStar_A;
+        data.T_earStar_P = _T_earStar_P;
+
+        data.T_mouthSumScore = _T_mouthSum;
+        data.T_mouthStar_A = _T_mouthStar_A;
+        data.T_mouthStar_P = _T_mouthStar_P;
+    }
+
+
+    private static void MakeTextInvisible(ResultData data)
+    {
+        data.T_totalScore.color = new Color(1, 1, 1, 0);
+
+        data.T_eyeSumScore.color = new Color(1, 1, 1, 0);
+        data.T_eyeStar_A.color = new Color(1, 1, 1, 0);
+        data.T_eyeStar_P.color = new Color(1, 1, 1, 0);
+
+        data.T_earSumScore.color = new Color(1, 1, 1, 0);
+        data.T_earStar_A.color = new Color(1, 1, 1, 0);
+        data.T_earStar_P.color = new Color(1, 1, 1, 0);
+
+        data.T_mouthSumScore.color = new Color(1, 1, 1, 0);
+        data.T_mouthStar_A.color = new Color(1, 1, 1, 0);
+        data.T_mouthStar_P.color = new Color(1, 1, 1, 0);
+    }
+
+
 
     public static ResultData CalculateResultData(GameObject noseAsCenter)
     {
         ResultData data = new ResultData();
+        SetTextUI(data);
+        MakeTextInvisible(data);
+
         CalculateInfo info = new CalculateInfo(noseAsCenter, correctPoints);
 
 
@@ -48,11 +135,11 @@ public class ResultCalculate : MonoBehaviour
             }
             else if(eyesOnField.Length > _eyeAmount)
             {
-                data.eyeAmountScore -= 5 * (eyesOnField.Length - _eyeAmount);
+                data.eyeAmountScore = 100 - 5 * (eyesOnField.Length - _eyeAmount);
             }
             else
             {
-                data.eyeAmountScore -= 15 * (_eyeAmount - eyesOnField.Length);
+                data.eyeAmountScore = 100 - 15 * (_eyeAmount - eyesOnField.Length);
             }
         }
         else
@@ -60,8 +147,8 @@ public class ResultCalculate : MonoBehaviour
             data.eyeAmountScore = 0;
         }
 
-        data.leftEyeDistanceScore *= info.distanceRatio.leftEye;
-        data.rightEyeDistanceScore *= info.distanceRatio.rightEye;
+        data.leftEyeDistanceScore = 100 * info.distanceRatio.leftEye;
+        data.rightEyeDistanceScore = 100 * info.distanceRatio.rightEye;
 
         
 
@@ -77,11 +164,11 @@ public class ResultCalculate : MonoBehaviour
             }
             else if(earsOnField.Length > _earAmount)
             {
-                data.earAmountScore -= 5 * (earsOnField.Length - _earAmount);
+                data.earAmountScore = 100 - 5 * (earsOnField.Length - _earAmount);
             }
             else if(earsOnField.Length < _earAmount)
             {
-                data.earAmountScore -= 15 * (_earAmount - earsOnField.Length);
+                data.earAmountScore = 100 - 15 * (_earAmount - earsOnField.Length);
             }
         }
         else
@@ -89,8 +176,8 @@ public class ResultCalculate : MonoBehaviour
             data.earAmountScore = 0;
         }
 
-        data.leftEarDistanceScore *= info.distanceRatio.leftEar;
-        data.rightEarDistanceScore *= info.distanceRatio.rightEar;
+        data.leftEarDistanceScore = 100 * info.distanceRatio.leftEar;
+        data.rightEarDistanceScore = 100 * info.distanceRatio.rightEar;
 
         
         #endregion
@@ -105,11 +192,11 @@ public class ResultCalculate : MonoBehaviour
             }
             else if(mouthsOnField.Length > _mouthAmount)
             {
-                data.mouthAmountScore -= 5 * (mouthsOnField.Length - _mouthAmount);
+                data.mouthAmountScore = 100 - 5 * (mouthsOnField.Length - _mouthAmount);
             } 
             else if(mouthsOnField.Length < _mouthAmount)
             {
-                data.mouthAmountScore -= 15 * (_mouthAmount - mouthsOnField.Length);
+                data.mouthAmountScore = 100 - 15 * (_mouthAmount - mouthsOnField.Length);
             }
         }
         else
@@ -117,18 +204,41 @@ public class ResultCalculate : MonoBehaviour
             data.mouthAmountScore = 0;
         }
 
-        if (info.distanceRatio.mouth > 1) data.mouthDistanceScore *= (1 - (info.distanceRatio.mouth - 1));
-        else data.mouthDistanceScore *= info.distanceRatio.mouth;
+        if (info.distanceRatio.mouth > 1) data.mouthDistanceScore = 100 * (1 - (info.distanceRatio.mouth - 1));
+        else data.mouthDistanceScore = 100 * info.distanceRatio.mouth;
 
         #endregion
 
         #region Sum up
 
-        data.eyeSumScore = Mathf.RoundToInt((data.eyeAmountScore + Mathf.RoundToInt((data.leftEyeDistanceScore + data.rightEyeDistanceScore)) / 2) / 2);
-        data.earSumScore = Mathf.RoundToInt((data.earAmountScore + Mathf.RoundToInt((data.leftEarDistanceScore + data.rightEarDistanceScore)) / 2) / 2);
+        int meanOfEyeDistance = Mathf.RoundToInt((data.leftEyeDistanceScore + data.rightEyeDistanceScore) / 2);
+        int meanOfEarDistance = Mathf.RoundToInt((data.leftEarDistanceScore + data.rightEarDistanceScore) / 2);
+
+        data.eyeSumScore = Mathf.RoundToInt((data.eyeAmountScore + meanOfEyeDistance) / 2);
+        data.earSumScore = Mathf.RoundToInt((data.earAmountScore + meanOfEarDistance) / 2);
         data.mouthSumScore = Mathf.RoundToInt((data.mouthAmountScore + data.mouthDistanceScore) / 2);
 
+        //スコアを利用して獲得する★の量を決定
+        data.eyeStar_A = GetStar(data.eyeAmountScore);
+        data.eyeStar_P = GetStar(meanOfEyeDistance);
+        data.earStar_A = GetStar(data.earAmountScore);
+        data.earStar_P = GetStar(meanOfEarDistance);
+        data.mouthStar_A = GetStar(data.mouthAmountScore);
+        data.mouthStar_P = GetStar(Mathf.RoundToInt(data.mouthDistanceScore));
+
         data.totalScore = data.eyeSumScore + data.earSumScore + data.mouthSumScore;
+
+        //UIのテキストを変更
+        data.T_totalScore.text = data.totalScore.ToString();
+        data.T_eyeSumScore.text = data.eyeSumScore.ToString();
+        data.T_eyeStar_A.text = data.eyeStar_A;
+        data.T_eyeStar_P.text = data.eyeStar_P;
+        data.T_earSumScore.text = data.earSumScore.ToString();
+        data.T_earStar_A.text = data.earStar_A;
+        data.T_earStar_P.text = data.earStar_P;
+        data.T_mouthSumScore.text = data.mouthSumScore.ToString();
+        data.T_mouthStar_A.text = data.mouthStar_A;
+        data.T_mouthStar_P.text = data.mouthStar_P;
 
         #endregion
 
@@ -404,19 +514,36 @@ class CalculateInfo
 
 public class ResultData
 {
+    //各種UI
+    public Text T_totalScore, T_eyeSumScore, T_eyeStar_A, T_eyeStar_P,
+        T_earSumScore, T_earStar_A, T_earStar_P,
+        T_mouthSumScore, T_mouthStar_A, T_mouthStar_P;
+
+    //総合点
     public int totalScore = 0;
 
+    //目の各種スコア
     public int eyeSumScore = 0;
     public int eyeAmountScore = 100;
     public float leftEyeDistanceScore = 100;
     public float rightEyeDistanceScore = 100;
+    public string eyeStar_A = "";
+    public string eyeStar_P = "";
 
+    //耳の各種スコア
     public int earSumScore = 0;
     public int earAmountScore = 100;
     public float leftEarDistanceScore = 100;
     public float rightEarDistanceScore = 100;
+    public string earStar_A = "";
+    public string earStar_P = "";
 
+    //口の各種スコア
     public int mouthSumScore = 0;
     public int mouthAmountScore = 100;
     public float mouthDistanceScore = 100;
+    public string mouthStar_A = "";
+    public string mouthStar_P = "";
+
+
 }

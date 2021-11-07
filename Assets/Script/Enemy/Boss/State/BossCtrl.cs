@@ -141,7 +141,7 @@ public class BossCtrl : EnemyBaseScript
     public override void EnemyDie()
     {
         base.EnemyDie();
-        MainScript.GameClear(); //まだデバッグ出力がされるのみです。
+        _ = MainScript.GameClear(); //まだデバッグ出力がされるのみです。
     }
 
     public override void EnemyTakeDamage()

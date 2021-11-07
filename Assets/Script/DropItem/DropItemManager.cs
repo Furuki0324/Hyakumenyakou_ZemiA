@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 public class DropItemManager : MonoBehaviour
 {
+    /******************************************************************
+     *         このスクリプト内ではstatic変数に「_」を付けています。      *
+     *         private変数の印ではありません                            *
+     ******************************************************************/
 
     //ENUM
     /// <summary>
@@ -358,21 +362,24 @@ public class DropItemManager : MonoBehaviour
         }
     }
 
-    private static void ShowText(string text)
+    private static async Task ShowText(string text)
     {
         switch (text)
         {
             case "LessElement":
-                _lessElementWarning.gameObject.SetActive(true);
-
-                if (!_lessTextShown) DisableText(_lessElementWarning, 3000);
-                _lessTextShown = true;
+                if (!_lessTextShown)
+                {
+                    _lessElementWarning.gameObject.SetActive(true);
+                    _lessTextShown = true;
+                    await DisableText(_lessElementWarning, 3000);
+                    
+                }
                 break;
         }
     }
 
 
-    private static async void DisableText(Text text, int milliSecond)
+    private static async Task DisableText(Text text, int milliSecond)
     {
         //Debug.Log("Task started.");
 

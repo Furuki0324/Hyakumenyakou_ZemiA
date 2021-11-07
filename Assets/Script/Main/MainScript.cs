@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -35,9 +36,9 @@ public class MainScript : MonoBehaviour
         GameStart();
 
         //各素材の初期値を取得
-        DropItemManager.ObtainItem("EyeElement", defaultElementAmount, true);
-        DropItemManager.ObtainItem("EarElement", defaultElementAmount, true);
-        DropItemManager.ObtainItem("MouthElement", defaultElementAmount, true);
+        DropItemManager.ObtainItem("EyeElement", defaultElementAmount, initialize: true);
+        DropItemManager.ObtainItem("EarElement", defaultElementAmount, initialize: true);
+        DropItemManager.ObtainItem("MouthElement", defaultElementAmount, initialize: true);
 
 
         //開始時点で配置されているパーツを追加
@@ -135,9 +136,18 @@ public class MainScript : MonoBehaviour
         Debug.Log("Game Over");
     }
 
-    public static void GameClear()
+    public static async Task GameClear()
     {
+        Debug.Log("Animation task started.");
+        Time.timeScale = 0;
+
+        await GameClearUIAnimation.ShowText();
+                
         ResultData data = ResultCalculate.CalculateResultData(GameObject.FindWithTag("Face_Nose"));
+
+        await GameClearUIAnimation.FadeOut();
+
+        #region
         Debug.Log("Game Clear! Your score: " + data.totalScore
              + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
              + "\nEar: " + data.earAmountScore
@@ -149,7 +159,8 @@ public class MainScript : MonoBehaviour
              + "\nMouth: " + data.mouthDistanceScore
              + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
              + "\nEar: " + data.earSumScore
-             + "\nMouth: " + data.mouthSumScore);
+             + "\nMouth: " + data.mouthSumScore
+             + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P);
 
         result.text = "Game Clear!" + "\nYour score: " + data.totalScore
             + "\n\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
@@ -162,8 +173,14 @@ public class MainScript : MonoBehaviour
             + "\nMouth: " + data.mouthDistanceScore
             + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
             + "\nEar: " + data.earSumScore
-            + "\nMouth: " + data.mouthSumScore;
+            + "\nMouth: " + data.mouthSumScore
+            + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P;
+        #endregion
 
         result.GetComponent<TextMeshProSimpleAnimator>().Play();
+
+        Debug.Log("Animation task finished.");
     }
+
+
 }
