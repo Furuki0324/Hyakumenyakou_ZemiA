@@ -147,6 +147,12 @@ public class MainScript : MonoBehaviour
 
         await GameClearUIAnimation.FadeOut();
 
+        GameClearUIAnimation.CameraSwitch();
+
+        await GameClearUIAnimation.FadeIn();
+
+        await GameClearUIAnimation.ScoreSliding(data);
+
         #region
         Debug.Log("Game Clear! Your score: " + data.totalScore
              + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
