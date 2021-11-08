@@ -59,7 +59,8 @@ public class ResultCalculate : MonoBehaviour
     {
         if (score >= 95) return "★★★";
         else if (score >= 50) return "★★☆";
-        else return "★☆☆";
+        else if (score >= 25) return "★☆☆";
+        else return "☆☆☆";
     }
 
     private void GetStaticUI()

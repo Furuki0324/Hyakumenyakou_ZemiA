@@ -304,6 +304,34 @@ public class GameClearUIAnimation : MonoBehaviour
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
         }
+
+        //0.5秒待機
+        await Task.Delay(500);
+
+        //合計点のテキストの座標を取得
+        scorePos = data.T_totalScore.transform.position;
+
+        //合計点のテキストの色を取得
+        scoreColor = data.T_totalScore.color;
+
+        for(float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
+        {
+            alpha = Mathf.Lerp(0, 1, i / _slideDuration);
+            scoreColor.a = alpha;
+            data.T_totalScore.color = scoreColor;
+
+            difference = Mathf.Lerp(_diff, 0, i / _slideDuration);
+            movePos.x = difference;
+            data.T_totalScore.transform.position = scorePos + movePos;
+
+            //FPSの計算
+            float fps = 1 / Time.unscaledDeltaTime;
+            //Debug.Log(fps);
+
+            //1フレーム待機
+            await Task.Delay((int)(1000 / fps));
+        }
     }
+
 
 }
