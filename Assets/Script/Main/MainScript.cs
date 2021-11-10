@@ -56,6 +56,7 @@ public class MainScript : MonoBehaviour
 
     private void GameStart()
     {
+        Time.timeScale = 1;
         //ゲームが開始されたことを記録
         SaveData.AchievementStep(Achievement.StepType.playCount);
     }
@@ -141,17 +142,29 @@ public class MainScript : MonoBehaviour
         Debug.Log("Animation task started.");
         Time.timeScale = 0;
 
-        await GameClearUIAnimation.ShowText();
+        List<Task> tasks = new List<Task>();
+        tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.clear, loop: false));
+        tasks.Add(GameClearUIAnimation.ShowText());
+
+        await Task.WhenAll(tasks);
                 
         ResultData data = ResultCalculate.CalculateResultData(GameObject.FindWithTag("Face_Nose"));
 
         await GameClearUIAnimation.FadeOut();
 
         GameClearUIAnimation.CameraSwitch();
+        //GameClearUIAnimation.SetCullingMask();
 
-        await GameClearUIAnimation.FadeIn();
+        tasks.Clear();
+        tasks.Add(GameClearUIAnimation.FadeIn());
 
-        await GameClearUIAnimation.ScoreSliding(data);
+        await Task.WhenAll(tasks);
+
+        tasks.Clear();
+        tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.result, loop: true));
+        tasks.Add(GameClearUIAnimation.ScoreSliding(data));
+
+        await Task.WhenAll(tasks);
 
         #region
         Debug.Log("Game Clear! Your score: " + data.totalScore

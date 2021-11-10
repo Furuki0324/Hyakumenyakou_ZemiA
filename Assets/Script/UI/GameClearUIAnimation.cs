@@ -8,12 +8,21 @@ using Cinemachine;
 
 public class GameClearUIAnimation : MonoBehaviour
 {
+    /*****************************************************************
+    *         このスクリプト内ではstatic変数に「_」を付けています。      *
+    *         private変数の印ではありません                            *
+    ******************************************************************/
+
     [Header("UI or GameObject")]
     [SerializeField] private CinemachineVirtualCamera vcam2;
     [SerializeField] private Image cover;
     [SerializeField] private Text gameClearText;
     [SerializeField] private GameObject texts;
     [SerializeField] private GameObject UI_overlay;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip slidingSFX;
+    [SerializeField] private AudioClip sumSFX;
 
     [Header("Number")]
     [Tooltip("アニメーション開始時にテキストを表示させる場所までの幅")]
@@ -26,6 +35,10 @@ public class GameClearUIAnimation : MonoBehaviour
     private static Text _gameClearText;
     private static GameObject _texts;
     private static GameObject _UI_overlay;
+
+    private static AudioClip _slidingSFX;
+    private static AudioClip _sumSFX;
+
     private static float _diff;
     private static float _duration;
     private static float _slideDuration;
@@ -41,6 +54,9 @@ public class GameClearUIAnimation : MonoBehaviour
         _texts.SetActive(false);
         _UI_overlay = UI_overlay;
         _UI_overlay.SetActive(true);
+
+        _slidingSFX = slidingSFX;
+        _sumSFX = sumSFX;
 
         _cover = cover;
         _gameClearText = gameClearText;
@@ -65,7 +81,7 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static async Task ShowText()
     {
-        float alpha = 0;
+        float alpha;
         Debug.Log("GameClear animation started.");
 
 
@@ -102,7 +118,7 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static async Task FadeOut()
     {
-        float alpha = 0;
+        float alpha;
 
         //テキストの透明化
         for (float i = 0; i < _duration; i += Time.unscaledDeltaTime)
@@ -143,10 +159,30 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static void CameraSwitch()
     {
+
+
         _vcam2.gameObject.SetActive(true);
         _texts.SetActive(true);
         _UI_overlay.SetActive(false);
+
+
     }
+
+    public static void SetCullingMask()
+    {
+        GameObject mainCam = GameObject.FindWithTag("MainCamera");
+        Camera camera = mainCam.GetComponent<Camera>();
+        //レイヤー10番(顔面の背景)と11番(顔パーツ)にマスクをセット
+        int bit1 = 1 << 10;
+        int bit2 = 1 << 11;
+        int bit = bit1 | bit2;  //0b110000000000
+        camera.cullingMask = bit << 0;
+
+        CinemachineBrain brain = mainCam.GetComponent<CinemachineBrain>();
+        brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+    }
+
+
 
     /// <summary>
     /// 目隠し用の背景を透明化します。
@@ -154,7 +190,7 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static async Task FadeIn()
     {
-        float alpha = 0;
+        float alpha;
 
         for(float i = 0; i < _duration; i += Time.unscaledDeltaTime)
         {
@@ -179,9 +215,9 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static async Task ScoreSliding(ResultData data)
     {
-        float alpha = 0;
-        float difference = _diff;
-        Vector2 scorePos = Vector2.zero, star_A_Pos = Vector2.zero, star_P_Pos = Vector2.zero, movePos = Vector2.zero;
+        float alpha;
+        float difference;
+        Vector2 scorePos, star_A_Pos, star_P_Pos, movePos = Vector2.zero;
         Color scoreColor, star_A_Color, star_P_Color;
 
         //テキストのもとの座標を取得
@@ -195,6 +231,7 @@ public class GameClearUIAnimation : MonoBehaviour
         star_P_Color = data.T_eyeStar_P.color;
 
         //目のスライドと不透明化
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -215,15 +252,15 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_eyeStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
+            float fps = 1 / Time.fixedUnscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
         }
 
-        //0.25秒待機
-        await Task.Delay(250);
+        //0.5秒待機
+        await Task.Delay(500);
 
         //耳のテキストの座標を取得
         scorePos = data.T_earSumScore.transform.position;
@@ -236,6 +273,7 @@ public class GameClearUIAnimation : MonoBehaviour
         star_P_Color = data.T_earStar_P.color;
 
         //耳のスライドと不透明化
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -256,15 +294,15 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_earStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
+            float fps = 1 / Time.fixedUnscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
         }
 
-        //0.25秒待機
-        await Task.Delay(250);
+        //0.5秒待機
+        await Task.Delay(500);
 
         //口のテキストの座標を取得
         scorePos = data.T_mouthSumScore.transform.position;
@@ -278,6 +316,7 @@ public class GameClearUIAnimation : MonoBehaviour
 
 
         //口のスライドと不透明化
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -298,15 +337,15 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_mouthStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
+            float fps = 1 / Time.fixedUnscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
         }
 
-        //0.5秒待機
-        await Task.Delay(500);
+        //1秒待機
+        await Task.Delay(1000);
 
         //合計点のテキストの座標を取得
         scorePos = data.T_totalScore.transform.position;
@@ -314,7 +353,9 @@ public class GameClearUIAnimation : MonoBehaviour
         //合計点のテキストの色を取得
         scoreColor = data.T_totalScore.color;
 
-        for(float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
+        //合計点のテキストのスライドと不透明化
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_sumSFX);
+        for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
             scoreColor.a = alpha;
@@ -325,7 +366,7 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_totalScore.transform.position = scorePos + movePos;
 
             //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
+            float fps = 1 / Time.fixedUnscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
