@@ -172,14 +172,16 @@ public class GameClearUIAnimation : MonoBehaviour
     {
         GameObject mainCam = GameObject.FindWithTag("MainCamera");
         Camera camera = mainCam.GetComponent<Camera>();
-        //レイヤー10番(顔面の背景)と11番(顔パーツ)にマスクをセット
-        int bit1 = 1 << 10;
-        int bit2 = 1 << 11;
-        int bit = bit1 | bit2;  //0b110000000000
+        //レイヤー5番(UI)と10番(顔面の背景)と11番(顔パーツ)と18番(Cinemachine)にマスクをセット
+        int bit1 = 1 << 5;
+        int bit2 = 1 << 10;
+        int bit3 = 1 << 11;
+        int bit4 = 1 << 18;
+        int bit = bit1 | bit2 | bit3 | bit4;  //0b100000110000010000
         camera.cullingMask = bit << 0;
 
         CinemachineBrain brain = mainCam.GetComponent<CinemachineBrain>();
-        brain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+        brain.ManualUpdate();
     }
 
 
@@ -252,7 +254,7 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_eyeStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.fixedUnscaledDeltaTime;
+            float fps = 1 / Time.unscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
@@ -294,7 +296,7 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_earStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.fixedUnscaledDeltaTime;
+            float fps = 1 / Time.unscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
@@ -337,7 +339,7 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_mouthStar_P.color = star_P_Color;
 
             //FPSの計算
-            float fps = 1 / Time.fixedUnscaledDeltaTime;
+            float fps = 1 / Time.unscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機
@@ -366,7 +368,7 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_totalScore.transform.position = scorePos + movePos;
 
             //FPSの計算
-            float fps = 1 / Time.fixedUnscaledDeltaTime;
+            float fps = 1 / Time.unscaledDeltaTime;
             //Debug.Log(fps);
 
             //1フレーム待機

@@ -148,12 +148,12 @@ public class MainScript : MonoBehaviour
 
         await Task.WhenAll(tasks);
                 
-        ResultData data = ResultCalculate.CalculateResultData(GameObject.FindWithTag("Face_Nose"));
+        ResultData data = ResultCalculate.CalculateResultData(noseAsCenter: GameObject.FindWithTag("Face_Nose"));
 
         await GameClearUIAnimation.FadeOut();
 
         GameClearUIAnimation.CameraSwitch();
-        //GameClearUIAnimation.SetCullingMask();
+        GameClearUIAnimation.SetCullingMask();
 
         tasks.Clear();
         tasks.Add(GameClearUIAnimation.FadeIn());
