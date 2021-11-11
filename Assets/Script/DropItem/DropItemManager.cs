@@ -11,24 +11,11 @@ public class DropItemManager : MonoBehaviour
      *         private変数の印ではありません                            *
      ******************************************************************/
 
-    //ENUM
-    /// <summary>
-    /// <para>obtainItem - アイテム取得</para>
-    /// <para>createFace - 顔パーツ生成</para>
-    /// <para>accessDenied - 素材所持数を超えて使用しようとしたとき</para>
-    /// </summary>
-    private enum SoundPattern { obtainItem, createFace, accessDenied}
-
     [Header("Bool")]
     private static bool _lessTextShown;
 
     [Header("Sound")]
-    [SerializeField] private AudioClip obtainItemSound;
-    [SerializeField] private AudioClip createFaceSound;
-    [SerializeField] private AudioClip deniedSound;
-
-    [Header("AudioSource")]
-    private static AudioSource _audioSource;
+    [SerializeField] private SoundInfo[] SFX;
 
     [Header("UI Image")]
     [SerializeField] private Image spendingElementCircle;
@@ -72,7 +59,7 @@ public class DropItemManager : MonoBehaviour
     #region Get static variables from editor inspector
     private static Image _spendingElementCircle;
     private static Text _eyeElement, _earElement, _mouthElement, _lessElementWarning;
-    private static AudioClip _obtainItemSound, _createFaceSound, _deniedSound;
+    private static Dictionary<SoundInfo.Pattern, AudioClip> soundDictionary = new Dictionary<SoundInfo.Pattern, AudioClip>();
     private static RectTransform _eyePoint, _earPoint, _mouthPoint;
 
     #endregion
@@ -80,8 +67,6 @@ public class DropItemManager : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-
         GetStaticVariables();
 
         RefleshTexts();
@@ -102,9 +87,10 @@ public class DropItemManager : MonoBehaviour
         indicatorText = _spendingElementCircle.GetComponentInChildren<Text>();
 
         //AudioClip
-        _obtainItemSound = obtainItemSound;
-        _createFaceSound = createFaceSound;
-        _deniedSound = deniedSound;
+        foreach(SoundInfo info in SFX)
+        {
+            soundDictionary.Add(info.pattern, info.clip);
+        }
 
         //RectTransform
         _eyePoint = eyePoint;
@@ -139,7 +125,7 @@ public class DropItemManager : MonoBehaviour
 
         if (!initialize)
         {
-            PlaySoundEffect(SoundPattern.obtainItem);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.obtainItem]);
 
             //セーブデータに素材を一つ回収したことを記録
             SaveData.AchievementStep(Achievement.StepType.collector);
@@ -189,7 +175,7 @@ public class DropItemManager : MonoBehaviour
         }
         else
         {
-            PlaySoundEffect(SoundPattern.accessDenied);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny]);
             return false;
         }
 
@@ -209,7 +195,7 @@ public class DropItemManager : MonoBehaviour
             spendingElementHolder = spendingElement;
             spendingElement = 0;
 
-            PlaySoundEffect(SoundPattern.createFace);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace]);
             RefleshTexts();
             return true;
         }
@@ -293,7 +279,7 @@ public class DropItemManager : MonoBehaviour
             else
             {
                 ShowText("LessElement");
-                PlaySoundEffect(SoundPattern.accessDenied);
+                _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny]);
             }
 
             
@@ -341,26 +327,6 @@ public class DropItemManager : MonoBehaviour
         indicatorText.text = spendingElement.ToString();
     }
 
-    private static void PlaySoundEffect(SoundPattern pattern)
-    {
-        switch (pattern)
-        {
-            case SoundPattern.obtainItem:
-                _audioSource.PlayOneShot(_obtainItemSound);
-                break;
-
-            case SoundPattern.createFace:
-                _audioSource.PlayOneShot(_createFaceSound);
-                break;
-
-            case SoundPattern.accessDenied:
-                _audioSource.PlayOneShot(_deniedSound);
-                break;
-
-            default:
-                break;
-        }
-    }
 
     private static async Task ShowText(string text)
     {
@@ -389,4 +355,12 @@ public class DropItemManager : MonoBehaviour
 
         //Debug.Log("Task finished.");
     }
+}
+
+[System.Serializable]
+public class SoundInfo
+{
+    public enum Pattern { none, obtainItem, createFace, accessDeny}
+    public Pattern pattern;
+    public AudioClip clip;
 }

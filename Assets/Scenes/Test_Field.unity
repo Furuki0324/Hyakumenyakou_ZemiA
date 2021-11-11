@@ -3868,9 +3868,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5541f1469456ee64587b48cf216ff0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obtainItemSound: {fileID: 8300000, guid: 7d84d7a946a9c3e459f43a5e0d68ec43, type: 3}
-  createFaceSound: {fileID: 8300000, guid: 6a03384f70ab0bb4097ea4f907eb928c, type: 3}
-  deniedSound: {fileID: 8300000, guid: 5045c52de2b169348a4d708137900578, type: 3}
+  SFX:
+  - pattern: 1
+    clip: {fileID: 8300000, guid: a5dd3659265625a4aa465d6dda5ad6a8, type: 3}
+  - pattern: 2
+    clip: {fileID: 8300000, guid: 8e6068f2b52174d4a858c8c3f11163b1, type: 3}
+  - pattern: 3
+    clip: {fileID: 8300000, guid: 5045c52de2b169348a4d708137900578, type: 3}
   spendingElementCircle: {fileID: 1552559195}
   eyeElement: {fileID: 1062463781}
   earElement: {fileID: 1663476103}
