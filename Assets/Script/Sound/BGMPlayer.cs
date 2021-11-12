@@ -31,9 +31,11 @@ public class BGMPlayer : MonoBehaviour
             bgmDictionary.Add(info.pattern, info.clip);
         }
 
+        /*
         audioSource.clip = bgmDictionary[BGMInfo.Pattern.defence];
         audioSource.loop = true;
         audioSource.Play();
+        */
     }
 
     public static async Task ChangeBGM(BGMInfo.Pattern next, bool loop = true)
@@ -54,7 +56,7 @@ public class BGMPlayer : MonoBehaviour
     public static async Task FadeOut()
     {
         float volume = 1;
-        Debug.Log("Fade start.");
+        //Debug.Log("Fade start.");
         for(float i = 0; i < _fadeDuration; i += Time.unscaledDeltaTime)
         {
             volume = Mathf.Lerp(1, 0, i / _fadeDuration);
@@ -68,7 +70,7 @@ public class BGMPlayer : MonoBehaviour
             await Task.Delay((int)(1000 / fps));
         }
 
-        Debug.Log("Fade finished");
+        //Debug.Log("Fade finished");
         audioSource.Stop();
     }
 }
@@ -76,7 +78,7 @@ public class BGMPlayer : MonoBehaviour
 [System.Serializable]
 public class BGMInfo
 {
-    public enum Pattern { none, defence, boss, clear, result};
+    public enum Pattern { none, start, defence, boss, clear, result};
     public Pattern pattern;
     public AudioClip clip;
 }

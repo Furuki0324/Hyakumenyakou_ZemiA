@@ -146,9 +146,8 @@ public class BossCtrl : EnemyBaseScript
 
     public override void EnemyTakeDamage()
     {
-        hp--;
         takeDamage = true;
-        if (hp <= 0) EnemyDie();
+        base.EnemyTakeDamage();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

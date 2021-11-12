@@ -217,6 +217,8 @@ public class GameClearUIAnimation : MonoBehaviour
     /// <returns></returns>
     public static async Task ScoreSliding(ResultData data)
     {
+        float fps = 1 / Time.fixedUnscaledDeltaTime;
+
         float alpha;
         float difference;
         Vector2 scorePos, star_A_Pos, star_P_Pos, movePos = Vector2.zero;
@@ -253,9 +255,6 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_eyeStar_P.transform.position = star_P_Pos + movePos;
             data.T_eyeStar_P.color = star_P_Color;
 
-            //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
-            //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
@@ -295,9 +294,6 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_earStar_P.transform.position = star_P_Pos + movePos;
             data.T_earStar_P.color = star_P_Color;
 
-            //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
-            //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
@@ -338,9 +334,6 @@ public class GameClearUIAnimation : MonoBehaviour
             data.T_mouthStar_P.transform.position = star_P_Pos + movePos;
             data.T_mouthStar_P.color = star_P_Color;
 
-            //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
-            //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
@@ -367,9 +360,6 @@ public class GameClearUIAnimation : MonoBehaviour
             movePos.x = difference;
             data.T_totalScore.transform.position = scorePos + movePos;
 
-            //FPSの計算
-            float fps = 1 / Time.unscaledDeltaTime;
-            //Debug.Log(fps);
 
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));

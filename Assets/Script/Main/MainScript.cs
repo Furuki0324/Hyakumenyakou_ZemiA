@@ -33,7 +33,7 @@ public class MainScript : MonoBehaviour
 
     private void Start()
     {
-        GameStart();
+
 
         //各素材の初期値を取得
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount, initialize: true);
@@ -52,11 +52,27 @@ public class MainScript : MonoBehaviour
         result = tempInst.GetComponent<TextMeshProUGUI>();
         result.text = "";
         
+        _ = GameStart();
     }
 
-    private void GameStart()
+    private async Task GameStart()
     {
+        Time.timeScale = 0;
+
+        Debug.Log("Start task started.");
+
+        List<Task> tasks = new List<Task>();
+        tasks.Add(GameStartUIAnimation.FirstAnimation());
+        tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.start, loop: false));
+
+        await Task.WhenAll(tasks);
+
+        await GameStartUIAnimation.SecondAnimation();
+
+        BGMPlayer.ChangeBGM(BGMInfo.Pattern.defence);
         Time.timeScale = 1;
+        Debug.Log("Start task finished.");
+
         //ゲームが開始されたことを記録
         SaveData.AchievementStep(Achievement.StepType.playCount);
     }
@@ -65,7 +81,7 @@ public class MainScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(openOptionKey) && option) OptionModeToggle();
+        if (Input.GetKeyDown(openOptionKey) && (Time.timeScale == 0) && option) OptionModeToggle();
     }
 
     private void OptionModeToggle()

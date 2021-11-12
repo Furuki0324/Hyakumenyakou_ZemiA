@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea10ac99c0454124a967f9133d58dd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 0.1
-  health: 20
+  scale: 0.2
+  health: 10
   sprites:
   - {fileID: 21300000, guid: e49612755be3a5147bc12e3c1ced101d, type: 3}
   - {fileID: 21300000, guid: 7ba95251d42f45f4d806057ab599add9, type: 3}

@@ -41,7 +41,7 @@ public class PhaseManager : MonoBehaviour
         }
         else
         {
-            text.text = "The boss incoming!";
+            text.text = "首領参戦";
             text.color = Color.red;
         }
         
