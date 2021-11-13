@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define SAVE
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -127,8 +129,10 @@ public class DropItemManager : MonoBehaviour
         {
             _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.obtainItem]);
 
+#if SAVE
             //セーブデータに素材を一つ回収したことを記録
             SaveData.AchievementStep(Achievement.StepType.collector);
+#endif
         }
         RefleshTexts();
 

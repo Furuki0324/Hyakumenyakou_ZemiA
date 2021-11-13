@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define SAVE
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,8 +50,10 @@ public class EnemyBaseScript : MonoBehaviour
             if (attackEffect && fx) fx.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.destroy);
         }
 
+#if SAVE
         SaveData.AchievementStep(Achievement.StepType.killEnemy_ResetForEachPlay);
         SaveData.AchievementStep(Achievement.StepType.killEnemy_Cumulative);
+#endif
 
         EnemyDropItemCtrl dropCtrl;
 

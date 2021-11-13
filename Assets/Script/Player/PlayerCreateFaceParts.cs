@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define SAVE
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,8 +76,10 @@ public class PlayerCreateFaceParts : MonoBehaviour
             FacePartsBaseScript go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
             MainScript.AddFaceObject(go.gameObject);
 
+#if SAVE
             //セーブデータにパーツを一つ生成したことを記録
             SaveData.AchievementStep(Achievement.StepType.creator);
+#endif
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define SAVE
+
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,8 +75,10 @@ public class MainScript : MonoBehaviour
         Time.timeScale = 1;
         Debug.Log("Start task finished.");
 
+#if SAVE
         //ゲームが開始されたことを記録
         SaveData.AchievementStep(Achievement.StepType.playCount);
+#endif
     }
 
 
@@ -182,7 +186,7 @@ public class MainScript : MonoBehaviour
 
         await Task.WhenAll(tasks);
 
-        #region
+#region
         Debug.Log("Game Clear! Your score: " + data.totalScore
              + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
              + "\nEar: " + data.earAmountScore
@@ -210,7 +214,7 @@ public class MainScript : MonoBehaviour
             + "\nEar: " + data.earSumScore
             + "\nMouth: " + data.mouthSumScore
             + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P;
-        #endregion
+#endregion
 
         result.GetComponent<TextMeshProSimpleAnimator>().Play();
 
