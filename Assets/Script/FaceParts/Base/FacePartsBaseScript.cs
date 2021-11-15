@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -28,6 +29,7 @@ public class FacePartsBaseScript : MonoBehaviour
     [Header("Sound")]
     protected AudioSource audioSource;
     public AudioClip deadSound;
+    [SerializeField] AudioMixerGroup deadMixer;
 
     [Header("Other")]
     public bool immortal;
@@ -186,7 +188,7 @@ public class FacePartsBaseScript : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
 
-
+        audioSource.outputAudioMixerGroup = deadMixer;
         audioSource.PlayOneShot(deadSound);
         yield return new WaitForSeconds(wait * 1.1f);
         

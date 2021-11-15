@@ -28,7 +28,7 @@ public class GameStartUIAnimation : MonoBehaviour
         _cover = cover;
         _coverColor = _cover.color;
         //透明化
-        _coverColor.a = 0;
+        _coverColor.a = 1;
         _cover.color = _coverColor;
 
         _T_start = T_start;
@@ -49,7 +49,7 @@ public class GameStartUIAnimation : MonoBehaviour
         float textAlpha = 0;
         for (float i = 0; i < _duration; i += Time.fixedUnscaledDeltaTime)
         {
-            coverAlpha = Mathf.Lerp(0, 0.5f, i / _duration);
+            coverAlpha = Mathf.Lerp(1, 0.5f, i / _duration);
             textAlpha = Mathf.Lerp(0, 1, i / _duration);
 
             _coverColor.a = coverAlpha;

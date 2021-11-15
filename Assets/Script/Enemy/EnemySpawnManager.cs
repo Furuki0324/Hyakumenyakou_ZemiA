@@ -26,6 +26,7 @@ public class EnemySpawnManager : MonoBehaviour
     private void Awake()
     {
         //Get static variables
+        _spawnPrefabs.Clear();
         foreach (EnemyPrefabInfo info in spawnPrefabs)
         {
             _spawnPrefabs.Add(info);
@@ -33,6 +34,8 @@ public class EnemySpawnManager : MonoBehaviour
         _bossPrefab = bossPrefab;
         _spawnSize = spawnSize;
         _difference = difference;
+
+        _spawnPoints.Clear();
         foreach(Transform transform in spawnPoints)
         {
             _spawnPoints.Add(transform);

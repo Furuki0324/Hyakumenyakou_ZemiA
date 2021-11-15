@@ -104,7 +104,7 @@ public class MouthScript : FacePartsBaseScript
     private float SetVolume()
     {
         float ratio = (float)health / cacheHealth;
-        Debug.Log("R:" + ratio);
+        //Debug.Log("R:" + ratio);
 
         audioSource.volume = 1 - defaultVolume * ratio;
 

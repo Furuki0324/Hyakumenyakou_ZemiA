@@ -25,7 +25,9 @@ public class PhaseManager : MonoBehaviour
 
     private void Start()
     {
-        text.text = phaseNumber.ToString();
+        boss = false;
+        enemyList.Clear();
+        phaseNumber = 1;
     }
 
     private void Update()

@@ -85,7 +85,8 @@ public class MainScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(openOptionKey) && (Time.timeScale == 0) && option) OptionModeToggle();
+        if (optionIsOpened) Time.timeScale = 0;
+        if (Input.GetKeyDown(openOptionKey) && option) OptionModeToggle();
     }
 
     private void OptionModeToggle()

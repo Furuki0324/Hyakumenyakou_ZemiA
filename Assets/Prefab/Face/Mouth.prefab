@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 501781509327110247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.8639994, y: -1.3300277, z: -7.982422}
-  m_LocalScale: {x: 0.27675503, y: 0.27675503, z: 0.27675503}
+  m_LocalScale: {x: 0.45794657, y: 0.45794657, z: 0.45794657}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -104,6 +104,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e7f02cb26c75ae2488736a9bad3b6b79, type: 3}
   - {fileID: 21300000, guid: e1e72addaa41afd48afcdb6db184dfb3, type: 3}
   deadSound: {fileID: 8300000, guid: 17849cc9fe9cef84e8396afca516e492, type: 3}
+  deadMixer: {fileID: 6405586804863122211, guid: 241baac3dc0445849a2178dc228a0f8d,
+    type: 2}
   immortal: 0
   highSound:
   - {fileID: 8300000, guid: 4854487179a6dce4b9208327833d01cf, type: 3}
@@ -246,7 +248,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 501781509327110247}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c248c48b3a9ec584686783565a0f1484, type: 2}
   m_CullingMode: 0

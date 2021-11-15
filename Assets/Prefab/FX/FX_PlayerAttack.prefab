@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ce760a3a1479647bb9dc53c6c83a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FXStart: 0
-  FXEnd: 1.0343667
-  startTime: 0.168
-  endTime: 0.591
+  timeSlider: 0.559
+  collisionStartTime: 0.204
+  collisionEndTime: 0.517

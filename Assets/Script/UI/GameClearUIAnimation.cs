@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using Cinemachine;
 
@@ -17,12 +18,14 @@ public class GameClearUIAnimation : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera vcam2;
     [SerializeField] private Image cover;
     [SerializeField] private Text gameClearText;
+    [SerializeField] private SceneChangeButton restartButton;
     [SerializeField] private GameObject texts;
     [SerializeField] private GameObject UI_overlay;
 
     [Header("Audio")]
     [SerializeField] private AudioClip slidingSFX;
     [SerializeField] private AudioClip sumSFX;
+    [SerializeField] private AudioMixerGroup sfxMixer;
 
     [Header("Number")]
     [Tooltip("アニメーション開始時にテキストを表示させる場所までの幅")]
@@ -33,11 +36,13 @@ public class GameClearUIAnimation : MonoBehaviour
     private static CinemachineVirtualCamera _vcam2;
     private static Image _cover;
     private static Text _gameClearText;
+    private static SceneChangeButton _restartButton;
     private static GameObject _texts;
     private static GameObject _UI_overlay;
 
     private static AudioClip _slidingSFX;
     private static AudioClip _sumSFX;
+    private static AudioMixerGroup _sfxMixer;
 
     private static float _diff;
     private static float _duration;
@@ -57,9 +62,15 @@ public class GameClearUIAnimation : MonoBehaviour
 
         _slidingSFX = slidingSFX;
         _sumSFX = sumSFX;
+        _sfxMixer = sfxMixer;
 
         _cover = cover;
         _gameClearText = gameClearText;
+
+        //リスタート用のボタンを無効化
+        _restartButton = restartButton;
+        _restartButton.gameObject.SetActive(false);
+
         _diff = diff;
         _duration = duration;
         _slideDuration = slideDuration;
@@ -172,12 +183,13 @@ public class GameClearUIAnimation : MonoBehaviour
     {
         GameObject mainCam = GameObject.FindWithTag("MainCamera");
         Camera camera = mainCam.GetComponent<Camera>();
-        //レイヤー5番(UI)と10番(顔面の背景)と11番(顔パーツ)と18番(Cinemachine)にマスクをセット
+        //レイヤー5番(UI)と10番(顔面の背景)と11番(顔パーツ)と17番(ボス憑依時の特殊レイヤー)と18番(Cinemachine)にマスクをセット
         int bit1 = 1 << 5;
         int bit2 = 1 << 10;
         int bit3 = 1 << 11;
-        int bit4 = 1 << 18;
-        int bit = bit1 | bit2 | bit3 | bit4;  //0b100000110000010000
+        int bit4 = 1 << 17;
+        int bit5 = 1 << 18;
+        int bit = bit1 | bit2 | bit3 | bit4 | bit5;  //0b110000011000010000
         camera.cullingMask = bit << 0;
 
         CinemachineBrain brain = mainCam.GetComponent<CinemachineBrain>();
@@ -235,7 +247,7 @@ public class GameClearUIAnimation : MonoBehaviour
         star_P_Color = data.T_eyeStar_P.color;
 
         //目のスライドと不透明化
-        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX, _sfxMixer);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -274,7 +286,7 @@ public class GameClearUIAnimation : MonoBehaviour
         star_P_Color = data.T_earStar_P.color;
 
         //耳のスライドと不透明化
-        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX, _sfxMixer);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -314,7 +326,7 @@ public class GameClearUIAnimation : MonoBehaviour
 
 
         //口のスライドと不透明化
-        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX);
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_slidingSFX, _sfxMixer);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -349,7 +361,7 @@ public class GameClearUIAnimation : MonoBehaviour
         scoreColor = data.T_totalScore.color;
 
         //合計点のテキストのスライドと不透明化
-        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_sumSFX);
+        _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(_sumSFX,_sfxMixer);
         for (float i = 0; i < _slideDuration; i += Time.fixedUnscaledDeltaTime)
         {
             alpha = Mathf.Lerp(0, 1, i / _slideDuration);
@@ -364,6 +376,12 @@ public class GameClearUIAnimation : MonoBehaviour
             //1フレーム待機
             await Task.Delay((int)(1000 / fps));
         }
+
+        //1秒待機
+        await Task.Delay(1000);
+
+        //リスタートボタンを有効化
+        _restartButton.gameObject.SetActive(true);
     }
 
 

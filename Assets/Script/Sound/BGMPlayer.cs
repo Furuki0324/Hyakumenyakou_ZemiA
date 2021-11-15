@@ -26,6 +26,7 @@ public class BGMPlayer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         _fadeDuration = fadeDuration;
 
+        bgmDictionary.Clear();
         foreach(BGMInfo info in bgm)
         {
             bgmDictionary.Add(info.pattern, info.clip);
@@ -78,7 +79,7 @@ public class BGMPlayer : MonoBehaviour
 [System.Serializable]
 public class BGMInfo
 {
-    public enum Pattern { none, start, defence, boss, clear, result};
+    public enum Pattern { none, start, defence, boss, clear, result, title};
     public Pattern pattern;
     public AudioClip clip;
 }

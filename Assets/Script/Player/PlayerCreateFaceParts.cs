@@ -23,8 +23,8 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private int prefabNumber = 0;
 
     private float time;
+    private float interval;
 
-    private EnemyCtrl enemyCtrl;
     private GameObject[] enemyArray;
 
 

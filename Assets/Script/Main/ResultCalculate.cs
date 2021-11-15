@@ -44,6 +44,7 @@ public class ResultCalculate : MonoBehaviour
 
     private void Awake()
     {
+        correctPoints.Clear();
         correctPoints.Add("eye", leftEye);
         correctPoints.Add("ear", leftEar);
         correctPoints.Add("mouth", mouth);

@@ -2,9 +2,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
+using UnityEngine.Audio;
 
 public class DropItemManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class DropItemManager : MonoBehaviour
 
     [Header("Sound")]
     [SerializeField] private SoundInfo[] SFX;
+    [SerializeField] private AudioMixerGroup sfxMixer;
 
     [Header("UI Image")]
     [SerializeField] private Image spendingElementCircle;
@@ -63,6 +65,7 @@ public class DropItemManager : MonoBehaviour
     private static Text _eyeElement, _earElement, _mouthElement, _lessElementWarning;
     private static Dictionary<SoundInfo.Pattern, AudioClip> soundDictionary = new Dictionary<SoundInfo.Pattern, AudioClip>();
     private static RectTransform _eyePoint, _earPoint, _mouthPoint;
+    private static AudioMixerGroup _sfxMixer;
 
     #endregion
 
@@ -89,10 +92,14 @@ public class DropItemManager : MonoBehaviour
         indicatorText = _spendingElementCircle.GetComponentInChildren<Text>();
 
         //AudioClip
+        soundDictionary.Clear();
         foreach(SoundInfo info in SFX)
         {
             soundDictionary.Add(info.pattern, info.clip);
         }
+
+        //Mixer
+        _sfxMixer = sfxMixer;
 
         //RectTransform
         _eyePoint = eyePoint;
@@ -109,14 +116,17 @@ public class DropItemManager : MonoBehaviour
         switch (type)
         {
             case "EyeElement":
+                if (initialize) eyeElements = 0;
                 eyeElements += amount;
                 break;
 
             case "EarElement":
+                if (initialize) earElements = 0;
                 earElements += amount;
                 break;
 
             case "MouthElement":
+                if (initialize) mouthElements = 0;
                 mouthElements += amount;
                 break;
 
@@ -127,7 +137,7 @@ public class DropItemManager : MonoBehaviour
 
         if (!initialize)
         {
-            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.obtainItem]);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.obtainItem], _sfxMixer);
 
 #if SAVE
             //セーブデータに素材を一つ回収したことを記録
@@ -179,7 +189,7 @@ public class DropItemManager : MonoBehaviour
         }
         else
         {
-            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny]);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny], _sfxMixer);
             return false;
         }
 
@@ -199,7 +209,7 @@ public class DropItemManager : MonoBehaviour
             spendingElementHolder = spendingElement;
             spendingElement = 0;
 
-            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace]);
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace],_sfxMixer);
             RefleshTexts();
             return true;
         }
@@ -283,7 +293,7 @@ public class DropItemManager : MonoBehaviour
             else
             {
                 ShowText("LessElement");
-                _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny]);
+                _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny], _sfxMixer);
             }
 
             
