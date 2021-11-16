@@ -30,7 +30,7 @@ public class BossCtrl : EnemyBaseScript
     private bool throughFlag;
     private int formerLayerNum;
 
-    private Color bossColor;
+    private SpriteRenderer bossSprite;
 
     #endregion
 
@@ -46,7 +46,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid = GetComponent<Rigidbody2D>();
         takeDamage = false;
         throughFlag = false;
-        bossColor = gameObject.GetComponent<SpriteRenderer>().color;
+        bossSprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -139,10 +139,12 @@ public class BossCtrl : EnemyBaseScript
 
         //ランダムな方向に弾かれて出てくる
         // transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
-        transform.DOMoveY(5f, 5f)
-            .OnStart(() => bossColor.a = 0f)
-            .OnUpdate(() => bossColor.a += 1f/5f * Time.deltaTime)
-            .OnComplete(() => bossColor.a = 1f);
+
+        var bossTempColor = bossSprite.color;
+        transform.DOMoveY(transform.position.y + -1f, 1f)
+            .OnStart(() => bossSprite.color =  new Color(bossTempColor.r,bossTempColor.g,bossTempColor.b,0f))
+            .OnUpdate(() => bossSprite.color += new Color(0,0,0, 1f/1f * Time.deltaTime))
+            .OnComplete(() => bossSprite.color =  new Color(bossTempColor.r,bossTempColor.g,bossTempColor.b,1f));
         Destroy(nowPe.gameObject);
     }
 
