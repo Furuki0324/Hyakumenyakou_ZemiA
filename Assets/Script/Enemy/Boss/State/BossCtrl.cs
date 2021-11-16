@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class BossCtrl : EnemyBaseScript
@@ -29,6 +30,8 @@ public class BossCtrl : EnemyBaseScript
     private bool throughFlag;
     private int formerLayerNum;
 
+    private Color bossColor;
+
     #endregion
 
     void Start()
@@ -43,6 +46,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid = GetComponent<Rigidbody2D>();
         takeDamage = false;
         throughFlag = false;
+        bossColor = gameObject.GetComponent<SpriteRenderer>().color;
     }
 
     void Update()
@@ -60,6 +64,7 @@ public class BossCtrl : EnemyBaseScript
                         bhs.First = true;
                         BossData.bossData.nowState = BossData.State.highS;
                     }
+                    //ここをいじって下にフェード
                     if (takeDamage)
                     {
                         bp.stopHavingAllCoroutine();
@@ -117,6 +122,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         transform.position = BossDeepData.GetBDpData.toPossessParts.position;
+        //憑依エフェクトを生産
         nowPe = Instantiate(pe, BossDeepData.GetBDpData.toPossessParts.position, Quaternion.identity);
 
         //前に憑依してたパーツのレイヤーを念のため元に戻す
@@ -126,13 +132,17 @@ public class BossCtrl : EnemyBaseScript
     void unPossession()
     {
         bRenderer.enabled = true;
-        BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
+        //BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Dynamic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         formerPossess = BossDeepData.GetBDpData.toPossessParts;
         BossDeepData.GetBDpData.toPossessParts = null;
 
         //ランダムな方向に弾かれて出てくる
-        transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
+        // transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
+        transform.DOMoveY(5f, 5f)
+            .OnStart(() => bossColor.a = 0f)
+            .OnUpdate(() => bossColor.a += 1f/5f * Time.deltaTime)
+            .OnComplete(() => bossColor.a = 1f);
         Destroy(nowPe.gameObject);
     }
 
