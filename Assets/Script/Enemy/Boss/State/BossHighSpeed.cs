@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class BossHighSpeed : MonoBehaviour, IBossStateRoot
 {
     //---------------------Private------------------
     private FacePartsBaseScript faceScript;
-    [SerializeField]
-    private Transform hsChaseTarget;
+    [SerializeField] private Transform hsChaseTarget;
+
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -18,18 +21,30 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     {
         return faceScript;
     }
+
     public bool First { get; set; }
-    public void attack() { }
-    public void defend() { }
+
+    public void attack()
+    {
+    }
+
+    public void defend()
+    {
+    }
+
     public void move()
     {
         if (First)
         {
             ResetTarget();
         }
+
         chase();
     }
-    public void stopHavingAllCoroutine(){ }
+
+    public void stopHavingAllCoroutine()
+    {
+    }
 
     public void ResetTarget()
     {
@@ -43,9 +58,12 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
 
     void FindRandomTarget(List<Transform> target)
     {
-        if (target.Count > 0)
+        if (target.Count <= 0) return;
+        if (target[0] == BossCtrl.formerPossess && target.Count == 1) return;
+        while (true)
         {
             hsChaseTarget = target[Random.Range(0, target.Count)];
+            if (hsChaseTarget != BossCtrl.formerPossess) break;
         }
     }
 
@@ -62,9 +80,10 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
             ResetTarget();
             return;
         }
+
         Vector2 force = (hsChaseTarget.position -
                          transform.position).normalized *
-                         BossData.bossData.hsSpeed;
+                        BossData.bossData.hsSpeed;
 
         BossDeepData.GetBDpData.bRigid.velocity = force;
     }

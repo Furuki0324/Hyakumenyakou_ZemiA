@@ -140,7 +140,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d2c14a676ad81514d8a93b41410f8389, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -221,7 +221,6 @@ MonoBehaviour:
   deadParticle: {fileID: 6079906786904411711, guid: dfd8f16d1effca94ba5e3e06a85a84c1,
     type: 3}
   pe: {fileID: 1041791214612251350, guid: 92aa1852c14cdeb4ea86adb6d6ff4a32, type: 3}
-  formerPossess: {fileID: 0}
 --- !u!114 &93005574096944718
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class BossDamChance : MonoBehaviour, IBossStateRoot
         {
             //倒れてる状態の表現
             //transform.rotation = Quaternion.FromToRotation(Vector3.left, Vector3.up);
+            
+            //立たせる
+            transform.rotation = Quaternion.FromToRotation(Vector3.up, Vector3.up);
             First = false;
         }
     }
