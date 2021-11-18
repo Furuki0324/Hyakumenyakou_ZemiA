@@ -38,6 +38,20 @@ public class BossData : ScriptableObject
     public int possAttackToPartsInterval = 1;
     public float attacksRange = 1.0f;
 
+    [Header("Values of DamageChance state")]
+    public float moveUnderEar = 1f;
+    public float moveTimeEar = 1f;
+    public float moveUnderEye = 1f;
+    public float moveTimeEye = 1f;
+    public float moveUnderMouth = 1f;
+    public float moveTimeMouth = 1f;
+    public bool invincible = false;
+    
+    [Header("Ear Value")]
+    public int earAttackPower = 1;
+    public float earAttackInterval = 3.0f;
+    public float earAttackSpeed = 2.0f;
+
     [Header("Eye Value")]
     public int eyeAttackPower = 2;
     public float eyeAttackInterval = 5.0f;
@@ -47,13 +61,7 @@ public class BossData : ScriptableObject
     public int mouthAttackPower = 5;
     public float mouthAttackInterval = 10.0f;
     public float mouthAttackSpeed = 2.0f;
-    
     public float mouthAttackCurve = 1.0f;
-
-    [Header("Ear Value")]
-    public int earAttackPower = 1;
-    public float earAttackInterval = 3.0f;
-    public float earAttackSpeed = 2.0f;
 
     [Header("Values of HighSpeed state")]
     public float hsSpeed = 1.0f;
