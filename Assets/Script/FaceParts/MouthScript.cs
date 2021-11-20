@@ -24,6 +24,9 @@ public class MouthScript : FacePartsBaseScript
         }
     }
 
+    [Header("AudioMixer")]
+    [SerializeField] private AudioSource mouthAudio;
+
     private float defaultVolume = 0.5f;
 
     [Header("Timer")]
@@ -66,7 +69,7 @@ public class MouthScript : FacePartsBaseScript
         {
 
             AudioClip audio = GetRandomClip();
-            audioSource.PlayOneShot(audio);
+            mouthAudio.PlayOneShot(audio);
 
             nextSoundTime = Time.time + audio.length;
         }
@@ -106,7 +109,7 @@ public class MouthScript : FacePartsBaseScript
         float ratio = (float)health / cacheHealth;
         //Debug.Log("R:" + ratio);
 
-        audioSource.volume = 1 - defaultVolume * ratio;
+        mouthAudio.volume = 1 - defaultVolume * ratio;
 
         return ratio;
     }

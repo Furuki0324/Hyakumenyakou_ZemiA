@@ -8,6 +8,10 @@ public class PlayerRepairFace : MonoBehaviour
     public KeyCode repairKey;
     public float radius;
 
+    [Header("Number")]
+    [Tooltip("指定したパーセント分だけ修理対象を回復させます")]
+    [SerializeField] private float healPercent;
+
     [Header("Effect")]
     [SerializeField] UnityEngine.Video.VideoPlayer effect;
     [SerializeField] Transform parentCanvas;
@@ -60,7 +64,7 @@ public class PlayerRepairFace : MonoBehaviour
             {
                 //Instantiate(repairParticle, repairTarget.transform.position, Quaternion.identity);
                 Instantiate(effect, repairTarget.transform.position, Quaternion.identity, parentCanvas);
-                repairTarget.Repaired(10.0f);
+                repairTarget.Repaired(healPercent);
             }
         }
     }

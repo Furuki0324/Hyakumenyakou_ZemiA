@@ -1,5 +1,4 @@
-﻿//#define DURING_DEBUG_ONLY
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
@@ -33,28 +32,6 @@ public class EarScript : FacePartsBaseScript
         }
     }
 
-
-    private void Volume(float a)
-    {
-        switch (a)
-        {
-            case 0.8f:
-                Debug.Log("call");
-                volume += 2;
-                break;
-
-            case 0.6f:
-                Debug.Log("call2");
-                volume ++;
-                break;
-
-            case 0.4f:
-                Debug.Log("call3");
-                volume --;
-                break;
-        }
-        mixer.SetFloat("BGM", volume);
-    }
     void Start()
     {
         transform.SetParent(EAR_ANCHOR);
@@ -67,34 +44,12 @@ public class EarScript : FacePartsBaseScript
 
         SetCache();
     }
-    //private float cacheTime = 0;
-    // Update is called once per frame
-
-#if DURING_DEBUG_ONLY
-    void Update()
-    {
-        if (Time.time > cacheTime + 2)
-        {
-            hp--;
-            cacheTime = Time.time;
-
-            if (Mathf.Approximately(hp, cacheHp * 0.8f)) Volume(0.8f);
-            else if (Mathf.Approximately(hp, cacheHp * 0.6f)) Volume(0.6f);
-            else if (Mathf.Approximately(hp, cacheHp * 0.4f)) Volume(0.4f);
-        }
-    }
-#endif 
 
     public override void TakeDamage()
     {
         base.TakeDamage();
 
         VolumeControl(Pattern.damage);
-        /*
-        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
-        */
     }
 
     public override void TakeDamage(int damage)
@@ -102,11 +57,6 @@ public class EarScript : FacePartsBaseScript
         base.TakeDamage(damage);
 
         VolumeControl(Pattern.damage);
-        /*
-        if (Mathf.Approximately(health, cacheHealth * 0.8f)) Volume(0.8f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.6f)) Volume(0.6f);
-        else if (Mathf.Approximately(health, cacheHealth * 0.4f)) Volume(0.4f);
-        */
     }
 
     private void VolumeControl(Pattern pattern, float healAmount = 0)

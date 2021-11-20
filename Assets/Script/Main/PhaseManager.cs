@@ -8,12 +8,20 @@ public class PhaseManager : MonoBehaviour
     [Header("Timer")]
     [Tooltip("制限時間 (単位:秒)")]
     public float time;
-    private static int time_;
+    private static int _time;
     private int min;
     private int second;
     
     [Header("UI")]
     public Text text;
+
+    [Header("Text")]
+    [Tooltip("カウントダウンが0になった以降のテキスト")]
+    [SerializeField] private string afterCountdownText;
+    [Tooltip("カウントダウンが0になった以降のテキストサイズ")]
+    [SerializeField] private int afterCountdownSize;
+    [Tooltip("カウントダウンが0になった以降のテキストの色")]
+    [SerializeField] private Color afterCountdownColor;
 
     public static int phaseNumber = 1;
 
@@ -36,15 +44,16 @@ public class PhaseManager : MonoBehaviour
         {
             time -= Time.deltaTime;
 
-            time_ = (int)time;
-            min = time_ / 60;
-            second = time_ % 60;
+            _time = (int)time;
+            min = _time / 60;
+            second = _time % 60;
             text.text = "Time " + min.ToString("00") + ":" + second.ToString("00");
         }
         else
         {
-            text.text = "首領参戦";
-            text.color = Color.red;
+            text.text = afterCountdownText;
+            text.color = afterCountdownColor;
+            text.fontSize = afterCountdownSize;
         }
         
         
@@ -57,12 +66,13 @@ public class PhaseManager : MonoBehaviour
     {
         if (boss)
         {
+            Debug.LogWarning("The boss had been spawned.\nYou need to modify script if you wanna spawn the boss twice or more.");
             return;
         }
 
         phaseNumber++;
         
-        if(time_ > 0)
+        if(_time > 0)
         {
             EnemySpawnManager.SpawnEnemy();
         }
@@ -84,7 +94,6 @@ public class PhaseManager : MonoBehaviour
     /// </summary>
     public static void HowManyEnemies()
     {
-        
         if (enemyList.Count <= 0) PhaseShift();
     }
 

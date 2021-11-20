@@ -231,7 +231,7 @@ public class ResultCalculate : MonoBehaviour
         data.totalScore = data.eyeSumScore + data.earSumScore + data.mouthSumScore;
 
         //UIのテキストを変更
-        data.T_totalScore.text = data.totalScore.ToString();
+        data.T_totalScore.text = data.totalScore.ToString() + "/ 300";
         data.T_eyeSumScore.text = data.eyeSumScore.ToString();
         data.T_eyeStar_A.text = data.eyeStar_A;
         data.T_eyeStar_P.text = data.eyeStar_P;

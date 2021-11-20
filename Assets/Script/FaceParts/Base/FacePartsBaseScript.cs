@@ -22,14 +22,16 @@ public class FacePartsBaseScript : MonoBehaviour
     [Header("HP")]
     public int health;
     protected int cacheHealth;
+    protected bool hasBeenDead;
 
     [Header("Image")]
+    [Tooltip("複数用意する場合は必ず番号の若いほうに耐久値が高いスプライトをセットしてください。")]
     public List<Sprite> sprites;
 
     [Header("Sound")]
-    protected AudioSource audioSource;
     public AudioClip deadSound;
     [SerializeField] AudioMixerGroup deadMixer;
+    [SerializeField] protected AudioSource deadSource;
 
     [Header("Other")]
     public bool immortal;
@@ -39,16 +41,27 @@ public class FacePartsBaseScript : MonoBehaviour
     #region Private variables
 
     protected SpriteRenderer spriteRenderer;
+    /// <summary>
+    /// <para>パーツが作り出されたときに値が決定します。</para>
+    /// <para>用意されたスプライトの量に応じて「1 / 枚数」の式が実行されます。</para>
+    /// </summary>
     protected float stepRatio;
 
     #endregion
 
     private void Initialize()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (!audioSource)
+        //複数のAudioSourceを設定する必要がある場合に備えてdeadSourceをSerializeにしてあります。
+        //AudioSourceが単体の場合は自動的にセットされます。
+        if (!deadSource)
         {
-            audioSource = gameObject.AddComponent<AudioSource>();
+            deadSource = GetComponent<AudioSource>();
+
+            //AudioSourceを一つも持っていない場合は追加します。
+            if (!deadSource)
+            {
+                deadSource = gameObject.AddComponent<AudioSource>();
+            }
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -77,7 +90,7 @@ public class FacePartsBaseScript : MonoBehaviour
     {
         health--;
         //Debug.Log(gameObject.name + " - TakeDamage method has invoked.");
-        if (health <= 0 && !immortal) FacePartsDie();
+        if (health <= 0 && !immortal && !hasBeenDead) FacePartsDie();
         else SetSpriteImage();
     }
 
@@ -89,7 +102,7 @@ public class FacePartsBaseScript : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0 && !immortal) FacePartsDie();
+        if (health <= 0 && !immortal && !hasBeenDead) FacePartsDie();
         else SetSpriteImage();
     }
 
@@ -167,6 +180,8 @@ public class FacePartsBaseScript : MonoBehaviour
 
     public virtual void FacePartsDie()
     {
+        hasBeenDead = true;
+
         if (deadSound)
         {
             StartCoroutine(FacePartsDestroyAfterSound(deadSound.length));
@@ -188,8 +203,8 @@ public class FacePartsBaseScript : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
 
-        audioSource.outputAudioMixerGroup = deadMixer;
-        audioSource.PlayOneShot(deadSound);
+        deadSource.outputAudioMixerGroup = deadMixer;
+        deadSource.PlayOneShot(deadSound);
         yield return new WaitForSeconds(wait * 1.1f);
         
         Destroy(gameObject);

@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class NoseScript : FacePartsBaseScript
 {
+    [SerializeField] AudioSource noseSource;
     public AudioClip damageSound;
     private float nextTime;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     public override void TakeDamage()
     {
         base.TakeDamage();
 
-        audioSource.PlayOneShot(damageSound);
+        noseSource.PlayOneShot(damageSound);
     }
 
     public override void TakeDamage(int damage)
@@ -25,7 +22,7 @@ public class NoseScript : FacePartsBaseScript
 
         if (damageSound && Time.time > nextTime)
         {
-            audioSource.PlayOneShot(damageSound);
+            noseSource.PlayOneShot(damageSound);
             nextTime = Time.time + damageSound.length;
         }
     }

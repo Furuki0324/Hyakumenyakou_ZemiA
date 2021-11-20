@@ -15,6 +15,12 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("Spawn  Option")]
     public int spawnSize;
     private static int _spawnSize;
+    [Tooltip("指定した数のフェーズが進行するたびに敵の数を1増やします。")]
+    [SerializeField] private int increasePerPhase = 5;
+    /// <summary>
+    /// 指定した数のフェーズが進行するたびに敵の数を1増やします。
+    /// </summary>
+    private static int _increasePerPhase;
 
     [Header("Spawn Point")]
     [SerializeField] private float difference;
@@ -40,7 +46,8 @@ public class EnemySpawnManager : MonoBehaviour
         {
             _spawnPoints.Add(transform);
         }
-        
+
+        _increasePerPhase = increasePerPhase;
     }
 
     private void Start()
@@ -57,7 +64,7 @@ public class EnemySpawnManager : MonoBehaviour
             return;
         }
 
-        for(int i = 0; i < _spawnSize + PhaseManager.phaseNumber / 5; i++)
+        for(int i = 0; i < _spawnSize + PhaseManager.phaseNumber / _increasePerPhase; i++)
         {
             Vector2 spawnPosition = GetSpawnPoint();
             AddDifference<Vector2>(ref spawnPosition);

@@ -17,12 +17,7 @@ public class EnemyDropItemCtrl : MonoBehaviour
             int index = Random.Range(0, dropItems.Length);
             DropItemScript item = dropItems[index].item;
 
-            float deltaX = Random.Range(-1, 1);
-            float deltaY = Random.Range(-1, 1);
-
-
             Instantiate(item, transform.position, Quaternion.identity);
-            //item.SetDelta(deltaX, deltaY);
         }
         
     }

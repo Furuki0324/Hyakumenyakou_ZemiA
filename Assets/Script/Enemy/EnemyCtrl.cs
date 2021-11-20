@@ -127,12 +127,7 @@ public class EnemyCtrl : EnemyBaseScript
             return;
         }
 
-        //何らかの理由で追跡対象を見つけられていない場合は再度検索します。
-        if (!chaseTarget)
-        {
-            ResetTarget();
-            return;
-        }
+
 
         Vector2 force = (chaseTarget.position - transform.position).normalized * speed;
         rigid2D.velocity = force;
@@ -144,6 +139,13 @@ public class EnemyCtrl : EnemyBaseScript
     /// </summary>
     private void FlipFlop()
     {
+        //何らかの理由で追跡対象を見つけられていない場合は再度検索します。
+        if (!chaseTarget)
+        {
+            ResetTarget();
+            return;
+        }
+
         if (leftForward)
         {
             if (transform.position.x <= chaseTarget.position.x) spriteRenderer.flipX = true;
