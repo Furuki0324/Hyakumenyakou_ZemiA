@@ -133,9 +133,10 @@ public class BossCtrl : EnemyBaseScript
         bRenderer.enabled = false;
         BossDeepData.GetBDpData.bRigid.bodyType = RigidbodyType2D.Kinematic;
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
-        transform.position = BossDeepData.GetBDpData.toPossessParts.position;
+        var position = BossDeepData.GetBDpData.toPossessParts.position;
+        transform.position = position;
         //憑依エフェクトを生産
-        nowPe = Instantiate(pe, BossDeepData.GetBDpData.toPossessParts.position, Quaternion.identity);
+        nowPe = Instantiate(pe, position, Quaternion.identity);
 
         //前に憑依してたパーツのレイヤーを念のため元に戻す
         if (formerPossess != null) formerPossess.gameObject.layer = LayerMask.NameToLayer("Face");
@@ -214,17 +215,6 @@ public class BossCtrl : EnemyBaseScript
             if (other.gameObject.CompareTag(i))
             {
                 BossDeepData.GetBDpData.toPossessParts = other.transform;
-            }
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        //ダメージチャンスの時、トリガーがformerpossessに掛かってたらもっと下に
-        if (BossData.bossData.nowState == BossData.State.damC)
-        {
-            if (formerPossess == other.transform)
-            {
             }
         }
     }
