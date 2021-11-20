@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -10,6 +11,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     //---------------------Private------------------
     private FacePartsBaseScript faceScript;
     [SerializeField] private Transform hsChaseTarget;
+    private const float Tolerance = 0.00001f;
 
 
     public void SetFaceScript(FacePartsBaseScript face)
@@ -59,12 +61,21 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     void FindRandomTarget(List<Transform> target)
     {
         if (target.Count <= 0) return;
-        if (target[0] == BossCtrl.formerPossess && target.Count == 1) return;
-        while (true)
+        if (target[0] == BossCtrl.formerPossess && target.Count == 1)
         {
-            hsChaseTarget = target[Random.Range(0, target.Count)];
-            if (hsChaseTarget != BossCtrl.formerPossess) break;
+            hsChaseTarget = target[0];
+            return;
         }
+
+        var position = (Vector3) BossDeepData.GetBDpData.bRigid.position;
+        var dict = target.ToDictionary(v => v, v => (position - v.position).magnitude);
+        var max = dict.Values.Max();
+        hsChaseTarget = dict.FirstOrDefault(c => Math.Abs(c.Value - max) < Tolerance).Key;
+        // while (true)
+        // {
+        //     hsChaseTarget = target[Random.Range(0, target.Count)];
+        //     if (hsChaseTarget != BossCtrl.formerPossess) break;
+        // }
     }
 
     void chase()
