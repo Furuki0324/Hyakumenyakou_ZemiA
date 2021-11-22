@@ -11,6 +11,9 @@ public class GameStartUIAnimation : MonoBehaviour
     [SerializeField] private Image cover;
     [SerializeField] private Text T_start;
 
+    [Header("Text")]
+    [SerializeField] private string text;
+
     [Header("Number")]
     [SerializeField] private float duration;
 
@@ -21,10 +24,16 @@ public class GameStartUIAnimation : MonoBehaviour
     private static Color _T_start_Color;
 
     private static float _duration;
-    private static float _atLeastDelayTime;
 
     private void Awake()
     {
+        //入力されたテキストが空白でなければそのテキストに変更
+        if(text != "")
+        {
+            T_start.text = text;
+        }
+
+
         _cover = cover;
         _coverColor = _cover.color;
         //透明化
@@ -37,7 +46,6 @@ public class GameStartUIAnimation : MonoBehaviour
         _T_start.color = _T_start_Color;
 
         _duration = duration;
-        _atLeastDelayTime = _duration * 3;
     }
 
     public static async Task FirstAnimation()

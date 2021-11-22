@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -195,7 +196,7 @@ public class BossCtrl : EnemyBaseScript
 
     //とりあえずボスが倒されたらゲームクリアのメソッドを呼ぶ記述をしていますが、必要に応じて変更してください。
     //ボスが撃破されたらゲームクリア
-    public override void EnemyDie()
+    public override async Task EnemyDie()
     {
         base.EnemyDie();
         _ = MainScript.GameClear(); //まだデバッグ出力がされるのみです。

@@ -779,7 +779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &219005028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,6 +794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cover: {fileID: 665714746}
   T_start: {fileID: 323291504}
+  text: "\u767E\u9762\u591C\u884C\u8972\u6765\uFF01"
   duration: 0.5
 --- !u!114 &219005029
 MonoBehaviour:
@@ -1409,7 +1410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376093714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.88, y: 0.2, z: 0}
+  m_LocalPosition: {x: -10.55, y: 0.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1200626861}
@@ -2027,7 +2028,7 @@ GameObject:
   - component: {fileID: 481028536}
   - component: {fileID: 481028540}
   m_Layer: 5
-  m_Name: UI_GameClear_CameraSpace
+  m_Name: UI_GameClear_Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2081,9 +2082,9 @@ Canvas:
   m_GameObject: {fileID: 481028535}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1797832591}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2371,7 +2372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   repairKey: 32
   radius: 2
-  healPercent: 0
+  healPercent: 10
   effect: {fileID: 4005552488146070684, guid: 3682d7b5c63fc1940bbf204dee2e0c2e, type: 3}
   parentCanvas: {fileID: 1367691794}
   repairParticle: {fileID: 7841211404847478983, guid: 55d3cb279a8ee8041a7cb1c606cb8931,
@@ -4084,7 +4085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994697576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.67, y: 0, z: -10}
+  m_LocalPosition: {x: -6, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6774,7 +6775,7 @@ MonoBehaviour:
   colList: []
 --- !u!4 &1648738076
 Transform:
-  m_ObjectHideFlags: 8
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -7426,7 +7427,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7806451, y: 1}
+    m_SensorSize: {x: 1.7771084, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -7443,7 +7444,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761959765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.67, y: 0, z: -10}
+  m_LocalPosition: {x: -6, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1052845002}
@@ -7568,7 +7569,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1797832592}
   - component: {fileID: 1797832591}
-  - component: {fileID: 1797832590}
   m_Layer: 0
   m_Name: UICamera
   m_TagString: Untagged
@@ -7576,14 +7576,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1797832590
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797832589}
-  m_Enabled: 1
 --- !u!20 &1797832591
 Camera:
   m_ObjectHideFlags: 0
@@ -7624,7 +7616,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &1797832592
@@ -8645,7 +8637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 994697578}
   spawnPrefabs:
-  - name: Eye
+  - name: Rugure
     prefab: {fileID: 1492134566156911085, guid: ad6eeb6be9abaad40ae5b276686f8f50,
       type: 3}
   - name: Ear
@@ -8836,7 +8828,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091372929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.67, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1922283122}
@@ -8896,7 +8888,7 @@ MonoBehaviour:
     prefab: {fileID: -175860564316748205, guid: 1cfce555de0ff0c4299dbff28ebb325d,
       type: 3}
     cost: 1
-  keyCode: 113
+  keyCode: 324
 --- !u!1 &2116144114
 GameObject:
   m_ObjectHideFlags: 0

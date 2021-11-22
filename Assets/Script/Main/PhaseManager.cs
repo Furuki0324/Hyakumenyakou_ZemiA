@@ -47,7 +47,7 @@ public class PhaseManager : MonoBehaviour
             _time = (int)time;
             min = _time / 60;
             second = _time % 60;
-            text.text = "Time " + min.ToString("00") + ":" + second.ToString("00");
+            text.text = $"Time {min:00}:{second:00}";
         }
         else
         {

@@ -11,7 +11,8 @@ using UnityEditor;
 public class GameObjectLocker : MonoBehaviour
 {
     private bool isLocked = false;
-    private Vector3 position;
+    private Vector3 position, scale;
+    private Quaternion rotation;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +26,11 @@ public class GameObjectLocker : MonoBehaviour
                 if (transform.hasChanged)
                 {
                     Debug.LogWarning("You cannot move " + this.name + ".");
+
                     transform.position = position;
+                    transform.rotation = rotation;
+                    transform.localScale = scale;
+
                     transform.hasChanged = false;
                 }
             }
@@ -43,6 +48,8 @@ public class GameObjectLocker : MonoBehaviour
         if (!isLocked)
         {
             position = gameObject.transform.position;
+            rotation = gameObject.transform.rotation;
+            scale = gameObject.transform.localScale;
             
             transform.hideFlags = HideFlags.NotEditable;
         }

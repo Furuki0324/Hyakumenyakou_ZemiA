@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class EnemyCtrl : EnemyBaseScript
 {
@@ -25,7 +24,6 @@ public class EnemyCtrl : EnemyBaseScript
     public bool leftForward;
 
     //---------------------Private------------------
-    private Rigidbody2D rigid2D;
     private EnemyOverlapper overLapper;
     private FacePartsBaseScript faceScript;
     private Vector3 scale;
@@ -104,7 +102,6 @@ public class EnemyCtrl : EnemyBaseScript
     {
         scale = transform.localScale;
 
-        rigid2D = GetComponent<Rigidbody2D>();
         overLapper = GetComponentInChildren<EnemyOverlapper>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         ResetTarget();
@@ -114,8 +111,12 @@ public class EnemyCtrl : EnemyBaseScript
 
     void Update()
     {
-        Chase();
-        FlipFlop();
+        if(hp > 0)
+        {
+            Chase();
+            FlipFlop();
+        }
+
     }
 
     private void Chase()

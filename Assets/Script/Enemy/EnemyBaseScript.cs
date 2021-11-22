@@ -2,8 +2,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyBaseScript : MonoBehaviour
 {
     [Header("Status")]
@@ -22,12 +24,13 @@ public class EnemyBaseScript : MonoBehaviour
 
     #region private variables
 
-    
+    protected Rigidbody2D rigid2D;
 
     #endregion
 
     private void Awake()
     {
+        rigid2D = GetComponent<Rigidbody2D>();
         if (attackEffect) _effect = Instantiate(attackEffect, GameObject.Find("EffectCanvas").transform);
     }
 
@@ -39,8 +42,10 @@ public class EnemyBaseScript : MonoBehaviour
         if (hp <= 0) EnemyDie();
     }
 
-    public virtual void EnemyDie()
+    public virtual async Task EnemyDie()
     {
+        await KnockBack();
+
         if (deadSound) EnemySoundPlayer.PlayEnemySFX(deadSound);
         if (deadParticle) Instantiate(deadParticle, transform.position, Quaternion.identity);
 
@@ -65,5 +70,30 @@ public class EnemyBaseScript : MonoBehaviour
         if (!dropCtrl) return;
 
         dropCtrl.DroppingItem();
+    }
+
+    public virtual async Task KnockBack()
+    {
+        Vector3 playerPosition = GameObject.FindWithTag("Player").transform.position;
+
+        Vector2 direction = (transform.position - playerPosition).normalized;
+
+        rigid2D.velocity = Vector2.zero;
+
+        Vector2 currentPosition;
+        Vector2 nextPosition;
+        Vector2 move;
+        float a;
+        for(float i = 0; i < 0.1f; i += Time.unscaledDeltaTime)
+        {
+            a = Mathf.Lerp(1, 0, i / 0.3f);
+            move = direction * a * 0.2f;
+
+            currentPosition = transform.position;
+            nextPosition = currentPosition + move;
+
+            transform.position = nextPosition;
+            await Task.Delay(10);
+        }
     }
 }
