@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: Cube Profile
+  m_Name: GameObject Profile 1
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 2820950212239331633}
---- !u!114 &2820950212239331633
+  - {fileID: 2551723847414955733}
+--- !u!114 &2551723847414955733
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,7 +32,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 4.11
+    value: 0.8
   threshold:
     overrideState: 0
     value: 1
