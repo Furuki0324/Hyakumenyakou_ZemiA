@@ -88,9 +88,11 @@ public class BossCtrl : EnemyBaseScript
                         {
                             bdc.stopHavingAllCoroutine();
 
+                           
+                            // if (formerPossess != null)
+                            //     formerPossess.gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
                             //憑依してたパーツにぶつからないようレイヤー変更
-                            if (formerPossess != null)
-                                formerPossess.gameObject.layer = LayerMask.NameToLayer("BossThroughFormer");
+                            if (formerPossess != null) formerPossess.gameObject.layer = LayerMask.NameToLayer("Face");
 
                             takeDamage = false;
                             bhs.First = true;
@@ -139,8 +141,7 @@ public class BossCtrl : EnemyBaseScript
         //憑依エフェクトを生産
         nowPe = Instantiate(pe, position, Quaternion.identity);
 
-        //前に憑依してたパーツのレイヤーを念のため元に戻す
-        if (formerPossess != null) formerPossess.gameObject.layer = LayerMask.NameToLayer("Face");
+        
     }
 
     void unPossession()
@@ -150,10 +151,7 @@ public class BossCtrl : EnemyBaseScript
         BossDeepData.GetBDpData.bRigid.velocity = Vector3.zero;
         formerPossess = BossDeepData.GetBDpData.toPossessParts;
         BossDeepData.GetBDpData.toPossessParts = null;
-
-        //ランダムな方向に弾かれて出てくる
-        // transform.position += new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f), 0);
-
+        
         var bossTempColor = bossSprite.color;
         var moveValue = 0f;
         var moveTime = 0f;

@@ -33,9 +33,9 @@ TagManager:
   - Item
   - Effect
   - Boss
-  - BossThroughFormer
+  - FaceForBossMoveTo
   - Cinemachine
-  - 
+  - BloomText
   - 
   - 
   - 
