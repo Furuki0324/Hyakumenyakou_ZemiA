@@ -71,6 +71,8 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         var dict = target.ToDictionary(v => v, v => (position - v.position).magnitude);
         var max = dict.Values.Max();
         hsChaseTarget = dict.FirstOrDefault(c => Math.Abs(c.Value - max) < Tolerance).Key;
+        //ボスがぶつかれるようにレイヤー変更
+        hsChaseTarget.gameObject.layer =  LayerMask.NameToLayer("FaceForBossMoveTo");
         // while (true)
         // {
         //     hsChaseTarget = target[Random.Range(0, target.Count)];
