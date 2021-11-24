@@ -2562,7 +2562,7 @@ GameObject:
   - component: {fileID: 663475610}
   - component: {fileID: 663475612}
   - component: {fileID: 663475611}
-  m_Layer: 19
+  m_Layer: 10
   m_Name: Fukuwarai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
