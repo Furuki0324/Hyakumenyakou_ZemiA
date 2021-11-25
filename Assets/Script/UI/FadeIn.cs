@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,5 +37,21 @@ public class FadeIn : MonoBehaviour
             timeTemp += Time.deltaTime;
         }
         
+    }
+
+    public async Task Fade()
+    {
+
+    }
+
+    bool doOnce;
+    private void Update()
+    {
+        if (!doOnce)
+        {
+            vp.Play();
+            doOnce = true;
+        }
+        fade();
     }
 }
