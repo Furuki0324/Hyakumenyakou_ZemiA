@@ -64,12 +64,13 @@ public class MainScript : MonoBehaviour
         Debug.Log("Start task started.");
 
         List<Task> tasks = new List<Task>();
-        tasks.Add(GameStartUIAnimation.FirstAnimation());
+        //tasks.Add(GameStartUIAnimation.FirstAnimation());
+        tasks.Add(GameStartUIAnimation.Movie());
         tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.start, loop: false));
 
         await Task.WhenAll(tasks);
 
-        await GameStartUIAnimation.SecondAnimation();
+        //await GameStartUIAnimation.SecondAnimation();
 
         BGMPlayer.ChangeBGM(BGMInfo.Pattern.defence);
         Time.timeScale = 1;
@@ -165,13 +166,14 @@ public class MainScript : MonoBehaviour
 
         List<Task> tasks = new List<Task>();
         tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.clear, loop: false));
-        tasks.Add(GameClearUIAnimation.ShowText());
+        //tasks.Add(GameClearUIAnimation.ShowText());
+        tasks.Add(GameClearUIAnimation.Movie());
 
         await Task.WhenAll(tasks);
                 
         ResultData data = ResultCalculate.CalculateResultData(noseAsCenter: GameObject.FindWithTag("Face_Nose"));
 
-        await GameClearUIAnimation.FadeOut();
+        await GameClearUIAnimation.Blind();
 
         GameClearUIAnimation.CameraSwitch();
         GameClearUIAnimation.SetCullingMask();

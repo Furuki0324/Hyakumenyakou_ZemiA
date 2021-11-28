@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
@@ -28,6 +29,8 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     private static List<Transform> _spawnPoints = new List<Transform>();
 
+    private static Transform transformMyself;
+
 
     private void Awake()
     {
@@ -52,6 +55,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
+        transformMyself = this.transform;
+
         //Spawn first enemies
         SpawnEnemy();
     }
@@ -75,13 +80,17 @@ public class EnemySpawnManager : MonoBehaviour
         }
     }
 
-    public static void SpawnBoss()
+    public static async Task SpawnBoss()
     {
         if(_bossPrefab == null)
         {
             Debug.LogError("No boss prefab is set to EnemySpawner.");
             return;
         }
+
+        FadeIn fade = transformMyself.FindChild("MovieComponent").GetComponentInChildren<FadeIn>();
+
+        await fade.Receiver();
 
         Vector2 spawnPosition = GetSpawnPoint();
 

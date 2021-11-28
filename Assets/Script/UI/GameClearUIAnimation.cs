@@ -51,6 +51,8 @@ public class GameClearUIAnimation : MonoBehaviour
     private static Color _coverColor;
     private static Color _textColor;
 
+    private static Transform transformMyself;
+
     private void Awake()
     {
         _vcam2 = vcam2;
@@ -84,6 +86,8 @@ public class GameClearUIAnimation : MonoBehaviour
         _textColor = _gameClearText.color;
         _textColor.a = 0;
         _gameClearText.color = _textColor;
+
+        transformMyself = this.transform;
     }
 
     /// <summary>
@@ -121,6 +125,35 @@ public class GameClearUIAnimation : MonoBehaviour
 
         //2秒待機
         await Task.Delay(2000);
+    }
+
+    public static async Task Blind()
+    {
+        float alpha;
+
+        _cover.gameObject.SetActive(true);
+
+        //半透明の背景とテキストの表示
+        for (float i = 0; i < _duration; i += Time.unscaledDeltaTime)
+        {
+            alpha = Mathf.Lerp(0, 1, i / _duration);
+            _coverColor.a = alpha;
+            _cover.color = _coverColor;
+
+            //FPSの計算
+            float fps = 1 / Time.unscaledDeltaTime;
+            //Debug.Log(fps);
+
+            //1フレーム待機
+            await Task.Delay((int)(1000 / fps));
+        }
+    }
+
+    public static async Task Movie()
+    {
+        FadeIn fade = transformMyself.FindChild("MovieComponent").GetComponentInChildren<FadeIn>();
+
+        await fade.Receiver();
     }
 
     /// <summary>

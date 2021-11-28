@@ -4,12 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.Rendering.PostProcessing;
 
 [RequireComponent(typeof(VideoPlayer))]
+[RequireComponent(typeof(PostProcessVolume))]
 public class FadeIn : MonoBehaviour
 {
     private VideoPlayer vp;
     [SerializeField] private AnimationCurve acIn;
+    private PostProcessVolume ppv;
     private float timeTemp = 0f;
     public bool init = false;
 
@@ -22,8 +25,17 @@ public class FadeIn : MonoBehaviour
     void Start()
     {
         vp = GetComponent<VideoPlayer>();
+        ppv = GetComponent<PostProcessVolume>();
 
-        Receiver();
+       // _ = Receiver();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse3))
+        {
+            _ = Receiver();
+        }
     }
 
     public void fade()
@@ -43,14 +55,22 @@ public class FadeIn : MonoBehaviour
 
     public async Task Receiver()
     {
-        float currentTime = Time.time;
-        float clipLength = (float)vp.clip.length;
+        transform.parent.gameObject.SetActive(true);
 
-        await Fade_In();
+        float currentTime = Time.realtimeSinceStartup;
+        float clipLength = (float)vp.clip.length;
+        if (vp.playbackSpeed > 0)
+        {
+            clipLength /= vp.playbackSpeed;
+        }
+        List<Task> tasks = new List<Task>();
+        tasks.Add(Fade_In());
+
+        await Task.WhenAll(tasks);
 
         //Debug.Log("Fade in ends");
 
-        int delayTime = (int)((currentTime + clipLength * 0.95f) - Time.time);
+        int delayTime = (int)((currentTime + clipLength * 0.95f) - Time.realtimeSinceStartup);
         if(delayTime > 0)
         {
             await Task.Delay(delayTime * 1000);
@@ -58,8 +78,12 @@ public class FadeIn : MonoBehaviour
 
 
         //Debug.Log("Fade out start");
+        tasks.Clear();
+        tasks.Add(FadeOut());
 
-        await FadeOut();
+        await Task.WhenAll(tasks);
+
+        transform.parent.gameObject.SetActive(false);
     }
 
 
@@ -68,29 +92,35 @@ public class FadeIn : MonoBehaviour
         vp.Play();
 
         vp.targetCameraAlpha = 0;
+        ppv.weight = 0;
 
-        for(float time = 0; time < acIn.keys[acIn.keys.Length - 1].time; time += Time.deltaTime)
+        for(float time = 0; time < acIn.keys[acIn.keys.Length - 1].time; time += Time.fixedUnscaledDeltaTime)
         {
             vp.targetCameraAlpha = acIn.Evaluate(time);
+            ppv.weight = time;
 
             //deltaTimeをミリ秒に合わせる
-            await Task.Delay((int)(Time.deltaTime * 1000));
+            await Task.Delay((int)(Time.fixedUnscaledDeltaTime * 1000));
         }
 
-        vp.targetCameraAlpha = 1;
+        vp.targetCameraAlpha = acIn.keys[acIn.keys.Length - 1].value;
+        ppv.weight = 1;
     }
 
     public async Task FadeOut()
     {
-        vp.targetCameraAlpha = 1;
+        vp.targetCameraAlpha = acIn.keys[acIn.keys.Length - 1].value;
+        ppv.weight = 1;
 
-        for(float time = acIn.keys[acIn.keys.Length - 1].time; time > 0; time -= Time.deltaTime)
+        for(float time = acIn.keys[acIn.keys.Length - 1].time; time > 0; time -= Time.fixedUnscaledDeltaTime)
         {
             vp.targetCameraAlpha = acIn.Evaluate(time);
+            ppv.weight = time;
 
-            await Task.Delay((int)(Time.deltaTime * 1000));
+            await Task.Delay((int)(Time.fixedUnscaledDeltaTime * 1000));
         }
 
         vp.targetCameraAlpha = 0;
+        ppv.weight = 0;
     }
 }
