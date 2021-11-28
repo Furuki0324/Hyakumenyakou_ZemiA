@@ -12,7 +12,12 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     private FacePartsBaseScript faceScript;
     [SerializeField] private Transform hsChaseTarget;
     private const float Tolerance = 0.00001f;
+    private SpriteRenderer bossSp;
 
+    private void Start()
+    {
+        bossSp = GetComponent<SpriteRenderer>();
+    }
 
     public void SetFaceScript(FacePartsBaseScript face)
     {
@@ -52,9 +57,21 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
     {
         hsChaseTarget = GameObject.FindGameObjectWithTag("Face_Nose").transform;
 
-        Vector3 diff = (hsChaseTarget.position - transform.position).normalized;
-        transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
         FindRandomTarget(BossDeepData.GetBDpData.Transforms);
+        //プラスなら右、マイナスなら左
+        var position = hsChaseTarget.position - transform.position;
+        Vector3 diff = position.normalized;
+        if (diff.x > 0)
+        {
+            bossSp.flipX = true;
+            transform.rotation = Quaternion.FromToRotation(Vector3.right, diff);
+        }
+        else
+        {
+            bossSp.flipX = false;
+            transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+        }
+        
         First = false;
     }
 
