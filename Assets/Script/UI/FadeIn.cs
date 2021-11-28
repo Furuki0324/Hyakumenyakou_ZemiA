@@ -11,7 +11,7 @@ public class FadeIn : MonoBehaviour
     private VideoPlayer vp;
     [SerializeField] private AnimationCurve acIn;
     private float timeTemp = 0f;
-    private bool init = false;
+    public bool init = false;
 
     public float VideoAlpha
     {
