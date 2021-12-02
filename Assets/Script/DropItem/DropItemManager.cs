@@ -263,11 +263,6 @@ public class DropItemManager : MonoBehaviour
         return selectedItem;
     }
 
-    public static int GetSpendingElementAmount()
-    {
-        return spendingElement;
-    }
-
 
     /// <summary>
     /// <para>クリックでアイテムの消費量を増加させます。</para>

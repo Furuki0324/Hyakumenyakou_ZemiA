@@ -11,9 +11,11 @@ public class PlayerCreateFaceParts : MonoBehaviour
     [Header("Face Part Prefab")]
     public PrefabInfo[] prefabInfos;
 
-    [Header("Property")]
-    public KeyCode keyCode;
+    [Header("KeyCode")]
+    [SerializeField] KeyCode createKey;
+    [SerializeField] KeyCode switchKey;
 
+    [SerializeField] Image image;
 
     /// <summary>
     /// <para>1 - Eye Prefab</para>
@@ -22,27 +24,27 @@ public class PlayerCreateFaceParts : MonoBehaviour
     /// </summary>
     private int prefabNumber = 0;
 
-    private float time;
-    private float interval;
+    private float consumption;
 
     private GameObject[] enemyArray;
 
-
+    private void Start()
+    {
+        consumption = 0;
+        if (!image)
+        {
+            Debug.LogError("No image object is set to player.");
+        }
+        image.sprite = prefabInfos[0].prefab.sprites[0];
+    }
 
     private void Update()
     {
-        /*
-        if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
-        {
-            if (Time.fixedTime > time + interval)
-            {
-                SwitchPrefab(Input.GetAxis("Mouse ScrollWheel"));
-                time = Time.fixedTime;
-            }
-        }
-        */
+        ImageFollowPlayer();
+        if(Input.GetKeyDown(switchKey)) { SwitchPrefab(); }
+        Consumption();
 
-        if (Input.GetKeyDown(keyCode))
+        if (Input.GetKeyDown(createKey))
         {
             CreateFaceParts();
 
@@ -54,19 +56,42 @@ public class PlayerCreateFaceParts : MonoBehaviour
         }
     }
 
-    private void SwitchPrefab(float a)
+    /// <summary>
+    /// <para>素材アイテムの消費量を調節します</para>
+    /// </summary>
+    private void Consumption()
     {
-        if (a > 0)
+        float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
+
+        if(mouseWheel > 0)
         {
-            prefabNumber++;
-            if (prefabNumber > prefabInfos.Length - 1) prefabNumber = 0;
+            consumption++;
         }
-        else
+        else if(mouseWheel < 0)
         {
-            prefabNumber--;
-            if (prefabNumber < 0) prefabNumber = prefabInfos.Length - 1;
+            consumption--;
+        }
+    }
+
+    private void SwitchPrefab()
+    {
+        prefabNumber++;
+
+        if(prefabNumber > prefabInfos.Length - 1) { prefabNumber = 0; }
+
+        Debug.Log($"Switched to {prefabNumber}");
+
+        image.sprite = prefabInfos[prefabNumber].prefab.sprites[0];
+    }
+
+    private void ImageFollowPlayer()
+    {
+        if (!image)
+        {
+            Debug.LogError("No image was found.");
         }
 
+        image.transform.position = new Vector2(transform.position.x,transform.position.y) + new Vector2(-1, 1);
     }
 
     private void CreateFaceParts()
