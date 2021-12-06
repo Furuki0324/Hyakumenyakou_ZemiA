@@ -8,6 +8,10 @@ public class NoseScript : FacePartsBaseScript
     public AudioClip damageSound;
     private float nextTime;
 
+    private void Awake()
+    {
+        Initialize(0);
+    }
 
     public override void TakeDamage()
     {

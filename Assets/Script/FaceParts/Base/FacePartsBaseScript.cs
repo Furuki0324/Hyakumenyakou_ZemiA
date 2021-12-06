@@ -7,10 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(SpriteRenderer))]
 public class FacePartsBaseScript : MonoBehaviour
 {
-    private void Awake()
-    {
-        Initialize();
-    }
+    int usedElement = 0;
+
 
     #region Public variables
 
@@ -49,8 +47,10 @@ public class FacePartsBaseScript : MonoBehaviour
 
     #endregion
 
-    private void Initialize()
+    public void Initialize(int consumption)
     {
+        usedElement = consumption;
+
         //複数のAudioSourceを設定する必要がある場合に備えてdeadSourceをSerializeにしてあります。
         //AudioSourceが単体の場合は自動的にセットされます。
         if (!deadSource)
@@ -77,7 +77,8 @@ public class FacePartsBaseScript : MonoBehaviour
 
     public void SetCache()
     {
-        health = health + Mathf.FloorToInt(health * scale * (DropItemManager.GetSpendingElementFromHolder() - 1));
+        if(usedElement >= 0) { health = health + Mathf.FloorToInt(health * scale * usedElement); }
+        else { Debug.LogError("No used element was passed."); }
         cacheHealth = health;
         Debug.Log("CacheHealth is " + cacheHealth);
     }

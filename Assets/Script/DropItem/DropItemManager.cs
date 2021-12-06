@@ -195,6 +195,24 @@ public class DropItemManager : MonoBehaviour
 
     }
 
+    public static bool TryToUseElement(int face, int consumption)
+    {
+        if(consumption <= 0)
+        {
+            Debug.LogWarning("No element selected.");
+            return false;
+        }
+
+        if(CanUseElements(reverseDictionary[face],consumption))
+        {
+            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace], _sfxMixer);
+            RefleshTexts();
+            return true;
+        }
+
+        return true;
+    }
+
     public static bool TryToUseElementWhenCreatingFace()
     {
         if(spendingElement <= 0)

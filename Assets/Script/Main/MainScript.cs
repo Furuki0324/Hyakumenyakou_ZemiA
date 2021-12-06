@@ -24,9 +24,6 @@ public class MainScript : MonoBehaviour
     }
     [SerializeField]
     private GameObject resultParent;
-    [SerializeField]
-    private GameObject resultObj;
-    private static TextMeshProUGUI result;
 
     [Header("Option")]
     [SerializeField] private InGameOption option;
@@ -49,10 +46,6 @@ public class MainScript : MonoBehaviour
             GameObject[] temp = GameObject.FindGameObjectsWithTag(i);
             foreach (GameObject j in temp) if (j.layer != 5) AddFaceObject(j); ;
         }
-
-        GameObject tempInst = Instantiate(resultObj, resultParent.transform);
-        result = tempInst.GetComponent<TextMeshProUGUI>();
-        result.text = "";
         
         _ = GameStart();
     }
@@ -62,6 +55,8 @@ public class MainScript : MonoBehaviour
         Time.timeScale = 0;
 
         Debug.Log("Start task started.");
+
+        await GameStartUIAnimation.CoverFadeOut();
 
         List<Task> tasks = new List<Task>();
         //tasks.Add(GameStartUIAnimation.FirstAnimation());
@@ -203,23 +198,7 @@ public class MainScript : MonoBehaviour
              + "\nEar: " + data.earSumScore
              + "\nMouth: " + data.mouthSumScore
              + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P);
-
-        result.text = "Game Clear!" + "\nYour score: " + data.totalScore
-            + "\n\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
-            + "\nEar: " + data.earAmountScore
-            + "\nMouth: " + data.mouthAmountScore
-            + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
-            + "\nRightEye: " + data.rightEyeDistanceScore
-            + "\nLeftEar: " + data.leftEarDistanceScore
-            + "\nRightEar: " + data.rightEarDistanceScore
-            + "\nMouth: " + data.mouthDistanceScore
-            + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
-            + "\nEar: " + data.earSumScore
-            + "\nMouth: " + data.mouthSumScore
-            + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P;
 #endregion
-
-        result.GetComponent<TextMeshProSimpleAnimator>().Play();
 
         Debug.Log("Animation task finished.");
     }

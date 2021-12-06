@@ -1,4 +1,5 @@
 ﻿//#define SAVE
+#define MOUSE_WHEEL
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,15 +17,16 @@ public class PlayerCreateFaceParts : MonoBehaviour
     [SerializeField] KeyCode switchKey;
 
     [SerializeField] Image image;
+    private Image previous, next;
 
     /// <summary>
-    /// <para>1 - Eye Prefab</para>
-    /// <para>2 - Ear Prefab</para>
-    /// <para>3 - Mouse Prefab</para>
+    /// <para>0 - Eye Prefab</para>
+    /// <para>1 - Ear Prefab</para>
+    /// <para>2 - Mouse Prefab</para>
     /// </summary>
     private int prefabNumber = 0;
 
-    private float consumption;
+    private int consumption;
 
     private GameObject[] enemyArray;
 
@@ -36,6 +38,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
             Debug.LogError("No image object is set to player.");
         }
         image.sprite = prefabInfos[0].prefab.sprites[0];
+
+        previous = image.transform.GetChild(0).GetComponent<Image>();
+        previous.sprite = prefabInfos[2].prefab.sprites[0];
+
+        next = image.transform.GetChild(1).GetComponent<Image>();
+        next.sprite = prefabInfos[1].prefab.sprites[0];
     }
 
     private void Update()
@@ -66,10 +74,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if(mouseWheel > 0)
         {
             consumption++;
+            Debug.Log(consumption);
         }
         else if(mouseWheel < 0)
         {
             consumption--;
+            Debug.Log(consumption);
         }
     }
 
@@ -82,6 +92,14 @@ public class PlayerCreateFaceParts : MonoBehaviour
         Debug.Log($"Switched to {prefabNumber}");
 
         image.sprite = prefabInfos[prefabNumber].prefab.sprites[0];
+
+        int previousIdx = prefabNumber + 2;
+        if(previousIdx > prefabInfos.Length - 1) { previousIdx -= prefabInfos.Length; }
+        previous.sprite = prefabInfos[previousIdx].prefab.sprites[0];
+
+        int nextIdx = prefabNumber + 1;
+        if(nextIdx > prefabInfos.Length - 1) { nextIdx -= prefabInfos.Length; }
+        next.sprite = prefabInfos[nextIdx].prefab.sprites[0];
     }
 
     private void ImageFollowPlayer()
@@ -96,9 +114,21 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     private void CreateFaceParts()
     {
-        if (DropItemManager.TryToUseElementWhenCreatingFace())
+        if(consumption <= 0)
         {
-            FacePartsBaseScript go = Instantiate(prefabInfos[DropItemManager.GetSelectedItem()].prefab, transform.position, Quaternion.identity);
+            Debug.LogWarning("Consumption is zero.");
+            return;
+        }
+
+#if MOUSE_WHEEL
+        if (DropItemManager.TryToUseElement(prefabNumber,consumption))
+#else
+        if (DropItemManager.TryToUseElementWhenCreatingFace())
+#endif
+        {
+            FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
+            go.Initialize(consumption);
+            consumption = 0;
             MainScript.AddFaceObject(go.gameObject);
 
 #if SAVE

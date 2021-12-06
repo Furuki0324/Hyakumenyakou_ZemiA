@@ -3,15 +3,44 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameStartUIAnimation : MonoBehaviour
 {
     private static Transform transformMyself;
+    private static Image cover;
 
     private void Awake()
     {
         transformMyself = this.transform;
+        cover = transform.FindChild("Cover").GetComponent<Image>();
+
+        Color color = new Color(0, 0, 0, 1);
+        cover.color = color;
     }
+
+    public static async Task CoverFadeOut()
+    {
+        Color color = new Color(0, 0, 0, 1);
+        float alpha = 1;
+
+        float fps = 1 / Time.fixedUnscaledDeltaTime;
+
+        for(float i = 0; i < 0.5f; i += Time.fixedUnscaledDeltaTime)
+        {
+            alpha = Mathf.Lerp(1, 0, i / 0.5f);
+
+            color.a = alpha;
+            cover.color = color;
+
+            await Task.Delay((int)(1000 / fps));
+        }
+
+        color.a = 0;
+        cover.color = color;
+        cover.gameObject.SetActive(false);
+    }
+
     public static async Task Movie()
     {
         FadeIn fade = transformMyself.FindChild("MovieComponent").GetComponentInChildren<FadeIn>();
