@@ -12,9 +12,12 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
     private NormalBulletCtrl tempNormBul;
     private GameObject toAttack;
 
+    private SpriteRenderer renderer;
+
     private void Start()
     {
         toAttack = GameObject.FindWithTag("Face_Nose");
+        renderer = GetComponent<SpriteRenderer>();
     }
     public bool First { get; set; }
     public void attack() { }
@@ -43,6 +46,9 @@ public class BossNoParts : MonoBehaviour, IBossStateRoot
                         UnityEngine.Random.Range(transform.position.y + 10.0f, transform.position.y - 10.0f));
         force = (nextPosition - (Vector2)transform.position).normalized * UnityEngine.Random.Range(1.0f, BossData.bossData.noPRandWalkSpeed);
         yield return new WaitForSeconds(BossData.bossData.noPRandWalkInterval);
+
+        bool compareTransform = toAttack.transform.position.x > transform.position.x;
+        renderer.flipX = compareTransform;
         StartCoroutine(RandomWalk());
     }
     IEnumerator BulletGenerator()

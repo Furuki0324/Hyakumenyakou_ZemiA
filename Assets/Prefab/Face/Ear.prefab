@@ -106,6 +106,7 @@ MonoBehaviour:
   deadSound: {fileID: 8300000, guid: 17849cc9fe9cef84e8396afca516e492, type: 3}
   deadMixer: {fileID: 6405586804863122211, guid: 241baac3dc0445849a2178dc228a0f8d,
     type: 2}
+  deadSource: {fileID: 0}
   immortal: 0
   mixer: {fileID: 24100000, guid: 241baac3dc0445849a2178dc228a0f8d, type: 2}
 --- !u!61 &2284708616996232226

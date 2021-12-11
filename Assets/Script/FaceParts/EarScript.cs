@@ -38,7 +38,14 @@ public class EarScript : FacePartsBaseScript
         if (transform.position.x > 0) spriteRenderer.flipX = true;
 
         mixer.GetFloat("BGM", out float value);
-        volume = value + 1.0f;
+        if (value > -14)
+        {
+            volume = value + 1.0f;
+        }
+        else
+        {
+            volume = value;
+        }
 
         mixer.SetFloat("BGM", volume);
 

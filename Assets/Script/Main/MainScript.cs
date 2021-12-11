@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MainScript : MonoBehaviour
 {
@@ -28,11 +29,23 @@ public class MainScript : MonoBehaviour
     [Header("Option")]
     [SerializeField] private InGameOption option;
     [SerializeField] private KeyCode openOptionKey;
+    [SerializeField] AudioMixer mixer;
+    private static AudioMixer _mixer;
     private bool optionIsOpened = false;
+    private static float defaultVol = 0;
 
     private void Start()
     {
-
+        _mixer = mixer;
+        if(defaultVol == 0)
+        {
+            _mixer.GetFloat("BGM", out float value);
+            defaultVol = value;
+        }
+        else
+        {
+            _mixer.SetFloat("BGM", defaultVol);
+        }
 
         //各素材の初期値を取得
         DropItemManager.ObtainItem("EyeElement", defaultElementAmount, initialize: true);
@@ -52,6 +65,7 @@ public class MainScript : MonoBehaviour
 
     private async Task GameStart()
     {
+        EyeScript.blindInitialize = true;
         Time.timeScale = 0;
 
         Debug.Log("Start task started.");
@@ -156,6 +170,8 @@ public class MainScript : MonoBehaviour
 
     public static async Task GameClear()
     {
+        _mixer.SetFloat("BGM", defaultVol);
+
         Debug.Log("Animation task started.");
         Time.timeScale = 0;
 

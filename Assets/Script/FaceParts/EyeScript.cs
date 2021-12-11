@@ -19,7 +19,7 @@ public class EyeScript : FacePartsBaseScript
         }
     }
 
-
+    public static bool blindInitialize;
     private static float blind = 0;
 
     private Image EYE;
@@ -29,6 +29,12 @@ public class EyeScript : FacePartsBaseScript
 
     void Start()
     {
+        if(blindInitialize)
+        {
+            blind = 0;
+            blindInitialize = false;
+        }
+
         transform.SetParent(EYE_ANCHOR);
 
         EYE = GameObject.Find("EyeFog").GetComponent<Image>();

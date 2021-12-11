@@ -21,21 +21,6 @@ public class DropItemManager : MonoBehaviour
     [SerializeField] private SoundInfo[] SFX;
     [SerializeField] private AudioMixerGroup sfxMixer;
 
-    [Header("UI Image")]
-    [SerializeField] private Image spendingElementCircle;
-
-    [Header("UI Text")]
-    [SerializeField] private Text eyeElement;
-    [SerializeField] private Text earElement;
-    [SerializeField] private Text mouthElement;
-    private static Text indicatorText;
-    [SerializeField] private Text lessElementWarning;
-
-    [Header("UI Position")]
-    [SerializeField] private RectTransform eyePoint;
-    [SerializeField] private RectTransform earPoint;
-    [SerializeField] private RectTransform mouthPoint;
-
     private static Dictionary<string, int> dictionary = new Dictionary<string, int>()
     {
         {"Face_Eye",0 },
@@ -51,6 +36,7 @@ public class DropItemManager : MonoBehaviour
     };
     private static int selectedItem;
 
+    public enum Type { eye, ear, mouth}
 
     private static int eyeElements = 0, earElements = 0, mouthElements = 0;
     /// <summary>
@@ -61,10 +47,7 @@ public class DropItemManager : MonoBehaviour
 
 
     #region Get static variables from editor inspector
-    private static Image _spendingElementCircle;
-    private static Text _eyeElement, _earElement, _mouthElement, _lessElementWarning;
     private static Dictionary<SoundInfo.Pattern, AudioClip> soundDictionary = new Dictionary<SoundInfo.Pattern, AudioClip>();
-    private static RectTransform _eyePoint, _earPoint, _mouthPoint;
     private static AudioMixerGroup _sfxMixer;
 
     #endregion
@@ -73,24 +56,11 @@ public class DropItemManager : MonoBehaviour
     private void Awake()
     {
         GetStaticVariables();
-
-        RefleshTexts();
-        DisableText(_lessElementWarning, 0);
     }
 
 
     private void GetStaticVariables()
     {
-        //UI Image
-        _spendingElementCircle = spendingElementCircle;
-
-        //UI Text
-        _eyeElement = eyeElement;
-        _earElement = earElement;
-        _mouthElement = mouthElement;
-        _lessElementWarning = lessElementWarning;
-        indicatorText = _spendingElementCircle.GetComponentInChildren<Text>();
-
         //AudioClip
         soundDictionary.Clear();
         foreach(SoundInfo info in SFX)
@@ -100,13 +70,27 @@ public class DropItemManager : MonoBehaviour
 
         //Mixer
         _sfxMixer = sfxMixer;
+    }
 
-        //RectTransform
-        _eyePoint = eyePoint;
-        _earPoint = earPoint;
-        _mouthPoint = mouthPoint;
+    public static int GetElement(int type)
+    {
+        int r = 0;
+        switch(type)
+        {
+            case 0:
+                r = eyeElements;
+                break;
 
+            case 1:
+                r = earElements;
+                break;
 
+            case 2:
+                r = mouthElements;
+                break;
+        }
+
+        return r;
     }
 
 
@@ -144,7 +128,7 @@ public class DropItemManager : MonoBehaviour
             SaveData.AchievementStep(Achievement.StepType.collector);
 #endif
         }
-        RefleshTexts();
+        PlayerCreateFaceParts.Receiver();
 
     }
 
@@ -184,7 +168,6 @@ public class DropItemManager : MonoBehaviour
             earElements = ear;
             mouthElements = mouth;
 
-            RefleshTexts();
             return true;
         }
         else
@@ -206,7 +189,6 @@ public class DropItemManager : MonoBehaviour
         if(CanUseElements(reverseDictionary[face],consumption))
         {
             _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace], _sfxMixer);
-            RefleshTexts();
             return true;
         }
 
@@ -228,7 +210,6 @@ public class DropItemManager : MonoBehaviour
             spendingElement = 0;
 
             _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace],_sfxMixer);
-            RefleshTexts();
             return true;
         }
 
@@ -305,71 +286,13 @@ public class DropItemManager : MonoBehaviour
             }
             else
             {
-                ShowText("LessElement");
                 _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.accessDeny], _sfxMixer);
             }
 
             
         }
-
-        RefleshTexts();
-        //Debug.Log(spendingElement);
     }
 
-    private static void RefleshTexts()
-    {
-        //elements.text = "Eye: " + eyeElements.ToString() + " Ear: " + earElements.ToString() + " Mouth: " + mouthElements.ToString();
-        if (eyeElements <= 0) _eyeElement.color = Color.red;
-        else _eyeElement.color = Color.white;
-
-        if (earElements <= 0) _earElement.color = Color.red;
-        else _earElement.color = Color.white;
-
-        if (mouthElements <= 0) _mouthElement.color = Color.red;
-        else _mouthElement.color = Color.white;
-
-
-        _eyeElement.text = eyeElements.ToString();
-        _earElement.text = earElements.ToString();
-        _mouthElement.text = mouthElements.ToString();
-
-        switch (selectedItem)
-        {
-            case 0:
-                _spendingElementCircle.rectTransform.position = _eyePoint.position;
-                break;
-
-            case 1:
-                _spendingElementCircle.rectTransform.position = _earPoint.position;
-                break;
-
-            case 2:
-                _spendingElementCircle.rectTransform.position = _mouthPoint.position;
-                break;
-
-            default:
-                break;
-        }
-
-        indicatorText.text = spendingElement.ToString();
-    }
-
-
-    private static async Task ShowText(string text)
-    {
-        switch (text)
-        {
-            case "LessElement":
-                if (!_lessTextShown)
-                {
-                    _lessElementWarning.gameObject.SetActive(true);
-                    _lessTextShown = true;
-                    await DisableText(_lessElementWarning, 3000);
-                    
-                }
-                break;
-        }
-    }
 
 
     private static async Task DisableText(Text text, int milliSecond)

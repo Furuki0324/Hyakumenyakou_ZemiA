@@ -18,6 +18,7 @@ public class PlayerAttackCtrl : MonoBehaviour
     [SerializeField] DestroyFXWhenFinishPlaying effect;
     private DestroyFXWhenFinishPlaying _effect;
     private AttackCollisionControl collisionControl;
+    [SerializeField] ParticleSystem damageParticle;
 
 
     //------------------------Private--------------------
@@ -71,6 +72,8 @@ public class PlayerAttackCtrl : MonoBehaviour
         EnemyBaseScript enemy = collision.gameObject.GetComponent<EnemyBaseScript>();
         if (enemy)
         {
+            Vector2 pos = collision.ClosestPoint(transform.position);
+            Instantiate(damageParticle, pos, Quaternion.identity);
             enemy.EnemyTakeDamage();
         }
     }

@@ -125,6 +125,14 @@ public class BossCtrl : EnemyBaseScript
                 case BossData.State.noP:
                     //NoParts処理
                     bnp.move();
+
+                    if(takeDamage)
+                    {
+                        bnp.stopHavingAllCoroutine();
+                        bhs.First = true;
+                        BossData.bossData.nowState = BossData.State.highS;
+                        takeDamage = false;
+                    }
                     break;
             }
         }
@@ -202,13 +210,18 @@ public class BossCtrl : EnemyBaseScript
 
     public override void EnemyTakeDamage()
     {
-        takeDamage = true;
+        if(BossData.bossData.nowState != BossData.State.highS)
+        {
+            takeDamage = true;
+        }
         base.EnemyTakeDamage();
     }
 
+
+
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (BossData.bossData.nowState != BossData.State.highS || formerPossess == other.transform) return;
+        if (BossData.bossData.nowState != BossData.State.highS/* || formerPossess == other.transform*/) return;
         foreach (string i in Enum.GetNames(typeof(Tags)))
         {
             if (other.gameObject.CompareTag(i))

@@ -64,12 +64,12 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         if (diff.x > 0)
         {
             bossSp.flipX = true;
-            transform.rotation = Quaternion.FromToRotation(Vector3.right, diff);
+            //transform.rotation = Quaternion.FromToRotation(Vector3.right, diff);
         }
         else
         {
             bossSp.flipX = false;
-            transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
+            //transform.rotation = Quaternion.FromToRotation(Vector3.left, diff);
         }
         
         First = false;
@@ -80,6 +80,7 @@ public class BossHighSpeed : MonoBehaviour, IBossStateRoot
         if (target.Count <= 0) return;
         if (target[0] == BossCtrl.formerPossess && target.Count == 1)
         {
+            target[0].gameObject.layer = LayerMask.NameToLayer("FaceForBossMoveTo");
             hsChaseTarget = target[0];
             return;
         }

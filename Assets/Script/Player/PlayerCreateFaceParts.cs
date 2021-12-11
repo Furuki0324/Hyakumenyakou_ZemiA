@@ -18,6 +18,7 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
     [SerializeField] Image image;
     private Image previous, next;
+    private Text currentText, previousText, nextText;
 
     /// <summary>
     /// <para>0 - Eye Prefab</para>
@@ -27,8 +28,11 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private int prefabNumber = 0;
 
     private int consumption;
+    [SerializeField] private Text consumptionText;
 
     private GameObject[] enemyArray;
+
+    public static bool needReflesh;
 
     private void Start()
     {
@@ -38,28 +42,46 @@ public class PlayerCreateFaceParts : MonoBehaviour
             Debug.LogError("No image object is set to player.");
         }
         image.sprite = prefabInfos[0].prefab.sprites[0];
+        currentText = image.gameObject.GetComponentInChildren<Text>();
+        currentText.text = DropItemManager.GetElement(0).ToString(); ;
 
-        previous = image.transform.GetChild(0).GetComponent<Image>();
+        previous = image.transform.GetChild(1).GetComponent<Image>();
         previous.sprite = prefabInfos[2].prefab.sprites[0];
+        previousText = previous.gameObject.GetComponentInChildren<Text>();
+        previousText.text = DropItemManager.GetElement(1).ToString();
 
-        next = image.transform.GetChild(1).GetComponent<Image>();
+        next = image.transform.GetChild(2).GetComponent<Image>();
         next.sprite = prefabInfos[1].prefab.sprites[0];
+        nextText = next.gameObject.GetComponentInChildren<Text>();
+        nextText.text = DropItemManager.GetElement(2).ToString();
     }
 
     private void Update()
     {
-        ImageFollowPlayer();
+        UIFollowPlayer();
         if(Input.GetKeyDown(switchKey)) { SwitchPrefab(); }
-        Consumption();
+        if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0) Consumption();
+
+        if(needReflesh)
+        {
+            SetNewSprite();
+            SetNewText();
+            needReflesh = false;
+        }
 
         if (Input.GetKeyDown(createKey))
         {
             CreateFaceParts();
 
             enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
+            if(enemyArray.Length <= 0) { return; }
             for (int i = 0; i < enemyArray.Length; i++)
             {
-                enemyArray[i].GetComponentInChildren<EnemyCtrl>().ResetTarget();
+                EnemyCtrl ctrl = enemyArray[i].GetComponentInChildren<EnemyCtrl>();
+                if (ctrl)
+                {
+                    ctrl.ResetTarget();
+                }
             }
         }
     }
@@ -81,6 +103,25 @@ public class PlayerCreateFaceParts : MonoBehaviour
             consumption--;
             Debug.Log(consumption);
         }
+
+        int currentElement = DropItemManager.GetElement(prefabNumber);
+        if(consumption > currentElement)
+        {
+            consumption = currentElement;
+            Debug.LogWarning("You cannot use more element.");
+        }
+        else if(consumption <= 0)
+        {
+            consumption = 0;
+        }
+
+
+        needReflesh = true;
+    }
+
+    public static void Receiver()
+    {
+        needReflesh = true;
     }
 
     private void SwitchPrefab()
@@ -91,25 +132,55 @@ public class PlayerCreateFaceParts : MonoBehaviour
 
         Debug.Log($"Switched to {prefabNumber}");
 
-        image.sprite = prefabInfos[prefabNumber].prefab.sprites[0];
+        SetNewSprite();
+        SetNewText();
+    }
 
+    private void SetNewSprite()
+    {
         int previousIdx = prefabNumber + 2;
-        if(previousIdx > prefabInfos.Length - 1) { previousIdx -= prefabInfos.Length; }
-        previous.sprite = prefabInfos[previousIdx].prefab.sprites[0];
+        if (previousIdx > prefabInfos.Length - 1) { previousIdx -= prefabInfos.Length; }
 
         int nextIdx = prefabNumber + 1;
-        if(nextIdx > prefabInfos.Length - 1) { nextIdx -= prefabInfos.Length; }
+        if (nextIdx > prefabInfos.Length - 1) { nextIdx -= prefabInfos.Length; }
+
+        image.sprite = prefabInfos[prefabNumber].prefab.sprites[0];
+        previous.sprite = prefabInfos[previousIdx].prefab.sprites[0];
         next.sprite = prefabInfos[nextIdx].prefab.sprites[0];
     }
 
-    private void ImageFollowPlayer()
+    private void SetNewText()
+    {
+        int previousIdx = prefabNumber + 2;
+        if (previousIdx > prefabInfos.Length - 1) { previousIdx -= prefabInfos.Length; }
+
+        int nextIdx = prefabNumber + 1;
+        if (nextIdx > prefabInfos.Length - 1) { nextIdx -= prefabInfos.Length; }
+
+        currentText.text = DropItemManager.GetElement(prefabNumber).ToString();
+        previousText.text = DropItemManager.GetElement(previousIdx).ToString();
+        nextText.text = DropItemManager.GetElement(nextIdx).ToString();
+
+        //変更後の素材量を消費量が上回らないようにチェック
+        int currentElement = DropItemManager.GetElement(prefabNumber);
+        if (consumption > currentElement)
+        {
+            consumption = currentElement;
+        }
+
+        consumptionText.text = consumption.ToString();
+    }
+
+    private void UIFollowPlayer()
     {
         if (!image)
         {
             Debug.LogError("No image was found.");
         }
 
-        image.transform.position = new Vector2(transform.position.x,transform.position.y) + new Vector2(-1, 1);
+        image.transform.position = new Vector2(transform.position.x,transform.position.y) + new Vector2(-1, 1.5f);
+
+        consumptionText.transform.position = new Vector2(transform.position.x, transform.position.y) + new Vector2(-0.5f, 0.25f);
     }
 
     private void CreateFaceParts()
@@ -136,6 +207,8 @@ public class PlayerCreateFaceParts : MonoBehaviour
             SaveData.AchievementStep(Achievement.StepType.creator);
 #endif
         }
+
+        needReflesh = true;
     }
 }
 

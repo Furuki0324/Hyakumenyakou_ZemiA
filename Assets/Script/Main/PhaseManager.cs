@@ -47,13 +47,14 @@ public class PhaseManager : MonoBehaviour
             _time = (int)time;
             min = _time / 60;
             second = _time % 60;
-            text.text = $"Time {min:00}:{second:00}";
+            text.text = $"時限 {min:00}:{second:00}";
         }
         else
         {
             text.text = afterCountdownText;
             text.color = afterCountdownColor;
             text.fontSize = afterCountdownSize;
+            text.gameObject.SetActive(false);
         }
         
         

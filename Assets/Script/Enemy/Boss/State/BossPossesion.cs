@@ -35,8 +35,9 @@ public class BossPossesion : MonoBehaviour, IBossStateRoot
     void attackWay(GameObject possParts)
     {
         if (First)
-        {
+        { 
             faceScript = BossDeepData.GetBDpData.toPossessParts.GetComponent<FacePartsBaseScript>();
+            StartCoroutine(PossPartsDamage());
             if (possParts.CompareTag("Face_Eye"))
             {
                 StartCoroutine(TearGenerator());
