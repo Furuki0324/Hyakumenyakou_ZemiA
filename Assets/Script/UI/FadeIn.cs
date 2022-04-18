@@ -26,32 +26,15 @@ public class FadeIn : MonoBehaviour
     {
         vp = GetComponent<VideoPlayer>();
         ppv = GetComponent<PostProcessVolume>();
-
-       // _ = Receiver();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse3))
-        {
-            _ = Receiver();
-        }
-    }
-
-    public void fade()
-    {
-        if (!init)
-        {
-            timeTemp = 0f;
-            init = true;
-        }
-        
-        if (timeTemp < acIn.keys[acIn.keys.Length-1].time)
-        {
-            vp.targetCameraAlpha = acIn.Evaluate(timeTemp);
-            timeTemp += Time.deltaTime;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Mouse3))
+    //    {
+    //        _ = Receiver();
+    //    }
+    //}
 
     public async Task Receiver()
     {
@@ -67,8 +50,6 @@ public class FadeIn : MonoBehaviour
         tasks.Add(Fade_In());
 
         await Task.WhenAll(tasks);
-
-        //Debug.Log("Fade in ends");
 
         int delayTime = (int)((currentTime + clipLength * 0.95f) - Time.realtimeSinceStartup);
         if(delayTime > 0)

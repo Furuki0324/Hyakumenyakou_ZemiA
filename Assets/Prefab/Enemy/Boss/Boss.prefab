@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397ad05d2fe154490ce342900fe225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  hp: 30
   attackPower: 3
   attackInterval: 1
   attackEffect: {fileID: 7620371809157636902, guid: 314938397123e11419a40de1c309866f,

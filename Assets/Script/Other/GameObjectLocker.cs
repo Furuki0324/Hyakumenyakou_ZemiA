@@ -10,15 +10,23 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class GameObjectLocker : MonoBehaviour
 {
-    private bool isLocked = false;
+    private bool isLocked, isStarted;
     private Vector3 position, scale;
     private Quaternion rotation;
 
     // Update is called once per frame
     void Update()
     {
+        if(EditorApplication.isPlayingOrWillChangePlaymode && !isStarted)
+        {
+            Debug.Log("Start");
+            isStarted = true;
+        }
+
         if (!EditorApplication.isPlaying)
         {
+            isStarted = false;
+
             Transform transform = GetComponent<Transform>();
             if (isLocked)
             {
@@ -39,6 +47,8 @@ public class GameObjectLocker : MonoBehaviour
                 transform.hideFlags = HideFlags.None;
             }
         }
+        else
+        {}
     }
 
     private void SwitchLock()
@@ -59,7 +69,6 @@ public class GameObjectLocker : MonoBehaviour
         }
         isLocked = !isLocked;
     }
-
 
 
     [CustomEditor(typeof(GameObjectLocker))]

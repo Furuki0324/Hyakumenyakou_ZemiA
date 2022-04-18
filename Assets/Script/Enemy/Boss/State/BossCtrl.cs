@@ -205,7 +205,8 @@ public class BossCtrl : EnemyBaseScript
     public override async Task EnemyDie()
     {
         base.EnemyDie();
-        _ = MainScript.GameClear(); //まだデバッグ出力がされるのみです。
+        GameObject.FindWithTag("MainCamera").GetComponent<MainScript>().StartGameClearAnimation();
+        //_ = MainScript.GameClear(); 
     }
 
     public override void EnemyTakeDamage()

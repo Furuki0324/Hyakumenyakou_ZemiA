@@ -34,6 +34,7 @@ public class NoseScript : FacePartsBaseScript
     public override void FacePartsDie()
     {
         base.FacePartsDie();
-        MainScript.GameOver();
+        GameObject.FindWithTag("MainCamera").GetComponent<MainScript>().StartGameOverAnimation();
+        //_ = MainScript.GameOver();
     }
 }

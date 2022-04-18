@@ -88,7 +88,7 @@ public class EnemySpawnManager : MonoBehaviour
             return;
         }
 
-        FadeIn fade = transformMyself.FindChild("MovieComponent").GetComponentInChildren<FadeIn>();
+        FadeIn fade = transformMyself.Find("MovieComponent").GetComponentInChildren<FadeIn>();
 
         await fade.Receiver();
 

@@ -13,7 +13,7 @@ public class GameStartUIAnimation : MonoBehaviour
     private void Awake()
     {
         transformMyself = this.transform;
-        cover = transform.FindChild("Cover").GetComponent<Image>();
+        cover = transform.Find("Cover").GetComponent<Image>();
 
         Color color = new Color(0, 0, 0, 1);
         cover.color = color;
@@ -43,7 +43,7 @@ public class GameStartUIAnimation : MonoBehaviour
 
     public static async Task Movie()
     {
-        FadeIn fade = transformMyself.FindChild("MovieComponent").GetComponentInChildren<FadeIn>();
+        FadeIn fade = transformMyself.Find("MovieComponent").GetComponentInChildren<FadeIn>();
 
         await fade.Receiver();
     }

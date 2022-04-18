@@ -43,10 +43,17 @@ public class BGMPlayer : MonoBehaviour
     {
         if(audioSource.isPlaying) await FadeOut();
 
+        if(next == BGMInfo.Pattern.none)
+        {
+            return;
+        }
+
         audioSource.clip = bgmDictionary[next];
         audioSource.volume = 1;
         audioSource.loop = loop;
         audioSource.Play();
+
+
 
         if (!loop)
         {

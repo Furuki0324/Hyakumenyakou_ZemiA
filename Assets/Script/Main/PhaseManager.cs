@@ -11,17 +11,9 @@ public class PhaseManager : MonoBehaviour
     private static int _time;
     private int min;
     private int second;
-    
+
     [Header("UI")]
     public Text text;
-
-    [Header("Text")]
-    [Tooltip("カウントダウンが0になった以降のテキスト")]
-    [SerializeField] private string afterCountdownText;
-    [Tooltip("カウントダウンが0になった以降のテキストサイズ")]
-    [SerializeField] private int afterCountdownSize;
-    [Tooltip("カウントダウンが0になった以降のテキストの色")]
-    [SerializeField] private Color afterCountdownColor;
 
     public static int phaseNumber = 1;
 
@@ -51,13 +43,8 @@ public class PhaseManager : MonoBehaviour
         }
         else
         {
-            text.text = afterCountdownText;
-            text.color = afterCountdownColor;
-            text.fontSize = afterCountdownSize;
             text.gameObject.SetActive(false);
         }
-        
-        
     }
 
     /// <summary>

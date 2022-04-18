@@ -57,8 +57,11 @@ public class PlayerAttackCtrl : MonoBehaviour
 
     private void Attack()
     {
-        audioSource.PlayOneShot(sound);
-        _effect.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.play); 
+        if(Time.timeScale != 0)
+        {
+            audioSource.PlayOneShot(sound);
+            _effect.StartTheCoroutine(DestroyFXWhenFinishPlaying.Pattern.play);
+        }
     }
 
     private void CollisionCheck()

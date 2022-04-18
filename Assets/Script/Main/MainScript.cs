@@ -1,6 +1,4 @@
-﻿//#define SAVE
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +6,12 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
+using Cinemachine;
 
+[RequireComponent(typeof(ResultCalculate))]
 public class MainScript : MonoBehaviour
 {
-
     //------------------------Public-----------------------
     public int defaultElementAmount;
 
@@ -25,6 +25,28 @@ public class MainScript : MonoBehaviour
     }
     [SerializeField]
     private GameObject resultParent;
+
+    [Header("GameClear/GameOver Animation")]
+    [SerializeField] private Animator gameClearAnimator;
+    [SerializeField] private Animator gameOverAnimator;
+
+    [Header("Result UI-Total")]
+    [SerializeField] Text total;
+
+    [Header("Result UI-Eye")]
+    [SerializeField] Text eyeSum;
+    [SerializeField] Text eyeAmountStar;
+    [SerializeField] Text eyePositionStar;
+
+    [Header("Result UI-Ear")]
+    [SerializeField] Text earSum;
+    [SerializeField] Text earAmountStar;
+    [SerializeField] Text earPositionStar;
+
+    [Header("Result UI-Mouth")]
+    [SerializeField] Text mouthSum;
+    [SerializeField] Text mouthAmountStar;
+    [SerializeField] Text mouthPositionStar;
 
     [Header("Option")]
     [SerializeField] private InGameOption option;
@@ -84,14 +106,7 @@ public class MainScript : MonoBehaviour
         BGMPlayer.ChangeBGM(BGMInfo.Pattern.defence);
         Time.timeScale = 1;
         Debug.Log("Start task finished.");
-
-#if SAVE
-        //ゲームが開始されたことを記録
-        SaveData.AchievementStep(Achievement.StepType.playCount);
-#endif
     }
-
-
 
     private void Update()
     {
@@ -163,61 +178,50 @@ public class MainScript : MonoBehaviour
 
     //ここまで顔パーツの情報
 
-    public static void GameOver()
+    public void StartGameOverAnimation()
     {
-        Debug.Log("Game Over");
-    }
-
-    public static async Task GameClear()
-    {
-        _mixer.SetFloat("BGM", defaultVol);
-
-        Debug.Log("Animation task started.");
         Time.timeScale = 0;
-
-        List<Task> tasks = new List<Task>();
-        tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.clear, loop: false));
-        //tasks.Add(GameClearUIAnimation.ShowText());
-        tasks.Add(GameClearUIAnimation.Movie());
-
-        await Task.WhenAll(tasks);
-                
-        ResultData data = ResultCalculate.CalculateResultData(noseAsCenter: GameObject.FindWithTag("Face_Nose"));
-
-        await GameClearUIAnimation.Blind();
-
-        GameClearUIAnimation.CameraSwitch();
-        GameClearUIAnimation.SetCullingMask();
-
-        tasks.Clear();
-        tasks.Add(GameClearUIAnimation.FadeIn());
-
-        await Task.WhenAll(tasks);
-
-        tasks.Clear();
-        tasks.Add(BGMPlayer.ChangeBGM(BGMInfo.Pattern.result, loop: true));
-        tasks.Add(GameClearUIAnimation.ScoreSliding(data));
-
-        await Task.WhenAll(tasks);
-
-#region
-        Debug.Log("Game Clear! Your score: " + data.totalScore
-             + "\nAmountScore: \n" + "Eye: " + data.eyeAmountScore
-             + "\nEar: " + data.earAmountScore
-             + "\nMouth: " + data.mouthAmountScore
-             + "\n\nDistanceScore: \n" + "LeftEye: " + data.leftEyeDistanceScore
-             + "\nRightEye: " + data.rightEyeDistanceScore
-             + "\nLeftEar: " + data.leftEarDistanceScore
-             + "\nRightEar: " + data.rightEarDistanceScore
-             + "\nMouth: " + data.mouthDistanceScore
-             + "\n\nSectionScore:\n" + "Eye: " + data.eyeSumScore
-             + "\nEar: " + data.earSumScore
-             + "\nMouth: " + data.mouthSumScore
-             + "\n\nStars: \n" + "Eye: A" + data.eyeStar_A + " P" + data.eyeStar_P);
-#endregion
-
-        Debug.Log("Animation task finished.");
+        BGMPlayer.ChangeBGM(BGMInfo.Pattern.none);
+        gameOverAnimator.gameObject.SetActive(true);
+        gameOverAnimator.Play("Start");
     }
 
+    public async Task StartGameClearAnimation()
+    {
+        FadeIn fade = gameClearAnimator.GetComponentInChildren<FadeIn>();
+        GameObject nose = GameObject.FindWithTag("Face_Nose");
+        ResultCalculate calculater = GetComponent<ResultCalculate>();
 
+        //耳のギミックによって下げられていたBGMのボリュームを戻す
+        mixer.SetFloat("BGM", defaultVol);
+
+        Time.timeScale = 0;
+        BGMPlayer.ChangeBGM(BGMInfo.Pattern.clear, loop: false);
+        if(fade)
+        {
+            //設定された動画を再生する
+            await fade.Receiver();
+        }
+
+        //動画再生後の違和感の少ないタイミングに得点計算
+        ResultData data = calculater.CalculateResultData(nose);
+        //リザルトを対応したUIに入力
+        eyeSum.text = data.eyeSumScore.ToString();
+        eyeAmountStar.text = data.eyeStar_A;
+        eyePositionStar.text = data.eyeStar_P;
+
+        earSum.text = data.earSumScore.ToString();
+        earAmountStar.text = data.earStar_A;
+        earPositionStar.text = data.earStar_P;
+
+        mouthSum.text = data.mouthSumScore.ToString();
+        mouthAmountStar.text = data.mouthStar_A;
+        mouthPositionStar.text = data.mouthStar_P;
+
+        total.text = data.totalScore.ToString() + "/300";
+
+        //アニメーションを開始
+        gameClearAnimator.gameObject.SetActive(true);
+        gameClearAnimator.Play("Base Layer.ShowResult");
+    }
 }
