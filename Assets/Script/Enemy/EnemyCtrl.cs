@@ -162,6 +162,8 @@ public class EnemyCtrl : EnemyBaseScript
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (hp <= 0) return;
+
         if (collision.gameObject.GetComponent<FacePartsBaseScript>() && lastTarget != collision.transform)
         {
             faceScript = collision.gameObject.GetComponent<FacePartsBaseScript>();

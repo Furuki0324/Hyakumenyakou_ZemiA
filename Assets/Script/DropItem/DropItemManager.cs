@@ -188,7 +188,7 @@ public class DropItemManager : MonoBehaviour
 
         if(CanUseElements(reverseDictionary[face],consumption))
         {
-            _ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace], _sfxMixer);
+            //_ = NonSpatialSFXPlayer.PlayNonSpatialSFX(soundDictionary[SoundInfo.Pattern.createFace], _sfxMixer);
             return true;
         }
 

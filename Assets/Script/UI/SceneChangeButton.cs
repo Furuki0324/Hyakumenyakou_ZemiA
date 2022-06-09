@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public class SceneChangeButton : MonoBehaviour
 {
@@ -16,7 +18,29 @@ public class SceneChangeButton : MonoBehaviour
     /// </summary>
     public void Receiver()
     {
-        _ = SceneLoad();
+        StartCoroutine(ChangeScene());
+        //_ = SceneLoad();
+    }
+
+    private IEnumerator ChangeScene()
+    {
+        AsyncOperation nextScene = SceneManager.LoadSceneAsync(nextSceneName);
+        nextScene.allowSceneActivation = false;
+
+        cover.gameObject.SetActive(true);
+        Color coverColor = cover.color;
+        coverColor.a = 0;
+        cover.color = coverColor;
+
+        for(float f = 0; f < fadeDuration; f += Time.unscaledDeltaTime)
+        {
+            coverColor.a = Mathf.Lerp(0, 1, f / fadeDuration);
+            cover.color = coverColor;
+
+            yield return null;
+        }
+
+        nextScene.allowSceneActivation = true;
     }
 
     public async Task SceneLoad()

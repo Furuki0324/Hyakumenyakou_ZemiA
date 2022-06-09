@@ -11,22 +11,20 @@ public class Player2DMovement : MonoBehaviour
     //-----------------------Private------------------------
     private Rigidbody2D rigid2D;
     private Animator anim;
-    private Quaternion localRotation;
-    private Vector3 scale;
 
+    [SerializeField] private float moveWhenHeavyAttack = 5.0f;
+    private bool isAttacking = false;
 
     void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-        localRotation = transform.rotation;
-        scale = transform.localScale;
     }
 
 
     void Update()
     {
-        Walk();
+        if (!isAttacking) { Walk(); }
     }
 
     private void Walk()
@@ -39,22 +37,44 @@ public class Player2DMovement : MonoBehaviour
         if (velocity2D.magnitude != 0) anim.SetBool("isWalking", true);
         else anim.SetBool("isWalking", false);
 
-
-        if(velocity2D.x < 0)
-        {
-            localRotation.y = 180;
-            scale.x = -1;
-        }
         if(velocity2D.x > 0)
         {
-            localRotation.y = 0;
-            scale.x = 1;
+            anim.SetFloat("Walk_Direction", velocity2D.x);
+            anim.SetBool("Direction_Left", false);
+        }
+        if(velocity2D.x < 0)
+        {
+            anim.SetFloat("Walk_Direction", velocity2D.x);
+            anim.SetBool("Direction_Left", true);
         }
 
-        //transform.rotation = localRotation;
-        transform.localScale = scale;
         rigid2D.velocity = velocity2D * walkSpeed;
     }
 
+    public void StartAttack(float attackDuration, bool isHeavyAttack = false)
+    {
+        if(!isAttacking)
+        {
+            isAttacking = true;
+            Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            velocity *= (isHeavyAttack) ? moveWhenHeavyAttack : walkSpeed * 1.5f;
+            StartCoroutine(AttackMove(velocity, attackDuration));
+        }
+    }
 
+    private IEnumerator AttackMove(Vector2 startVelocity, float duration)
+    {
+        if(duration < 0.1f) { duration = 0.15f; }
+        Vector2 velocity = new Vector2(0, 0);
+        for(float f = 0.0f; f < duration; f += Time.deltaTime)
+        {
+            velocity.x = Mathf.Lerp(startVelocity.x, 0, f / duration);
+            velocity.y = Mathf.Lerp(startVelocity.y, 0, f / duration);
+
+            rigid2D.velocity = velocity;
+
+            yield return null;
+        }
+        isAttacking = false;
+    }
 }

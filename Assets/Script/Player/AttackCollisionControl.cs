@@ -20,17 +20,23 @@ public class AttackCollisionControl : MonoBehaviour
     [SerializeField] float timeSlider;
 
     [SerializeField, ReadOnly] float collisionStartTime;
-
     [SerializeField, ReadOnly] float collisionEndTime;
+
+    private EdgeCollider2D collider;
+    [SerializeField] ParticleSystem damageParticle;
 
     private void Start()
     {
         player = GetComponent<VideoPlayer>();
         FXLength = (float)player.clip.length;
+
+        collider = GetComponent<EdgeCollider2D>();
     }
 
     private void Update()
     {
+        collider.enabled = IsColliderEnabled();
+
 #if UNITY_EDITOR
         if (Application.IsPlaying(gameObject) || EditorApplication.isPlaying)
         {
@@ -91,6 +97,17 @@ public class AttackCollisionControl : MonoBehaviour
         if (player)
         {
             Debug.Log("Retrying to find player was successful.");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        EnemyBaseScript enemy = collision.gameObject.GetComponent<EnemyBaseScript>();
+        if (enemy)
+        {
+            Vector2 pos = collision.ClosestPoint(transform.position);
+            if (damageParticle) { Instantiate(damageParticle, pos, Quaternion.identity); }
+            enemy.EnemyTakeDamage();
         }
     }
 

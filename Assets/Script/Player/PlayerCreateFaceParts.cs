@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class PlayerCreateFaceParts : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class PlayerCreateFaceParts : MonoBehaviour
     [SerializeField] KeyCode createKey;
     [SerializeField] KeyCode switchKey;
 
+    [Header("Sound")]
+    [SerializeField] AudioClip createFaceSound;
+    [SerializeField] AudioMixerGroup sfxMixerGroup;
+
+    [Header("UI")]
     [SerializeField] Image image;
     private Image previous, next;
     private Text currentText, previousText, nextText;
@@ -30,8 +36,10 @@ public class PlayerCreateFaceParts : MonoBehaviour
     private int consumption;
     [SerializeField] private Text consumptionText;
 
+    [Header("Preview")]
+    [SerializeField] private SpriteRenderer facePositionPreview;
+    [SerializeField] private float previewDistance = 2.5f;
     private GameObject[] enemyArray;
-
     public static bool needReflesh;
 
     private void Start()
@@ -54,11 +62,12 @@ public class PlayerCreateFaceParts : MonoBehaviour
         next.sprite = prefabInfos[1].prefab.sprites[0];
         nextText = next.gameObject.GetComponentInChildren<Text>();
         nextText.text = DropItemManager.GetElement(2).ToString();
+
+        facePositionPreview.enabled = false;
     }
 
     private void Update()
     {
-        UIFollowPlayer();
         if(Input.GetKeyDown(switchKey)) { SwitchPrefab(); }
         if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0) Consumption();
 
@@ -72,17 +81,6 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if (Input.GetKeyDown(createKey))
         {
             CreateFaceParts();
-
-            enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
-            if(enemyArray.Length <= 0) { return; }
-            for (int i = 0; i < enemyArray.Length; i++)
-            {
-                EnemyCtrl ctrl = enemyArray[i].GetComponentInChildren<EnemyCtrl>();
-                if (ctrl)
-                {
-                    ctrl.ResetTarget();
-                }
-            }
         }
     }
 
@@ -171,23 +169,11 @@ public class PlayerCreateFaceParts : MonoBehaviour
         consumptionText.text = consumption.ToString();
     }
 
-    private void UIFollowPlayer()
-    {
-        if (!image)
-        {
-            Debug.LogError("No image was found.");
-        }
-
-        image.transform.position = new Vector2(transform.position.x,transform.position.y) + new Vector2(-1, 1.5f);
-
-        consumptionText.transform.position = new Vector2(transform.position.x, transform.position.y) + new Vector2(-0.5f, 0.25f);
-    }
-
     private void CreateFaceParts()
     {
         if(consumption <= 0)
         {
-            Debug.LogWarning("Consumption is zero.");
+            Debug.LogWarning("Zero Consumption.");
             return;
         }
 
@@ -197,18 +183,53 @@ public class PlayerCreateFaceParts : MonoBehaviour
         if (DropItemManager.TryToUseElementWhenCreatingFace())
 #endif
         {
-            FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
-            go.Initialize(consumption);
-            consumption = 0;
-            MainScript.AddFaceObject(go.gameObject);
+            //FacePartsBaseScript go = Instantiate(prefabInfos[prefabNumber].prefab, transform.position, Quaternion.identity);
+            StartCoroutine(DecideFacePosition());
 
 #if SAVE
             //セーブデータにパーツを一つ生成したことを記録
             SaveData.AchievementStep(Achievement.StepType.creator);
 #endif
         }
+    }
+
+    private IEnumerator DecideFacePosition()
+    {
+        facePositionPreview.enabled = true;
+
+        Vector2 previewPosition = new Vector2();
+        while(!Input.GetKeyUp(createKey))
+        {
+            previewPosition.x = Input.GetAxis("Horizontal") * previewDistance;
+            previewPosition.y = Input.GetAxis("Vertical") * previewDistance;
+            facePositionPreview.gameObject.transform.localPosition = previewPosition;
+
+            yield return null;
+        }
+
+        FacePartsBaseScript parts = Instantiate(
+            prefabInfos[prefabNumber].prefab,
+            facePositionPreview.gameObject.transform.position,
+            Quaternion.identity
+            );
+        parts.Initialize(consumption);
+        NonSpatialSFXPlayer.PlayNonSpatialSFX(createFaceSound, sfxMixerGroup);
+        consumption = 0;
+        MainScript.AddFaceObject(parts.gameObject);
 
         needReflesh = true;
+        facePositionPreview.enabled = false;
+
+        enemyArray = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemyArray.Length <= 0) { yield break; }
+        for (int i = 0; i < enemyArray.Length; i++)
+        {
+            EnemyCtrl ctrl = enemyArray[i].GetComponentInChildren<EnemyCtrl>();
+            if (ctrl)
+            {
+                ctrl.ResetTarget();
+            }
+        }
     }
 }
 

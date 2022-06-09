@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 8899689046137985069}
   - component: {fileID: 1623297480239753892}
   - component: {fileID: 4212507649106755548}
-  m_Layer: 15
+  - component: {fileID: 5409465006608901147}
+  m_Layer: 12
   m_Name: FX_PlayerAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,6 +148,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ce760a3a1479647bb9dc53c6c83a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSlider: 0.559
+  FXLength: 1.0343667
+  timeSlider: 0
   collisionStartTime: 0.204
   collisionEndTime: 0.517
+  damageParticle: {fileID: 6287999488382580261, guid: 09a50fe052daa654ea9c15fa1b770f21,
+    type: 3}
+--- !u!68 &5409465006608901147
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8899689046137985071}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0.1
+  m_Points:
+  - {x: -7.6621094, y: 8.385416}
+  - {x: -13.78798, y: 4.5075407}
+  - {x: -16.62652, y: -4.5777445}
+  - {x: -10.99135, y: -14.165147}
+  - {x: 3.9537177, y: -16.200058}
+  - {x: 16.02327, y: -10.649412}

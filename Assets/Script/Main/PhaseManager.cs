@@ -13,7 +13,7 @@ public class PhaseManager : MonoBehaviour
     private int second;
 
     [Header("UI")]
-    public Text text;
+    [SerializeField] Text text;
 
     public static int phaseNumber = 1;
 
@@ -70,9 +70,6 @@ public class PhaseManager : MonoBehaviour
             _ = BGMPlayer.ChangeBGM(BGMInfo.Pattern.boss);
             boss = true;
         }
-        
-
-        //Debug.Log("Phase: " + phaseNumber);
     }
 
 

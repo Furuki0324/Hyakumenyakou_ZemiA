@@ -22,10 +22,20 @@ public class EyeScript : FacePartsBaseScript
     public static bool blindInitialize;
     private static float blind = 0;
 
-    private Image EYE;
+    private static Image EYE;
     private static Color EYECOLOR = Color.white;
 
+    public static float GetBlindValue()
+    {
+        return blind;
+    }
+    public static void SetBlindValue(float value)
+    {
+        blind = value;
 
+        EYECOLOR.a = blind;
+        EYE.color = EYECOLOR;
+    }
 
     void Start()
     {
@@ -37,7 +47,10 @@ public class EyeScript : FacePartsBaseScript
 
         transform.SetParent(EYE_ANCHOR);
 
-        EYE = GameObject.Find("EyeFog").GetComponent<Image>();
+        if (!EYE)
+        {
+            EYE = GameObject.Find("EyeFog").GetComponent<Image>();
+        }
 
 
         blind -= 0.2f;

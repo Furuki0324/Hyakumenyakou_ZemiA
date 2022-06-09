@@ -23,6 +23,10 @@ public class MainScript : MonoBehaviour
         Face_Mouth,
         Face_Ear
     }
+
+    [Header("Tutorial Message")]
+    [SerializeField] private List<MessageBox.Message> messages = new List<MessageBox.Message>();
+
     [SerializeField]
     private GameObject resultParent;
 
@@ -81,7 +85,12 @@ public class MainScript : MonoBehaviour
             GameObject[] temp = GameObject.FindGameObjectsWithTag(i);
             foreach (GameObject j in temp) if (j.layer != 5) AddFaceObject(j); ;
         }
-        
+
+        foreach(MessageBox.Message message in messages)
+        {
+            MessageBox.singletonInstance.ShowMessage(message);
+        }
+
         _ = GameStart();
     }
 
@@ -194,6 +203,8 @@ public class MainScript : MonoBehaviour
 
         //耳のギミックによって下げられていたBGMのボリュームを戻す
         mixer.SetFloat("BGM", defaultVol);
+        //目のギミックによる暗がりを元に戻す
+        EyeScript.SetBlindValue(0.0f);
 
         Time.timeScale = 0;
         BGMPlayer.ChangeBGM(BGMInfo.Pattern.clear, loop: false);
